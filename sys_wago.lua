@@ -305,7 +305,7 @@ system =
                         for field, value in ipairs( value ) do
                             local dev = G_DEVICE_MANAGER():get_device(
                                 dev_type, value )
-                            print( 'value.opened_devices - ', value )
+                            --print( 'value.opened_devices - ', value )
 
                             modes_manager:add_mode_opened_dev(
                                 mode_n, dev )
@@ -320,6 +320,9 @@ system =
                         for field, value in ipairs( value ) do
                             local dev = G_DEVICE_MANAGER():get_device(
                                 dev_type, value )
+                                
+                            --print( 'value.closed_devices - ', value )
+                                
                             modes_manager:add_mode_closed_dev(
                                 mode_n, dev )
                         end
@@ -328,21 +331,29 @@ system =
 
 
 
+                --print( 'steps' )
+                
                 if value.steps ~= nil then
                     local steps_count = #value.steps
+                    --print( 'mode_n, steps_count', mode_n, steps_count )
+                    
                     modes_manager:set_mode_config( mode_n, steps_count )
+                    --print( 'modes_manager:set_mode_config( mode_n, steps_count )' )
 
                     for fields, value in ipairs( value.steps ) do
                         local step_n = fields - 1
 
                         if value.opened_devices ~= nil then
                             for field, value in pairs( value.opened_devices ) do
-
+                                
                                 local dev_type = get_dev_type( field )
 
                                 for field, value in ipairs( value ) do
                                     local dev = G_DEVICE_MANAGER():get_device(
                                         dev_type, value )
+                                        
+                                    --print( 'value.opened_dev - ', value )
+                                    
                                     modes_manager:add_opened_dev(
                                         mode_n, step_n, dev )
                                 end
@@ -356,6 +367,9 @@ system =
                                 for field, value in ipairs( value ) do
                                     local dev = G_DEVICE_MANAGER():get_device(
                                         dev_type, value )
+                                        
+                                    --print( 'value.closed_dev - ', value )
+                                    
                                     modes_manager:add_closed_dev(
                                         mode_n, step_n, dev )
                                 end
@@ -364,10 +378,13 @@ system =
 
                     end --for fields, value in ipairs( value.steps ) do
 				end --if value.steps ~= nil then
+                
+                --print( 'end steps' )
+                
 			end --for fields, value in ipairs( value.modes ) do
 		end --for fields, value in ipairs( tech_objects ) do
 
-		print( 'init OK' )
+		--print( 'init OK' )
 		return 0
 	end,
     }
