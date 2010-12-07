@@ -90,6 +90,12 @@ end
 function project_tech_object:exec_cmd( cmd )
     return self.sys_tech_object:exec_cmd( cmd )
 end
+
+function project_tech_object:get_modes_manager()
+    return self.sys_tech_object:get_modes_manager()
+end
+
+
 --Представление всех созданных пользовательских технологических объектов.
 object_manager =
     {

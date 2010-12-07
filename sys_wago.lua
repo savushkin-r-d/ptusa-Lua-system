@@ -185,6 +185,10 @@ system =
         return file_version
     end,
 
+    get_PAC_name = function()
+        return PAC_name
+    end,
+    
     get_editor_version = function()
         return editor_version
     end,
