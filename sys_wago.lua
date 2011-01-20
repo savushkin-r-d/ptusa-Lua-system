@@ -186,6 +186,7 @@ system =
     end,
 
     get_PAC_name = function()
+        if PAC_name == nil then return 'Unknown project' end
         return PAC_name
     end,
     
@@ -272,6 +273,10 @@ system =
                     wago_device:init_channel( 4, j - 1,
                         device.AO[ j ].node, device.AO[ j ].offset )
                 end
+                
+                for j = 1, par_count do                   
+                    wago_device:init_par( j - 1, device.par[ j ] )
+                end                
 
             end --if wago_device ~= nil then --Устройство имеет модули Wago.
         end --for i = 1, devices_count do
