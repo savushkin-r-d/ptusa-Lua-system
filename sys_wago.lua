@@ -280,8 +280,6 @@ system =
 
             end --if wago_device ~= nil then --Устройство имеет модули Wago.
         end --for i = 1, devices_count do
-
-        G_DEVICE_MANAGER():complete_init()
     end,
 
 	init_tech_dev_modes = function()
