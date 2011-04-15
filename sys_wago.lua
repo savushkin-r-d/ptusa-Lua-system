@@ -189,7 +189,7 @@ system =
         if PAC_name == nil then return 'Unknown project' end
         return PAC_name
     end,
-    
+
     get_editor_version = function()
         return editor_version
     end,
@@ -226,7 +226,7 @@ system =
 
             local device = devices[ i ]
 
-            local wago_device = G_DEVICE_MANAGER():add_device(
+            local wago_device = G_DEVICE_MANAGER():add_wago_device(
                 device.dtype, device.subtype, device.number,
                 device.descr )
 
@@ -273,10 +273,10 @@ system =
                     wago_device:init_channel( 4, j - 1,
                         device.AO[ j ].node, device.AO[ j ].offset )
                 end
-                
-                for j = 1, par_count do                   
+
+                for j = 1, par_count do
                     wago_device:init_par( j - 1, device.par[ j ] )
-                end                
+                end
 
             end --if wago_device ~= nil then --Устройство имеет модули Wago.
         end --for i = 1, devices_count do
@@ -326,15 +326,15 @@ system =
                         for field, value in ipairs( value ) do
                             local dev = G_DEVICE_MANAGER():get_device(
                                 dev_type, value )
-                                
+
                             modes_manager:add_mode_closed_dev(
                                 mode_n, dev )
                         end
                     end
                 end
-                
+
                 if value.steps ~= nil then
-                    local steps_count = #value.steps                   
+                    local steps_count = #value.steps
                     modes_manager:set_mode_config( mode_n, steps_count )
 
                     for fields, value in ipairs( value.steps ) do
@@ -342,13 +342,13 @@ system =
 
                         if value.opened_devices ~= nil then
                             for field, value in pairs( value.opened_devices ) do
-                                
+
                                 local dev_type = get_dev_type( field )
 
                                 for field, value in ipairs( value ) do
                                     local dev = G_DEVICE_MANAGER():get_device(
                                         dev_type, value )
-                                        
+
                                     modes_manager:add_opened_dev(
                                         mode_n, step_n, dev )
                                 end
@@ -362,7 +362,7 @@ system =
                                 for field, value in ipairs( value ) do
                                     local dev = G_DEVICE_MANAGER():get_device(
                                         dev_type, value )
-                                        
+
                                     modes_manager:add_closed_dev(
                                         mode_n, step_n, dev )
                                 end
@@ -371,9 +371,9 @@ system =
 
                     end --for fields, value in ipairs( value.steps ) do
 				end --if value.steps ~= nil then
-                
+
                 --print( 'end steps' )
-                
+
 			end --for fields, value in ipairs( value.modes ) do
 		end --for fields, value in ipairs( tech_objects ) do
 
