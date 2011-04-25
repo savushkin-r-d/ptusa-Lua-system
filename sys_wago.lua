@@ -286,9 +286,10 @@ system =
 
         local get_dev_type = function( dev_name )
             local dev_type = -1
-            if     dev_name == 'V'  then dev_type = device.DT_V
-            elseif dev_name == 'N'  then dev_type = device.DT_N
-            elseif dev_name == 'FB' then dev_type = device.DT_FB end
+            if     dev_name == 'V'   then dev_type = device.DT_V
+            elseif dev_name == 'N'   then dev_type = device.DT_N
+            elseif dev_name == 'FB'  then dev_type = device.DT_FB
+            elseif dev_name == 'UPR' then dev_type = device.DT_UPR end
 
             return dev_type
         end
@@ -329,6 +330,49 @@ system =
 
                             modes_manager:add_mode_closed_dev(
                                 mode_n, dev )
+                        end
+                    end
+                end
+
+                if value.required_FB ~= nil then
+                    for field, value in pairs( value.required_FB ) do
+                        local dev_type = get_dev_type( field )
+
+                        for field, value in ipairs( value ) do
+                            local dev = G_DEVICE_MANAGER():get_device(
+                                dev_type, value )
+
+                            modes_manager:add_mode_on_FB(
+                                mode_n, dev )
+                        end
+                    end
+                end
+
+                if value.pair_dev ~= nil then
+                    for field, value in pairs( value.pair_dev ) do
+                        local group = value
+
+                        local dev_type = get_dev_type( 'FB' )
+                        local fb_dev = G_DEVICE_MANAGER():get_device(
+                            dev_type, group[ 1 ] )
+
+                        local n = modes_manager:add_mode_FB_group(
+                                mode_n, fb_dev )
+
+                        for field, value in pairs( group[ 2 ] ) do
+
+                            local dev_type = get_dev_type( field )
+
+                            for field, value in ipairs( value ) do
+                                local dev = G_DEVICE_MANAGER():get_device(
+                                    dev_type, value )
+
+                                modes_manager:add_mode_pair_dev(
+                                    mode_n, n, dev )
+
+                                --modes_manager:add_mode_on_FB(
+                                --    mode_n, dev )
+                            end
                         end
                     end
                 end
