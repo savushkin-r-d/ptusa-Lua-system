@@ -4,30 +4,39 @@ modules_info[ 402 ] =
     {
     comment           = 'Дискретный вход',
     mtype             = 'DI',
-    DI_chennels_count = 4,
-    chennel_size      = 1 --Размер области отображения одного канала.
+    DI_channels_count = 4,
+    channel_size      = 1 --Размер области отображения одного канала.
     }
+
+modules_info[ 1420 ] =
+    {
+    comment           = 'Дискретный вход 24 VDC',
+    mtype             = 'DI',
+    DI_channels_count = 4,
+    channel_size      = 1
+    }
+
 modules_info[ 638 ] =
     {
     comment           = 'Счетчик импульсов',
     mtype             = 'SPECIAL',
-    AI_chennels_count = 2,
-    AO_chennels_count = 2,
-    chennel_size      = 4
+    AI_channels_count = 2,
+    AO_channels_count = 2,
+    channel_size      = 4
     }
 modules_info[ 466 ] =
     {
     comment           = 'Температура',
     mtype             = 'AI',
-    AI_chennels_count = 2,
-    chennel_size      = 2
+    AI_channels_count = 2,
+    channel_size      = 2
     }
 modules_info[ 461 ] =
     {
     comment           = 'Текущий уровень',
     mtype             = 'AI',
-    AI_chennels_count = 2,
-    chennel_size      = 2
+    AI_channels_count = 2,
+    channel_size      = 2
     }
 
 
@@ -36,20 +45,20 @@ modules_info[ 504 ] =
     {
     comment           = '??',
     mtype             = 'DO',
-    DO_chennels_count = 4
+    DO_channels_count = 4
     }
 modules_info[ 512 ] =
     {
     comment           = '??',
     mtype             = 'DO',
-    DO_chennels_count = 4
+    DO_channels_count = 4
     }
 modules_info[ 554 ] =
     {
     comment           = '??',
     mtype             = 'AO',
-    AO_chennels_count = 2,
-    chennel_size      = 2
+    AO_channels_count = 2,
+    channel_size      = 2
     }
 modules_info[ 613 ] =
     {
@@ -75,35 +84,35 @@ modules_info[ 430 ] =
     {
     comment           = '??',
     mtype             = 'DI',
-    DI_chennels_count = 8
+    DI_channels_count = 8
     }
 modules_info[ 530 ] =
     {
     comment           = '??',
     mtype             = 'DO',
-    DO_chennels_count = 8
+    DO_channels_count = 8
     }
 modules_info[ 655 ] =
     {
     comment           = '??',
     mtype             = 'AIAO',
-    AO_chennels_count = 2,
-    AI_chennels_count = 2,
-    chennel_size      = 2
+    AO_channels_count = 2,
+    AI_channels_count = 2,
+    channel_size      = 2
     }
 modules_info[ 455 ] =
     {
     comment           = '??',
     mtype             = 'AI',
-    AI_chennels_count = 2,
-    chennel_size      = 2
+    AI_channels_count = 2,
+    channel_size      = 2
     }
 modules_info[ 460 ] =
     {
     comment           = '??',
     mtype             = 'AI',
-    AI_chennels_count = 2,
-    chennel_size      = 2
+    AI_channels_count = 2,
+    channel_size      = 2
     }
 
 function get_modules_info ( modules )
@@ -125,39 +134,39 @@ function get_modules_info ( modules )
     for fields, value in pairs( modules ) do
         if modules_info[ value[ 1 ] ] ~= nil then
 
-            if modules_info[ value[ 1 ] ].DO_chennels_count then
+            if modules_info[ value[ 1 ] ].DO_channels_count then
                 DO_cnt = DO_cnt +
-                    modules_info[ value[ 1 ] ].DO_chennels_count
+                    modules_info[ value[ 1 ] ].DO_channels_count
             end
 
-            if modules_info[ value[ 1 ] ].AO_chennels_count then
+            if modules_info[ value[ 1 ] ].AO_channels_count then
 
                 for i = AO_cnt, AO_cnt +
-                    modules_info[ value[ 1 ] ].AO_chennels_count - 1 do
+                    modules_info[ value[ 1 ] ].AO_channels_count - 1 do
 
                     AO_local[ i + 1 ] = { value[ 1 ], AO_end_address }
                     AO_end_address = AO_end_address +
-                        modules_info[ value[ 1 ] ].chennel_size
+                        modules_info[ value[ 1 ] ].channel_size
                 end
                 AO_cnt = AO_cnt +
-                    modules_info[ value[ 1 ] ].AO_chennels_count
+                    modules_info[ value[ 1 ] ].AO_channels_count
             end
 
-            if modules_info[ value[ 1 ] ].DI_chennels_count then
+            if modules_info[ value[ 1 ] ].DI_channels_count then
                 DI_cnt = DI_cnt +
-                    modules_info[ value[ 1 ] ].DI_chennels_count
+                    modules_info[ value[ 1 ] ].DI_channels_count
             end
 
-            if modules_info[ value[ 1 ] ].AI_chennels_count then
+            if modules_info[ value[ 1 ] ].AI_channels_count then
                 for i = AI_cnt, AI_cnt +
-                    modules_info[ value[ 1 ] ].AI_chennels_count - 1 do
+                    modules_info[ value[ 1 ] ].AI_channels_count - 1 do
 
                     AI_local[ i + 1 ] = { value[ 1 ], AI_end_address }
                     AI_end_address = AI_end_address +
-                        modules_info[ value[ 1 ] ].chennel_size
+                        modules_info[ value[ 1 ] ].channel_size
                 end
                 AI_cnt = AI_cnt +
-                    modules_info[ value[ 1 ] ].AI_chennels_count
+                    modules_info[ value[ 1 ] ].AI_channels_count
             end
 
             modules_cnt = modules_cnt + 1
@@ -232,44 +241,44 @@ system =
 
             if wago_device ~= nil then --Устройство имеет модули Wago.
 
-                local DI_chennels = 0
-                local DO_chennels = 0
-                local AI_chennels = 0
-                local AO_chennels = 0
+                local DI_channels = 0
+                local DO_channels = 0
+                local AI_channels = 0
+                local AO_channels = 0
                 local par_count   = 0
 
                 if device.DI ~= nil then
-                    DI_chennels = #device.DI
+                    DI_channels = #device.DI
                 end
                 if device.DO ~= nil then
-                    DO_chennels = #device.DO
+                    DO_channels = #device.DO
                 end
                 if device.AI ~= nil then
-                    AI_chennels = #device.AI
+                    AI_channels = #device.AI
                 end
                 if device.AO ~= nil then
-                    AO_chennels = #device.AO
+                    AO_channels = #device.AO
                 end
                 if device.par ~= nil then
                     par_count = #device.par
                 end
 
-                wago_device:init( DO_chennels, DI_chennels,
-                    AO_chennels, AI_chennels, par_count )
+                wago_device:init( DO_channels, DI_channels,
+                    AO_channels, AI_channels, par_count )
 
-                for j = 1, DI_chennels do
+                for j = 1, DI_channels do
                     wago_device:init_channel( 1, j - 1,
                         device.DI[ j ].node, device.DI[ j ].offset )
                 end
-                for j = 1, DO_chennels do
+                for j = 1, DO_channels do
                     wago_device:init_channel( 2, j - 1,
                         device.DO[ j ].node, device.DO[ j ].offset )
                 end
-                for j = 1, AI_chennels do
+                for j = 1, AI_channels do
                     wago_device:init_channel( 3, j - 1,
                         device.AI[ j ].node, device.AI[ j ].offset )
                 end
-                for j = 1, AO_chennels do
+                for j = 1, AO_channels do
                     wago_device:init_channel( 4, j - 1,
                         device.AO[ j ].node, device.AO[ j ].offset )
                 end
