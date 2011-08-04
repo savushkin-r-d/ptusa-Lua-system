@@ -212,7 +212,7 @@ system =
 
             G_WAGO_MANAGER():add_node( i - 1,
                 nodes[ i ].ntype, nodes[ i ].address,
-                nodes[ i ].IP_address,
+                nodes[ i ].IP,
                 node_info.DO_count, node_info.DI_count,
                 node_info.AO_count, node_info.AI_count )
 
