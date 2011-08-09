@@ -1,13 +1,13 @@
 local G = _G
 
-module( 'sys' ) 
+module( 'sys' )
 -- ----------------------------------------------------------------------------
 --Класс технологический объект со значениями параметров по умолчанию.
 project_tech_object =
     {
     name         = "TANK",
     number       = 1,
-    states_count = 32,
+    modes_count = 32,
 
     timers_count               = 1,
     params_float_count         = 1,
@@ -27,7 +27,7 @@ function project_tech_object:new( o )
     self.__index = self
 
    --Создаем системный объект.
-    o.sys_tech_object = G.tech_object( o.name, o.number, o.states_count,
+    o.sys_tech_object = G.tech_object( o.name, o.number, o.modes_count,
         o.timers_count, o.params_float_count,
         o.runtime_params_float_count, o.params_uint_count,
         o.runtime_params_uint_count )
@@ -108,7 +108,7 @@ object_manager =
     --Добавление пользовательского технологического объекта.
     add_object = function ( self, new_object )
         self.objects[ #self.objects + 1 ] = new_object
-        
+
         G.sys[ new_object.name ] = G.sys[ new_object.name ] or { }
         G.sys[ new_object.name ][ new_object.number ] = new_object
     end,
@@ -128,8 +128,8 @@ object_manager =
         end
     end
     }
-    
-G.object_manager = object_manager    
+
+G.object_manager = object_manager
 -- ----------------------------------------------------------------------------
 --Функции, которые для выполнения команды от сервера преобразуют тег в объект.
 --Пример команды от сервера в виде скрипта:
@@ -138,13 +138,13 @@ G.object_manager = object_manager
 
 local function create_device( name )
     G.sys[ name ] = { }
-    local t = G.sys[ name ] 
-    
+    local t = G.sys[ name ]
+
     -- Переопределяем операцию индексирования.
     function t.__index( op, key )
         return G.G_DEVICE_MANAGER():get_device( G.device[ 'DT_'..name ], key )
     end
-    
+
     G.setmetatable( t, t )
 end
 
@@ -161,5 +161,5 @@ create_device( 'LE' )
 create_device( 'FB' )
 create_device( 'UPR' )
 create_device( 'QE' )
-create_device( 'AI' )   
--- ----------------------------------------------------------------------------    
+create_device( 'AI' )
+-- ----------------------------------------------------------------------------
