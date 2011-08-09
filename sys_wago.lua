@@ -298,7 +298,9 @@ system =
             if     dev_name == 'V'   then dev_type = device.DT_V
             elseif dev_name == 'N'   then dev_type = device.DT_N
             elseif dev_name == 'FB'  then dev_type = device.DT_FB
-            elseif dev_name == 'UPR' then dev_type = device.DT_UPR end
+            elseif dev_name == 'UPR' then dev_type = device.DT_UPR
+            else print( "Error - unknown device type - ", dev_name  )
+            end
 
             return dev_type
         end
@@ -358,31 +360,23 @@ system =
                 end
 
                 if value.pair_dev ~= nil then
+                    local fb_dev_type = get_dev_type( 'FB' )
+                    local control_signal_dev_type = get_dev_type( 'UPR' )
+
                     for field, value in pairs( value.pair_dev ) do
                         local group = value
 
-                        local dev_type = get_dev_type( 'FB' )
                         local fb_dev = G_DEVICE_MANAGER():get_device(
-                            dev_type, group[ 1 ] )
+                            fb_dev_type, group[ 1 ] )
 
                         local n = modes_manager:add_mode_FB_group(
                                 mode_n, fb_dev )
 
-                        for field, value in pairs( group[ 2 ] ) do
+                        local upr_dev = G_DEVICE_MANAGER():get_device(
+                            control_signal_dev_type, group[ 2 ] )
 
-                            local dev_type = get_dev_type( field )
+                        modes_manager:add_mode_pair_dev( mode_n, n, upr_dev )
 
-                            for field, value in ipairs( value ) do
-                                local dev = G_DEVICE_MANAGER():get_device(
-                                    dev_type, value )
-
-                                modes_manager:add_mode_pair_dev(
-                                    mode_n, n, dev )
-
-                                --modes_manager:add_mode_on_FB(
-                                --    mode_n, dev )
-                            end
-                        end
                     end
                 end
 
