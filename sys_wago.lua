@@ -199,6 +199,11 @@ system =
         return PAC_name
     end,
 
+    get_PAC_id = function()
+        if PAC_id == nil then return 1 end
+        return PAC_id
+    end,
+
     get_editor_version = function()
         return editor_version
     end,
@@ -341,6 +346,51 @@ system =
 
                             modes_manager:add_mode_closed_dev(
                                 mode_n, dev )
+                        end
+                    end
+                end
+
+
+                if value.opened_upper_seat_v ~= nil then
+
+                    local dev_type = get_dev_type( 'V' )
+
+                    for field, value in pairs( value.opened_upper_seat_v ) do
+                        
+						--Добавляем группу.
+                        local group = modes_manager:add_wash_seats_valves_group(
+                            mode_n, i_mix_proof.ST_UPPER_SEAT )
+
+                        for field, value in ipairs( value ) do
+
+                            local dev = G_DEVICE_MANAGER():get_device(
+                                dev_type, value )
+
+                            modes_manager:add_wash_seat_valve( 
+								mode_n, group, dev )
+
+                        end
+                    end
+                end
+
+                if value.opened_lower_seat_v ~= nil then
+
+                    local dev_type = get_dev_type( 'V' )
+
+                    for field, value in pairs( value.opened_lower_seat_v ) do
+                        
+						--Добавляем группу.
+                        local group = modes_manager:add_wash_seats_valves_group(
+                            mode_n, i_mix_proof.ST_LOWER_SEAT )
+
+                        for field, value in ipairs( value ) do
+
+                            local dev = G_DEVICE_MANAGER():get_device(
+                                dev_type, value )
+
+                            modes_manager:add_wash_seat_valve(
+                                mode_n, group, dev )
+
                         end
                     end
                 end
