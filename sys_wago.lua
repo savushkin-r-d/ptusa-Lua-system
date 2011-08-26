@@ -310,6 +310,31 @@ system =
             return dev_type
         end
 
+		local add_seat_devices = function( v, mode, step, seat_state )
+
+		    if v ~= nil then
+
+                local DEV_TYPE = get_dev_type( 'V' )
+
+                for field, value in pairs( v ) do
+                        
+					--Добавляем группу.
+                    local group = modes_manager:add_wash_seats_valves_group(
+                        mode, step, seat_state )
+
+                    for field, value in ipairs( value ) do
+
+						local dev = G_DEVICE_MANAGER():get_device(
+							DEV_TYPE, value )
+
+                        modes_manager:add_wash_seat_valve( mode, step, group,
+							dev )
+
+                    end
+                end
+            end
+		end
+
 		for fields, value in ipairs( init_tech_objects_modes() ) do
 			local object_n = value.n - 1
 			local object   = G_TECH_OBJECT_MNGR():get_tech_objects( object_n )
@@ -318,7 +343,7 @@ system =
 
 			for fields, value in ipairs( value.modes ) do
 
-                local mode_n	  = fields - 1
+                local mode	  = fields - 1
 
                 if value.opened_devices ~= nil then
 
@@ -331,7 +356,7 @@ system =
                                 dev_type, value )
 
                             modes_manager:add_mode_opened_dev(
-                                mode_n, dev )
+                                mode, dev )
                         end
                     end
                 end
@@ -345,55 +370,22 @@ system =
                                 dev_type, value )
 
                             modes_manager:add_mode_closed_dev(
-                                mode_n, dev )
+                                mode, dev )
                         end
                     end
                 end
 
 
                 if value.opened_upper_seat_v ~= nil then
-
-                    local dev_type = get_dev_type( 'V' )
-
-                    for field, value in pairs( value.opened_upper_seat_v ) do
-                        
-						--Добавляем группу.
-                        local group = modes_manager:add_wash_seats_valves_group(
-                            mode_n, i_mix_proof.ST_UPPER_SEAT )
-
-                        for field, value in ipairs( value ) do
-
-                            local dev = G_DEVICE_MANAGER():get_device(
-                                dev_type, value )
-
-                            modes_manager:add_wash_seat_valve( 
-								mode_n, group, dev )
-
-                        end
-                    end
+					add_seat_devices( opened_upper_seat_v, mode, 0, 
+						i_mix_proof.ST_UPPER_SEAT )
                 end
 
                 if value.opened_lower_seat_v ~= nil then
-
-                    local dev_type = get_dev_type( 'V' )
-
-                    for field, value in pairs( value.opened_lower_seat_v ) do
-                        
-						--Добавляем группу.
-                        local group = modes_manager:add_wash_seats_valves_group(
-                            mode_n, i_mix_proof.ST_LOWER_SEAT )
-
-                        for field, value in ipairs( value ) do
-
-                            local dev = G_DEVICE_MANAGER():get_device(
-                                dev_type, value )
-
-                            modes_manager:add_wash_seat_valve(
-                                mode_n, group, dev )
-
-                        end
-                    end
+					add_seat_devices( opened_lower_seat_v, mode, 0,
+						i_mix_proof.ST_LOWER_SEAT )
                 end
+
 
                 if value.required_FB ~= nil then
                     for field, value in pairs( value.required_FB ) do
@@ -404,7 +396,7 @@ system =
                                 dev_type, value )
 
                             modes_manager:add_mode_on_FB(
-                                mode_n, dev )
+                                mode, dev )
                         end
                     end
                 end
@@ -420,22 +412,22 @@ system =
                             fb_dev_type, group[ 1 ] )
 
                         local n = modes_manager:add_mode_FB_group(
-                                mode_n, fb_dev )
+                                mode, fb_dev )
 
                         local upr_dev = G_DEVICE_MANAGER():get_device(
                             control_signal_dev_type, group[ 2 ] )
 
-                        modes_manager:add_mode_pair_dev( mode_n, n, upr_dev )
+                        modes_manager:add_mode_pair_dev( mode, n, upr_dev )
 
                     end
                 end
 
                 if value.steps ~= nil then
                     local steps_count = #value.steps
-                    modes_manager:set_mode_config( mode_n, steps_count )
+                    modes_manager:set_mode_config( mode, steps_count )
 
                     for fields, value in ipairs( value.steps ) do
-                        local step_n = fields - 1
+                        local step = fields - 1
 
                         if value.opened_devices ~= nil then
                             for field, value in pairs( value.opened_devices ) do
@@ -447,7 +439,7 @@ system =
                                         dev_type, value )
 
                                     modes_manager:add_opened_dev(
-                                        mode_n, step_n, dev )
+                                        mode, step, dev )
                                 end
                             end
                         end
@@ -461,10 +453,21 @@ system =
                                         dev_type, value )
 
                                     modes_manager:add_closed_dev(
-                                        mode_n, step_n, dev )
+                                        mode, step, dev )
                                 end
                             end
                         end
+
+
+						if value.opened_upper_seat_v ~= nil then
+							add_seat_devices( value.opened_upper_seat_v, mode, 
+								step, i_mix_proof.ST_UPPER_SEAT )
+						end
+
+						if value.opened_lower_seat_v ~= nil then
+							add_seat_devices( value.opened_lower_seat_v, mode, 
+								step, i_mix_proof.ST_LOWER_SEAT )
+						end
 
                     end --for fields, value in ipairs( value.steps ) do
 				end --if value.steps ~= nil then
