@@ -16,6 +16,38 @@ modules_info[ 1420 ] =
     channel_size      = 1
     }
 
+modules_info[ 1415 ] =
+    {
+    comment           = 'Дискретный вход 24 VDC',
+    mtype             = 'DI',
+    DI_channels_count = 8,
+    channel_size      = 1
+    }
+
+modules_info[ 1405 ] =
+    {
+    comment           = 'Дискретный вход 24 VDC',
+    mtype             = 'DI',
+    DI_channels_count = 16,
+    channel_size      = 1
+    }
+
+modules_info[ 1504 ] =
+    {
+    comment           = 'Дискретный выход 24 VDC',
+    mtype             = 'DI',
+    DI_channels_count = 16,
+    channel_size      = 1
+    }
+
+modules_info[ 1515 ] =
+    {
+    comment           = 'Дискретный выход 24 VDC',
+    mtype             = 'DI',
+    DI_channels_count = 8,
+    channel_size      = 1
+    }
+
 modules_info[ 638 ] =
     {
     comment           = 'Счетчик импульсов',
@@ -317,7 +349,7 @@ system =
                 local DEV_TYPE = get_dev_type( 'V' )
 
                 for field, value in pairs( v ) do
-                        
+
 					--Добавляем группу.
                     local group = modes_manager:add_wash_seats_valves_group(
                         mode, step, seat_state )
@@ -377,7 +409,7 @@ system =
 
 
                 if value.opened_upper_seat_v ~= nil then
-					add_seat_devices( opened_upper_seat_v, mode, 0, 
+					add_seat_devices( opened_upper_seat_v, mode, 0,
 						i_mix_proof.ST_UPPER_SEAT )
                 end
 
@@ -460,12 +492,12 @@ system =
 
 
 						if value.opened_upper_seat_v ~= nil then
-							add_seat_devices( value.opened_upper_seat_v, mode, 
+							add_seat_devices( value.opened_upper_seat_v, mode,
 								step, i_mix_proof.ST_UPPER_SEAT )
 						end
 
 						if value.opened_lower_seat_v ~= nil then
-							add_seat_devices( value.opened_lower_seat_v, mode, 
+							add_seat_devices( value.opened_lower_seat_v, mode,
 								step, i_mix_proof.ST_LOWER_SEAT )
 						end
 
