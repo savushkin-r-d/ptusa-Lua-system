@@ -35,16 +35,16 @@ modules_info[ 1405 ] =
 modules_info[ 1504 ] =
     {
     comment           = 'Дискретный выход 24 VDC',
-    mtype             = 'DI',
-    DI_channels_count = 16,
+    mtype             = 'DO',
+    DO_channels_count = 16,
     channel_size      = 1
     }
 
 modules_info[ 1515 ] =
     {
     comment           = 'Дискретный выход 24 VDC',
-    mtype             = 'DI',
-    DI_channels_count = 8,
+    mtype             = 'DO',
+    DO_channels_count = 8,
     channel_size      = 1
     }
 
