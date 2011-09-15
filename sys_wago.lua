@@ -214,9 +214,11 @@ function get_modules_info ( modules )
         DO_count = DO_cnt,
         AO_count = AO_cnt,
         AO       = AO_local,
+        AO_size  = AO_end_address,
         DI_count = DI_cnt,
         AI_count = AI_cnt,
-        AI       = AI_local
+        AI       = AI_local,
+        AI_size  = AI_end_address,
         }
 end
 
@@ -251,7 +253,8 @@ system =
                 nodes[ i ].ntype, nodes[ i ].address,
                 nodes[ i ].IP,
                 node_info.DO_count, node_info.DI_count,
-                node_info.AO_count, node_info.AI_count )
+                node_info.AO_count, node_info.AO_size,
+                node_info.AI_count, node_info.AI_size )
 
             for j = 1, node_info.AO_count do
                 G_WAGO_MANAGER():init_node_AO( i - 1, j - 1,
