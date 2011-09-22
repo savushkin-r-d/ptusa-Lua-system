@@ -457,6 +457,41 @@ system =
                     end
                 end
 
+                --Группа устройств, управляемых по ОС с выдачей сигнала.
+                if value.group_dev_ex ~= nil then
+                    local fb_dev_type = get_dev_type( 'FB' )
+                    local control_signal_dev_type = get_dev_type( 'UPR' )
+
+                    --FB
+                    local fb_dev_ex = nil
+                    if value.group_dev_ex.FB ~= nil then
+                        fb_dev_ex = G_DEVICE_MANAGER():get_device( fb_dev_type,
+                            value.group_dev_ex.FB )
+                    end
+
+                    --Control signal
+                    local control_signal_dev_ex = G_DEVICE_MANAGER():get_device(
+                            control_signal_dev_type, value.group_dev_ex.UPR )
+
+                    local n = modes_manager:add_mode_FB_group_ex( mode,
+                        fb_dev_ex, control_signal_dev_ex )
+
+                    if value.group_dev_ex.dev ~= nil then
+
+                        for field, value in pairs( value.group_dev_ex.dev ) do
+                            local group    = value
+                            local dev_type = get_dev_type( field )
+
+                            for field, value in pairs( group ) do
+                                local dev = G_DEVICE_MANAGER():get_device(
+                                    dev_type, value )
+                                modes_manager:add_mode_FB_group_dev_ex( mode, n,
+                                    dev )
+                            end
+                        end
+                    end -- if value.dev ~= nil then
+                end -- if value.group_dev_ex ~= nil then
+
                 if value.steps ~= nil then
                     local steps_count = #value.steps
                     modes_manager:set_mode_config( mode, steps_count )
