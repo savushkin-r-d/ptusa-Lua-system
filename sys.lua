@@ -99,6 +99,11 @@ end
 function project_tech_object:set_cmd( prop, idx, n )
     return self.sys_tech_object:set_cmd( prop, idx, n )
 end
+
+function project_tech_object:set_param( par_id, index, value )
+    return self.sys_tech_object:set_param( par_id, index, value )
+end
+
 -- ----------------------------------------------------------------------------
 --Представление всех созданных пользовательских технологических объектов.
 object_manager =
