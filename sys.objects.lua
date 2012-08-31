@@ -233,8 +233,6 @@ init_tech_objects = function()
 
 				for field, value in pairs( value.pair_DI_DO ) do
 
-					--print(debug.traceback()) --Отладка
-
 					if ( #value ~= 2 ) then
 						error( "Incorrect size pair_DI_DO - "..#value.."'." )
 					end
@@ -256,7 +254,6 @@ init_tech_objects = function()
 			--Шаги.
 			if value.steps ~= nil then
 				local steps_count = #value.steps
-				--modes_manager:set_mode_config( mode, steps_count )
 
 				for fields, value in ipairs( value.steps ) do
 					mode:add_step( value.name, 0, 0 )
