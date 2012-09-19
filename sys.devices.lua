@@ -61,9 +61,7 @@ system.init_devices_params = function( self )
 end
 -- ----------------------------------------------------------------------------
 --Получение описания устройства.
-get_dev_descr = function( n )
-    print( n )
-
+system.get_dev_descr = function( self, n )
     if devices[ n ] ~= nil then
         return devices[ n ].descr or ""
     end
@@ -72,7 +70,7 @@ get_dev_descr = function( n )
 end
 -- ----------------------------------------------------------------------------
 --Получение описания устройства.
-get_dev_name = function( n )
+system.get_dev_name = function( self, n )
     if devices[ n ] ~= nil then
         return devices[ n ].name or ""
     end
