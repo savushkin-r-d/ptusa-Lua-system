@@ -226,21 +226,21 @@ end
 
 system =
     {
-    get_PAC_name = function()
+    get_PAC_name = function( self )
         if PAC_name == nil then return 'Unknown project' end
         return PAC_name
     end,
 
-    get_file_date = function()
+    get_file_date = function( self )
         return created
     end,
 
-    get_PAC_id = function()
+    get_PAC_id = function( self )
         if PAC_id == nil then return 1 end
         return PAC_id
     end,
 
-    create_wago = function()
+    create_wago = function( self )
 
         local nodes_count = #nodes
         G_WAGO_MANAGER():init( nodes_count )
@@ -267,7 +267,7 @@ system =
         end
     end,
 
-    create_devices = function()
+    create_devices = function( self )
 
         local devices_count = #devices
 

@@ -4,7 +4,7 @@ system = system or {}
 
 -- ----------------------------------------------------------------------------
 --Инициализация свойств устройств.
-system.init_devices_properties = function()
+system.init_devices_properties = function( self )
 
     local devices_count = #devices
 
@@ -34,7 +34,7 @@ system.init_devices_properties = function()
 end
 -- ----------------------------------------------------------------------------
 --Инициализация параметров устройств.
-system.init_devices_params = function()
+system.init_devices_params = function( self )
 
     local devices_count = #devices
 
@@ -60,20 +60,22 @@ system.init_devices_params = function()
     end --for i = 1, devices_count do
 end
 -- ----------------------------------------------------------------------------
---Инициализация имени и описания устройств.
-system.init_devices_names = function()
+--Получение описания устройства.
+get_dev_descr = function( n )
+    print( n )
 
-    local devices_count = #devices
+    if devices[ n ] ~= nil then
+        return devices[ n ].descr or ""
+    end
 
-    for i = 1, devices_count do            
-        local device_descr = devices[ i ]
-        
-        local device = G_DEVICE_MANAGER():get_device(
-            device_descr.dtype, device_descr.number )
-        
-        local name = device_descr.name or ""
-        local descr = device_descr.descr or ""
-        device:set_name( name, descr )
+    return ""
+end
+-- ----------------------------------------------------------------------------
+--Получение описания устройства.
+get_dev_name = function( n )
+    if devices[ n ] ~= nil then
+        return devices[ n ].name or ""
+    end
 
-    end --for i = 1, devices_count do
+    return ""
 end
