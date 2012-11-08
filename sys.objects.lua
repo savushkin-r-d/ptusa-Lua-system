@@ -4,8 +4,8 @@
 --Класс технологический объект со значениями параметров по умолчанию.
 project_tech_object =
     {
-    name         = "Объект",
-    number       = 1,
+    name        = "Объект",
+    n           = 1,
     modes_count = 32,
 
     timers_count               = 1,
@@ -32,7 +32,7 @@ function project_tech_object:new( o )
 
     --Создаем системный объект.
     o.sys_tech_object = tech_object( o.name,
-        o.number,
+        o.n,
         o.name_Lua..self.idx,
         o.modes_count,
         o.timers_count,
@@ -119,6 +119,12 @@ end
 function project_tech_object:set_param( par_id, index, value )
     return self.sys_tech_object:set_param( par_id, index, value )
 end
+
+function project_tech_object:set_err_msg( msg, mode, new_mode, msg_type )    
+    new_mode = new_mode or 0
+    msg_type = msg_type or tech_object.ERR_CANT_ON
+    return self.sys_tech_object:set_err_msg( msg, mode, new_mode, msg_type )
+end
 -- ----------------------------------------------------------------------------
 --Представление всех созданных пользовательских технологических объектов
 --(гребенки, танков) для доступа из C++.
@@ -202,7 +208,7 @@ init_tech_objects = function()
         local object = project_tech_object:new
             {
             name 	     = value.name,
-            number 	     = value.number,
+            n 	         = value.n,
             modes_count  = modes_count,
             timers_count = value.timers,
 
