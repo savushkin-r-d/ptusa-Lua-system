@@ -168,7 +168,7 @@ init_tech_objects = function()
                     error( "Unknown device '"..value.."'." )
                 end
 
-                mode[ step_n ][ action ]:add_dev( dev )
+                mode[ step_n ][ action ]:add_dev( dev, 0 )
             end
         end
     end
@@ -237,23 +237,17 @@ init_tech_objects = function()
             --Группа устройств DI->DO.
             if value.pair_DI_DO ~= nil then
 
+                local group = 0
                 for field, value in pairs( value.pair_DI_DO ) do
-
-                    if ( #value ~= 2 ) then
-                        error( "Incorrect size pair_DI_DO - "..#value.."'." )
+                    for field, value in pairs( value ) do
+                        assert( loadstring( "dev = _"..value ) )( )
+                        if dev == nil then
+                            error( "Unknown device '"..value.."'." )
+                        end
+                        mode[ -1 ][ step.A_PAIR_DO_DI ]:add_dev( dev, group )
                     end
 
-                    assert( loadstring( "dev = _"..value[ 1 ] ) )( )
-                    if dev == nil then
-                        error( "Unknown device '"..value[ 1 ].."'." )
-                    end
-                    mode[ -1 ][ step.A_PAIR_DO_DI ]:add_dev(  dev )
-
-                    assert( loadstring( "dev = _"..value[ 2 ] ) )( )
-                    if dev == nil then
-                        error( "Unknown device '"..value[ 2 ].."'." )
-                    end
-                    mode[ -1 ][ step.A_PAIR_DO_DI ]:add_dev(  dev )
+                    group = group + 1
                 end
             end
 
