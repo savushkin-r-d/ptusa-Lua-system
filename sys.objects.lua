@@ -251,6 +251,26 @@ init_tech_objects = function()
                 end
             end
 
+            if value.wash_data ~= nil then
+                
+                local group = 0
+                for field, value in pairs( value.wash_data ) do
+                
+                    if value ~= nil then --Группа.
+                    
+                        for field, value in pairs( value ) do --Устройства.
+                            assert( loadstring( "dev = _"..value ) )( )
+                            if dev == nil then
+                                error( "Unknown device '"..value.."'." )
+                            end
+                            
+                            mode[ -1 ][ step.A_WASH ]:add_dev( dev, group )
+                        end
+                    end
+                    group = group + 1
+                end
+            end
+            
             --Шаги.
             if value.steps ~= nil then
                 local steps_count = #value.steps
