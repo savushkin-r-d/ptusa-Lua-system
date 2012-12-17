@@ -203,21 +203,46 @@ init_tech_objects = function()
         if ( value.modes ~= nil ) then
             modes_count = #value.modes
         end
+        
+        local par_float_count = 1
+        if type( value.par_float ) == "table" then
+            par_float_count = #value.par_float
+        end
+        local rt_par_float_count = 1
+        if type( value.rt_par_float ) == "table" then
+            rt_par_float_count = #value.rt_par_float
+        end
+        local par_uint_count = 1
+        if type( value.par_uint ) == "table" then
+            par_uint_count = #value.par_uint
+        end
+        local rt_par_uint_count = 1
+        if type( value.rt_par_uint ) == "table" then
+            rt_par_uint_count = #value.rt_par_uint
+        end
 
         --Создаем технологический объект.
         local object = project_tech_object:new
             {
-            name 	     = value.name,
-            n 	         = value.n,
+            name         = value.name,
+            n            = value.n,
             modes_count  = modes_count,
-            timers_count = value.timers,
+            timers_count = value.timers or 1,
 
-            params_float_count 		   = value.par_float,
-            runtime_params_float_count = value.rt_par_float,
-            params_uint_count          = value.par_uint,
-            runtime_params_uint_count  = value.rt_par_uint
+            params_float_count         = par_float_count,
+            runtime_params_float_count = rt_par_float_count,
+            params_uint_count          = par_uint_count,
+            runtime_params_uint_count  = rt_par_uint_count
             }
 
+        --Параметры.
+        if value.init_par_float ~= null then
+            value.init_par_float( object ) 
+        end
+        if value.init_rt_par_float ~= null then
+            value.init_rt_par_float( object ) 
+        end
+        
         local modes_manager = object:get_modes_manager()
 
         for fields, value in ipairs( value.modes ) do
@@ -251,6 +276,7 @@ init_tech_objects = function()
                 end
             end
 
+            --Мойка.
             if value.wash_data ~= nil then
                 
                 local group = 0
@@ -289,38 +315,8 @@ init_tech_objects = function()
                         value.opened_upper_seat_v, i_mix_proof.ST_LOWER_SEAT )
                 end
             end
-
---[[			--Группа устройств, управляемых по ОС с выдачей сигнала.
-            if value.wash_data ~= nil then
-                --FB
-                local di_dev = value.wash_data.DI
-
-                local n = modes_manager:add_mode_wash_action( mode,
-                    di_dev )
-
-                --Control signal
-                local control_signal_dev_ex = G_DEVICE_MANAGER():get_device(
-                        control_signal_dev_type, value.group_dev_ex.UPR )
-
-
-
-                if value.group_dev_ex.dev ~= nil then
-
-                    for field, value in pairs( value.group_dev_ex.dev ) do
-                        local group    = value
-                        local dev_type = get_dev_type( field )
-
-                        for field, value in pairs( group ) do
-                            local dev = G_DEVICE_MANAGER():get_device(
-                                dev_type, value )
-                            modes_manager:add_mode_FB_group_dev_ex( mode, n,
-                                dev )
-                        end
-                    end
-                end -- if value.dev ~= nil then
-            end -- if value.group_dev_ex ~= nil then]]
-
         end --for fields, value in ipairs( value.modes ) do
+        
     end --for fields, value in ipairs( tech_objects ) do
 
     return 0
