@@ -260,16 +260,16 @@ init_tech_objects = function()
             process_dev(  mode, -1, step.A_REQUIRED_FB, value.required_FB )
 
             --Группа устройств DI->DO.
-            if value.pair_DI_DO ~= nil then
+            if value.DI_DO ~= nil then
 
                 local group = 0
-                for field, value in pairs( value.pair_DI_DO ) do
+                for field, value in pairs( value.DI_DO ) do
                     for field, value in pairs( value ) do
                         assert( loadstring( "dev = _"..value ) )( )
                         if dev == nil then
                             error( "Unknown device '"..value.."'." )
                         end
-                        mode[ -1 ][ step.A_PAIR_DO_DI ]:add_dev( dev, group )
+                        mode[ -1 ][ step.A_DO_DI ]:add_dev( dev, group )
                     end
 
                     group = group + 1

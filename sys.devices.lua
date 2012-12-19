@@ -71,7 +71,7 @@ system.init_devices_params = function( self )
             end
 
             for j = 1, par_count do
-                device:set_par( j - 1, 0, device_descr.par[ j ] )
+                device:set_par( j, 0, device_descr.par[ j ] )
             end
 
         end --if
