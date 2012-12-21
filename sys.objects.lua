@@ -302,7 +302,10 @@ init_tech_objects = function()
                 local steps_count = #value.steps
 
                 for fields, value in ipairs( value.steps ) do
-                    mode:add_step( value.name, 0, 0 )
+                    local time_param_n = value.time_param_n or 0
+                    local next_step_n = value.next_step_n or 0  
+
+                    mode:add_step( value.name, next_step_n, time_param_n )
 
                     local step_n = fields
 
