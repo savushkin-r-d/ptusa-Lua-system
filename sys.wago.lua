@@ -148,6 +148,16 @@ modules_info[ 460 ] =
     AI_channels_count = 2,
     channel_size      = 2
     }
+modules_info[ 627 ] =
+    {
+    comment           = '??',
+    mtype             = 'STUB'
+    }    
+modules_info[ 628 ] =
+    {
+    comment           = '??',
+    mtype             = 'STUB'
+    }
 
 function get_modules_info ( modules )
     local DO_cnt      = 0
