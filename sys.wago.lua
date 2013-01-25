@@ -152,7 +152,7 @@ modules_info[ 627 ] =
     {
     comment           = '??',
     mtype             = 'STUB'
-    }    
+    }
 modules_info[ 628 ] =
     {
     comment           = '??',
@@ -261,6 +261,7 @@ system =
             G_WAGO_MANAGER():add_node( i - 1,
                 nodes[ i ].ntype, nodes[ i ].address,
                 nodes[ i ].IP,
+                nodes[ i ].name or 'Axxx',
                 node_info.DO_count, node_info.DI_count,
                 node_info.AO_count, node_info.AO_size,
                 node_info.AI_count, node_info.AI_size )
