@@ -1,6 +1,18 @@
 --version = 1
 
 -- ----------------------------------------------------------------------------
+--Добавление функциональности технологическому объекту на основе
+--пользовательского объекта.
+function add_table_as_meta( tbl, tbl_destiny )
+    if tbl == nil or tbl_destiny == nil or tbl_destiny.__index == nil then
+        return
+    end
+
+    for field, value in pairs( tbl ) do
+        tbl_destiny.__index[ field ] = value
+    end
+end
+-- ----------------------------------------------------------------------------
 --Класс технологический объект со значениями параметров по умолчанию.
 project_tech_object =
     {
@@ -120,7 +132,7 @@ function project_tech_object:set_param( par_id, index, value )
     return self.sys_tech_object:set_param( par_id, index, value )
 end
 
-function project_tech_object:set_err_msg( msg, mode, new_mode, msg_type )    
+function project_tech_object:set_err_msg( msg, mode, new_mode, msg_type )
     new_mode = new_mode or 0
     msg_type = msg_type or tech_object.ERR_CANT_ON
     return self.sys_tech_object:set_err_msg( msg, mode, new_mode, msg_type )
@@ -203,7 +215,7 @@ init_tech_objects = function()
         if ( value.modes ~= nil ) then
             modes_count = #value.modes
         end
-        
+
         local par_float_count = 1
         if type( value.par_float ) == "table" then
             par_float_count = #value.par_float
@@ -237,12 +249,12 @@ init_tech_objects = function()
 
         --Параметры.
         if value.init_par_float ~= null then
-            value.init_par_float( object ) 
+            value.init_par_float( object )
         end
         if value.init_rt_par_float ~= null then
-            value.init_rt_par_float( object ) 
+            value.init_rt_par_float( object )
         end
-        
+
         local modes_manager = object:get_modes_manager()
 
         for fields, value in ipairs( value.modes ) do
@@ -278,32 +290,32 @@ init_tech_objects = function()
 
             --Мойка.
             if value.wash_data ~= nil then
-                
+
                 local group = 0
                 for field, value in pairs( value.wash_data ) do
-                
+
                     if value ~= nil then --Группа.
-                    
+
                         for field, value in pairs( value ) do --Устройства.
                             assert( loadstring( "dev = _"..value ) )( )
                             if dev == nil then
                                 error( "Unknown device '"..value.."'." )
                             end
-                            
+
                             mode[ -1 ][ step.A_WASH ]:add_dev( dev, group )
                         end
                     end
                     group = group + 1
                 end
             end
-            
+
             --Шаги.
             if value.steps ~= nil then
                 local steps_count = #value.steps
 
                 for fields, value in ipairs( value.steps ) do
                     local time_param_n = value.time_param_n or 0
-                    local next_step_n = value.next_step_n or 0  
+                    local next_step_n = value.next_step_n or 0
 
                     mode:add_step( value.name, next_step_n, time_param_n )
 
@@ -319,7 +331,7 @@ init_tech_objects = function()
                 end
             end
         end --for fields, value in ipairs( value.modes ) do
-        
+
     end --for fields, value in ipairs( tech_objects ) do
 
     return 0
