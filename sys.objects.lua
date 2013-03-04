@@ -18,6 +18,7 @@ project_tech_object =
     {
     name        = "Объект",
     n           = 1,
+    object_type = 1,
     modes_count = 32,
 
     timers_count               = 1,
@@ -45,6 +46,7 @@ function project_tech_object:new( o )
     --Создаем системный объект.
     o.sys_tech_object = tech_object( o.name,
         o.n,
+        o.tech_type,
         o.name_Lua..self.idx,
         o.modes_count,
         o.timers_count,
@@ -60,7 +62,7 @@ function project_tech_object:new( o )
 
     --Регистрация необходимых объектов.
     _G[ o.name_Lua..self.idx ] = o
-    _G[ "_"..o.name_Lua..self.idx ] = o
+    _G[ "__"..o.name_Lua..self.idx ] = o
 
     object_manager:add_object( o )
 
@@ -175,9 +177,9 @@ init_tech_objects = function()
         if devices ~= nil then
 
             for field, value in pairs( devices ) do
-                assert( loadstring( "dev = _"..value ) )( )
+                assert( loadstring( "dev = __"..value ) )( )
                 if dev == nil then
-                    error( "Unknown device '"..value.."'." )
+                    error( "Unknown device '"..value.."' (__"..value..")." )
                 end
 
                 mode[ step_n ][ action ]:add_dev( dev, 0 )
@@ -192,7 +194,7 @@ init_tech_objects = function()
             local group = 0
             for field, value in pairs( devices ) do
                 for field, value in pairs( value ) do
-                    assert( loadstring( "dev = _"..value ) )( )
+                    assert( loadstring( "dev = __"..value ) )( )
                     if dev == nil then
                         error( "Unknown device '"..value.."'." )
                     end
@@ -238,6 +240,7 @@ init_tech_objects = function()
             {
             name         = value.name,
             n            = value.n,
+            tech_type    = value.tech_type,
             modes_count  = modes_count,
             timers_count = value.timers or 1,
 
@@ -277,7 +280,7 @@ init_tech_objects = function()
                 local group = 0
                 for field, value in pairs( value.DI_DO ) do
                     for field, value in pairs( value ) do
-                        assert( loadstring( "dev = _"..value ) )( )
+                        assert( loadstring( "dev = __"..value ) )( )
                         if dev == nil then
                             error( "Unknown device '"..value.."'." )
                         end
@@ -297,7 +300,7 @@ init_tech_objects = function()
                     if value ~= nil then --Группа.
 
                         for field, value in pairs( value ) do --Устройства.
-                            assert( loadstring( "dev = _"..value ) )( )
+                            assert( loadstring( "dev = __"..value ) )( )
                             if dev == nil then
                                 error( "Unknown device '"..value.."'." )
                             end
