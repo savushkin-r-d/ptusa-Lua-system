@@ -294,10 +294,17 @@ init_tech_objects = function()
             --Мойка.
             if value.wash_data ~= nil then
 
-                local group = 0
                 for field, value in pairs( value.wash_data ) do
 
+                    local group = 2
                     if value ~= nil then --Группа.
+                        if field == 'DI' then
+                            group = 0
+                        elseif field == 'DO' then
+                            group = 1
+                        elseif field == 'devices' then
+                            group = 2
+                        end
 
                         for field, value in pairs( value ) do --Устройства.
                             assert( loadstring( "dev = __"..value ) )( )
