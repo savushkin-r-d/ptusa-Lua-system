@@ -3,13 +3,13 @@
 -- ----------------------------------------------------------------------------
 --Добавление функциональности технологическому объекту на основе
 --пользовательского объекта.
-function add_table_as_meta( tbl, tbl_destiny )
-    if tbl == nil or tbl_destiny == nil or tbl_destiny.__index == nil then
+function add_functionality( tbl_main, tbl_2 )
+    if tbl_main == nil or tbl_2 == nil then
         return
     end
 
-    for field, value in pairs( tbl ) do
-        tbl_destiny.__index[ field ] = value
+    for field, value in pairs( tbl_2 ) do
+        tbl_main[ field ] = value
     end
 end
 -- ----------------------------------------------------------------------------
