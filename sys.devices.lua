@@ -9,13 +9,13 @@ system.init_devices_names = function( self )
     local devices_count = #devices
 
     for i = 1, devices_count do
-	        		
+
         local device = G_DEVICE_MANAGER():get_device(
             devices[ i ].dtype, devices[ i ].number )
 
-        if device ~= nil then		 
-			device:set_name( devices[ i ].name or "",
-				devices[ i ].descr or "" )
+        if device ~= nil then
+            device:set_name( devices[ i ].name or "",
+                devices[ i ].descr or "" )
         end --if
 
     end --for i = 1, devices_count do
