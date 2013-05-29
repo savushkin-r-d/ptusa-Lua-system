@@ -103,6 +103,10 @@ end
 function project_tech_object:init_runtime_params( par )
     return 0
 end
+
+function project_tech_object:is_check_mode( mode )
+    return 0
+end
 -- ----------------------------------------------------------------------------
 --Функции, которые переадресуются в вызовы соответствующих функций
 --системного технологического объекта (релизованы на С++).
