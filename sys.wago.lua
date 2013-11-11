@@ -236,9 +236,12 @@ end
 
 system =
     {
-    get_PAC_name = function( self )
-        if PAC_name == nil then return 'Unknown project' end
-        return PAC_name
+    get_PAC_name_rus = function( self )
+        return PAC_name or 'Новый проект'
+    end,
+
+    get_PAC_name_eng = function( self )
+        return PAC_name_eng or 'new_project'
     end,
 
     get_file_date = function( self )
