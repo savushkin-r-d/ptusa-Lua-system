@@ -44,7 +44,8 @@ function project_tech_object:new( o )
     self.__index = self
 
     --Создаем системный объект.
-    o.sys_tech_object = tech_object( o.name,
+    if o.tech_type == 111 then -- 111 - модуль мойки
+    	o.sys_tech_object = cipline_tech_object( o.name,
         o.n,
         o.tech_type,
         o.name_Lua..self.idx,
@@ -54,6 +55,18 @@ function project_tech_object:new( o )
         o.runtime_params_float_count,
         o.params_uint_count,
         o.runtime_params_uint_count )
+	else
+		o.sys_tech_object = tech_object( o.name,
+        o.n,
+        o.tech_type,
+        o.name_Lua..self.idx,
+        o.modes_count,
+        o.timers_count,
+        o.params_float_count,
+        o.runtime_params_float_count,
+        o.params_uint_count,
+        o.runtime_params_uint_count )
+	end
 
     --Переназначаем переменную для параметров, для удобного доступа.
     o.rt_par_float = o.sys_tech_object.rt_par_float
