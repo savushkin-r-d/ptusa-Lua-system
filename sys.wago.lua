@@ -290,7 +290,7 @@ system =
             local device_descr = devices[ i ]
 
             local wago_device = G_DEVICE_MANAGER():add_wago_device(
-                device_descr.dtype, device_descr.subtype, device_descr.number,
+                device_descr.dtype, device_descr.subtype, device_descr.name,
                 device_descr.descr )
 
             if wago_device ~= nil then --Устройство имеет модули Wago.

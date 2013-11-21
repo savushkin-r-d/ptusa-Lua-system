@@ -190,6 +190,8 @@ OBJECTS = {}
 
 init_tech_objects = function()
 
+    print( "init_tech_objects = function()" )
+
     process_dev = function( mode, step_n, action, devices )
         if devices ~= nil then
 
