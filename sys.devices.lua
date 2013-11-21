@@ -33,7 +33,7 @@ system.init_devices_properties = function( self )
         if device_descr.prop ~= nil then
 
             local device = G_DEVICE_MANAGER():get_device(
-                device_descr.dtype, device_descr.number )
+                devices[ i ].dtype, devices[ i ].name )
 
             if device ~= nil then
 
@@ -60,7 +60,7 @@ system.init_devices_params = function( self )
         local device_descr = devices[ i ]
 
         local device = G_DEVICE_MANAGER():get_device(
-            device_descr.dtype, device_descr.number )
+            devices[ i ].dtype, devices[ i ].name )
 
         if device ~= nil then
 
