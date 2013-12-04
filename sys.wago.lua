@@ -262,7 +262,7 @@ system =
             local node_info = get_modules_info( nodes[ i ].modules )
 
             G_WAGO_MANAGER():add_node( i - 1,
-                nodes[ i ].ntype, nodes[ i ].address,
+                nodes[ i ].ntype, nodes[ i ].n,
                 nodes[ i ].IP,
                 nodes[ i ].name or 'Axxx',
                 node_info.DO_count, node_info.DI_count,
