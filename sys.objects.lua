@@ -190,8 +190,6 @@ OBJECTS = {}
 
 init_tech_objects = function()
 
-    print( "init_tech_objects = function()" )
-
     process_dev = function( mode, step_n, action, devices )
         if devices ~= nil then
 
@@ -215,7 +213,7 @@ init_tech_objects = function()
                 for field, value in pairs( value ) do
                     assert( loadstring( "dev = __"..value ) )( )
                     if dev == nil then
-                        error( "Unknown device '"..value.."'." )
+                        error( "Unknown device '"..value.."' (__"..value..")." )
                     end
 
                     mode[ step_n ][ action ]:add_dev( dev, group, t )
@@ -301,7 +299,8 @@ init_tech_objects = function()
                     for field, value in pairs( value ) do
                         assert( loadstring( "dev = __"..value ) )( )
                         if dev == nil then
-                            error( "Unknown device '"..value.."'." )
+                            error( "Unknown device '"..value..
+                                "' (__"..value..")." )
                         end
                         mode[ -1 ][ step.A_DO_DI ]:add_dev( dev, group )
                     end
@@ -328,7 +327,8 @@ init_tech_objects = function()
                         for field, value in pairs( value ) do --Устройства.
                             assert( loadstring( "dev = __"..value ) )( )
                             if dev == nil then
-                                error( "Unknown device '"..value.."'." )
+                                error( "Unknown device '"..value..
+                                    "' (__"..value..")." )
                             end
 
                             mode[ -1 ][ step.A_WASH ]:add_dev( dev, group )
