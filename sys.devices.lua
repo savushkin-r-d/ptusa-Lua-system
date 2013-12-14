@@ -39,9 +39,10 @@ system.init_devices_properties = function( self )
 
                 for field, value in pairs( device_descr.prop ) do
                     if value ~= '' then
-                        assert( loadstring( "dev = _"..value ) )( )
+                        assert( loadstring( "dev = __"..value ) )( )
                         if dev == nil then
-                            error( "Unknown device '"..value.."'." )
+                            error( "Unknown device '"..
+                                value.."' (__"..value..")." )
                         end
 
                         device:set_property( field, dev )
