@@ -71,6 +71,8 @@ function project_tech_object:new( o )
     --Переназначаем переменную для параметров, для удобного доступа.
     o.rt_par_float = o.sys_tech_object.rt_par_float
     o.par_float = o.sys_tech_object.par_float
+    o.rt_par_uint = o.sys_tech_object.rt_par_uint
+    o.par_uint = o.sys_tech_object.par_uint
     o.timers = o.sys_tech_object.timers
 
     --Регистрация необходимых объектов.
@@ -255,9 +257,9 @@ init_tech_objects = function()
         --Создаем технологический объект.
         local object = project_tech_object:new
             {
-            name         = value.name,
-            n            = value.n,
-            tech_type    = value.tech_type,
+            name         = value.name or "ОБЪЕКТ",
+            n            = value.n or 1,
+            tech_type    = value.tech_type or 1,
             modes_count  = modes_count,
             timers_count = value.timers or 1,
 
@@ -271,15 +273,18 @@ init_tech_objects = function()
         if value.init_par_float ~= null then
             value.init_par_float( object )
         end
-        if value.init_rt_par_float ~= null then
-            value.init_rt_par_float( object )
+        if value.init_par_uint ~= null then
+            value.init_par_uint( object )
         end
+
+        local cooper_param_number = value.cooper_param_number or -1
 
         local modes_manager = object:get_modes_manager()
 
         for fields, value in ipairs( value.modes ) do
 
             local mode = modes_manager:add_mode( value.name )
+            mode:set_step_cooperate_time_par_n( cooper_param_number )
 
             process_dev(  mode, -1, step.A_ON,  value.opened_devices )
             process_dev(  mode, -1, step.A_OFF, value.closed_devices )
