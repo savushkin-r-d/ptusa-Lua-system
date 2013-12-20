@@ -276,6 +276,12 @@ init_tech_objects = function()
         if value.init_par_uint ~= null then
             value.init_par_uint( object )
         end
+        if value.init_rt_par_float ~= null then
+            value.init_rt_par_float( object )
+        end
+        if value.init_rt_par_uint ~= null then
+            value.init_rt_par_uint( object )
+        end
 
         local cooper_param_number = value.cooper_param_number or -1
 
