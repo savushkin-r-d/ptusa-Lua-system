@@ -367,7 +367,7 @@ init_tech_objects = function()
                     process_seat( mode, step_n, step.A_UPPER_SEATS_ON,
                         value.opened_upper_seat_v, i_mix_proof.ST_UPPER_SEAT )
                     process_seat( mode, step_n, step.A_LOWER_SEATS_ON,
-                        value.opened_upper_seat_v, i_mix_proof.ST_LOWER_SEAT )
+                        value.opened_lower_seat_v, i_mix_proof.ST_LOWER_SEAT )
                 end
             end
         end --for fields, value in ipairs( value.modes ) do
