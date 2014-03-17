@@ -158,6 +158,10 @@ function project_tech_object:set_err_msg( msg, mode, new_mode, msg_type )
     msg_type = msg_type or tech_object.ERR_CANT_ON
     return self.sys_tech_object:set_err_msg( msg, mode, new_mode, msg_type )
 end
+
+function project_tech_object:get_number()
+    return self.sys_tech_object:get_number()
+end
 -- ----------------------------------------------------------------------------
 --ѕредставление всех созданных пользовательских технологических объектов
 --(гребенки, танков) дл€ доступа из C++.
