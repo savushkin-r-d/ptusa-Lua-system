@@ -233,6 +233,7 @@ init_tech_objects = function()
     --  cmd = V95:set_cmd( "st", 0, 1 )
     --  cmd = OBJECT1:set_cmd( "CMD", 0, 1000 )
     SYSTEM = G_PAC_INFO() --Информаци о PAC, которую добавляем в Lua.
+    __SYSTEM = SYSTEM     --Информаци о PAC, которую добавляем в Lua.
 
     for fields, value in ipairs( init_tech_objects_modes() ) do
 
