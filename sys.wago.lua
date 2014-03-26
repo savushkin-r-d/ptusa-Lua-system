@@ -130,9 +130,9 @@ modules_info[ 655 ] =
     {
     comment           = '??',
     mtype             = 'AIAO',
-    AO_channels_count = 2,
-    AI_channels_count = 2,
-    channel_size      = 2
+    AO_channels_count = 1,
+    AI_channels_count = 1,
+    channel_size      = 40
     }
 modules_info[ 455 ] =
     {
