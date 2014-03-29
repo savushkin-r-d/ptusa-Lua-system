@@ -79,3 +79,29 @@ system.init_devices_params = function( self )
         end --if
     end --for i = 1, devices_count do
 end
+-- ----------------------------------------------------------------------------
+--»нициализаци€ рабочих параметров устройств.
+system.init_devices_rt_params = function( self )
+
+    local devices_count = #devices
+
+    for i = 1, devices_count do
+
+        local device_descr = devices[ i ]
+
+        local device = G_DEVICE_MANAGER():get_device(
+            devices[ i ].dtype, devices[ i ].name )
+
+        if device ~= nil then
+            local rt_par_count = 0
+            if device_descr.rt_par ~= nil then
+                rt_par_count = #device_descr.rt_par
+            end
+
+            for j = 1, rt_par_count do
+                device:set_rt_par( j, device_descr.rt_par[ j ] )
+            end
+
+        end --if
+    end --for i = 1, devices_count do
+end
