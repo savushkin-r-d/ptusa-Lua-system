@@ -244,10 +244,6 @@ system =
         return PAC_name_eng or 'new_project'
     end,
 
-    get_file_date = function( self )
-        return created
-    end,
-
     get_PAC_id = function( self )
         if PAC_id == nil then return 1 end
         return PAC_id
