@@ -7,7 +7,7 @@ modules_info[ 402 ] =
     comment           = 'Дискретный вход',
     mtype             = 'DI',
     DI_channels_count = 4,
-    channel_size      = 1 --Размер области отображения одного канала.
+    channel_size      = 1 --Размер области отображения одного канала, байты.
     }
 
 modules_info[ 1420 ] =
@@ -132,7 +132,7 @@ modules_info[ 655 ] =
     mtype             = 'AIAO',
     AO_channels_count = 1,
     AI_channels_count = 1,
-    channel_size      = 20
+    channel_size      = 40
     }
 modules_info[ 455 ] =
     {
