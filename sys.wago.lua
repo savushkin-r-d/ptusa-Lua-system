@@ -132,7 +132,7 @@ modules_info[ 655 ] =
     mtype             = 'AIAO',
     AO_channels_count = 1,
     AI_channels_count = 1,
-    channel_size      = 40
+    channel_size      = 20
     }
 modules_info[ 455 ] =
     {
