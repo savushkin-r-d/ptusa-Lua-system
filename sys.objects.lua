@@ -44,7 +44,7 @@ function project_tech_object:new( o )
     self.__index = self
 
     --Создаем системный объект.
-    if o.tech_type == 111 then -- 111 - модуль мойки
+    if o.tech_type == 111 or o.tech_type == 112 then -- 111 - модуль мойки 112 - модуль мойки с функцией очистки емкостей на моечной станции
     	o.sys_tech_object = cipline_tech_object( o.name,
         o.n,
         o.tech_type,
