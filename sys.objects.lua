@@ -45,7 +45,7 @@ function project_tech_object:new( o )
 
     --Создаем системный объект.
     if o.tech_type >= 111 and o.tech_type <= 120 then -- 111 - модуль мойки 112 - модуль мойки с функцией очистки емкостей на моечной станции 113 - Мойка молоковозов
-    	o.sys_tech_object = cipline_tech_object( o.name,
+        o.sys_tech_object = cipline_tech_object( o.name,
         o.n,
         o.tech_type,
         o.name_Lua..self.idx,
@@ -55,8 +55,8 @@ function project_tech_object:new( o )
         o.runtime_params_float_count,
         o.params_uint_count,
         o.runtime_params_uint_count )
-	else
-		o.sys_tech_object = tech_object( o.name,
+    else
+        o.sys_tech_object = tech_object( o.name,
         o.n,
         o.tech_type,
         o.name_Lua..self.idx,
@@ -66,7 +66,7 @@ function project_tech_object:new( o )
         o.runtime_params_float_count,
         o.params_uint_count,
         o.runtime_params_uint_count )
-	end
+    end
 
     --Переназначаем переменную для параметров, для удобного доступа.
     o.rt_par_float = o.sys_tech_object.rt_par_float
@@ -275,17 +275,43 @@ init_tech_objects = function()
             }
 
         --Параметры.
-        if value.init_par_float ~= null then
-            value.init_par_float( object )
+        object.PAR_FLOAT = {}
+        value.par_float = value.par_float or {}
+        for field, v in pairs( value.par_float ) do
+            --self.PAR_FLOAT.EXAMPLE_NAME_LUA = 1
+            object.PAR_FLOAT[ v.nameLua ] = field
+
+            --self.PAR_FLOAT[ 1 ] = 1.2
+            object.PAR_FLOAT[ field ] = v.value
         end
-        if value.init_par_uint ~= null then
-            value.init_par_uint( object )
+        --Инициализация параметров.
+        object.init_params_float = function ( self )
+            for field, value in ipairs( self.PAR_FLOAT ) do
+                self.par_float[ field ] = value
+            end
         end
-        if value.init_rt_par_float ~= null then
-            value.init_rt_par_float( object )
+
+        object.PAR_UINT = {}
+        value.par_uint = value.par_uint or {}
+        for field, v in pairs( value.par_uint ) do
+            object.PAR_UINT[ v.nameLua ] = field
+            object.PAR_UINT[ field ] = v.value
         end
-        if value.init_rt_par_uint ~= null then
-            value.init_rt_par_uint( object )
+        object.init_params_uint = function ( self )
+            for field, value in ipairs( self.PAR_UINT ) do
+                self.par_uint[ field ] = value
+            end
+        end
+
+        object.RT_PAR_FLOAT = {}
+        value.rt_par_float = value.rt_par_float or {}
+        for field, v in pairs( value.rt_par_float ) do
+            object.RT_PAR_FLOAT[ v.nameLua ] = field
+        end
+        object.RT_PAR_UINT = {}
+        value.rt_par_uint = value.rt_par_uint or {}
+        for field, v in pairs( value.rt_par_uint ) do
+            object.RT_PAR_UINT[ v.nameLua ] = field
         end
 
         local cooper_param_number = value.cooper_param_number or -1
