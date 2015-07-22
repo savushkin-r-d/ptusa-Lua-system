@@ -289,6 +289,8 @@ init_tech_objects = function()
             for field, value in ipairs( self.PAR_FLOAT ) do
                 self.par_float[ field ] = value
             end
+
+            self.par_float:save_all()
         end
 
         object.PAR_UINT = {}
@@ -301,6 +303,8 @@ init_tech_objects = function()
             for field, value in ipairs( self.PAR_UINT ) do
                 self.par_uint[ field ] = value
             end
+
+            self.par_uint:save_all()
         end
 
         object.RT_PAR_FLOAT = {}
