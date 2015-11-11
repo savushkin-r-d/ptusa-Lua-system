@@ -63,7 +63,7 @@ modules_info[ 450 ] =
     comment           = 'Температура RTDs',
     mtype             = 'AI',
     AI_channels_count = 4,
-    channel_size      = 4
+    channel_size      = 2
     }
 modules_info[ 466 ] =
     {
