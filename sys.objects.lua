@@ -1,4 +1,4 @@
---version = 1
+--version = 2
 
 -- ----------------------------------------------------------------------------
 --Добавление функциональности технологическому объекту на основе
@@ -133,6 +133,10 @@ function project_tech_object:get_mode( mode )
     return self.sys_tech_object:get_mode( mode )
 end
 
+function project_tech_object:get_operation_state( operation )
+    return self.sys_tech_object:get_operation_state( operation )
+end
+
 function project_tech_object:set_mode( mode, new_state )
     return self.sys_tech_object:set_mode( mode, new_state )
 end
@@ -196,24 +200,23 @@ OBJECTS = {}
 
 init_tech_objects = function()
 
-    process_dev = function( mode, step_n, action, devices )
-        if devices ~= nil then
+    process_dev_ex = function( mode, state, step_n, action, devices )
 
+        if devices ~= nil then
             for field, value in pairs( devices ) do
                 assert( loadstring( "dev = __"..value ) )( )
                 if dev == nil then
                     error( "Unknown device '"..value.."' (__"..value..")." )
                 end
 
-                mode[ step_n ][ action ]:add_dev( dev, 0 )
+                mode[ state ][ step_n ][ action ]:add_dev( dev, 0 )
             end
         end
     end
 
-    process_seat = function( mode, step_n, action, devices, t )
+    process_seat_ex = function( mode, state, step_n, action, devices, t )
 
         if devices ~= nil then
-
             local group = 0
             for field, value in pairs( devices ) do
                 for field, value in pairs( value ) do
@@ -222,7 +225,7 @@ init_tech_objects = function()
                         error( "Unknown device '"..value.."' (__"..value..")." )
                     end
 
-                    mode[ step_n ][ action ]:add_dev( dev, group, t )
+                    mode[ state ][ step_n ][ action ]:add_dev( dev, group, t )
                 end
                 group = group + 1
             end
@@ -327,82 +330,97 @@ init_tech_objects = function()
             local mode = modes_manager:add_mode( value.name )
             mode:set_step_cooperate_time_par_n( cooper_param_number )
 
-            process_dev(  mode, -1, step.A_ON,  value.opened_devices )
-            process_dev(  mode, -1, step.A_OFF, value.closed_devices )
+            --Описание с состояниями.
+            if ( value.states ~= nil ) then
+                for fields, value in ipairs( value.states ) do
+                    local state_n = fields
 
-            process_seat( mode, -1, step.A_UPPER_SEATS_ON,
-                value.opened_upper_seat_v, valve.V_UPPER_SEAT )
-            process_seat( mode, -1, step.A_LOWER_SEATS_ON,
-                value.opened_lower_seat_v, valve.V_LOWER_SEAT )
+                    process_dev_ex(  mode, state_n, -1, step.A_ON,
+                        value.opened_devices )
+                    process_dev_ex(  mode, state_n, -1, step.A_OFF,
+                        value.closed_devices )
 
-            process_dev(  mode, -1, step.A_REQUIRED_FB, value.required_FB )
+                    process_seat_ex( mode, state_n, -1, step.A_UPPER_SEATS_ON,
+                        value.opened_upper_seat_v, valve.V_UPPER_SEAT )
+                    process_seat_ex( mode, state_n, -1, step.A_LOWER_SEATS_ON,
+                        value.opened_lower_seat_v, valve.V_LOWER_SEAT )
 
-            --Группа устройств DI->DO.
-            if value.DI_DO ~= nil then
+                    process_dev_ex(  mode, state_n, -1, step.A_REQUIRED_FB,
+                        value.required_FB )
 
-                local group = 0
-                for field, value in pairs( value.DI_DO ) do
-                    for field, value in pairs( value ) do
-                        assert( loadstring( "dev = __"..value ) )( )
-                        if dev == nil then
-                            error( "Unknown device '"..value..
-                                "' (__"..value..")." )
-                        end
-                        mode[ -1 ][ step.A_DO_DI ]:add_dev( dev, group )
-                    end
+                    --Группа устройств DI->DO.
+                    if value.DI_DO ~= nil then
 
-                    group = group + 1
-                end
-            end
-
-            --Мойка.
-            if value.wash_data ~= nil then
-
-                for field, value in pairs( value.wash_data ) do
-
-                    local group = 2
-                    if value ~= nil then --Группа.
-                        if field == 'DI' then
-                            group = 0
-                        elseif field == 'DO' then
-                            group = 1
-                        elseif field == 'devices' then
-                            group = 2
-                        end
-
-                        for field, value in pairs( value ) do --Устройства.
-                            assert( loadstring( "dev = __"..value ) )( )
-                            if dev == nil then
-                                error( "Unknown device '"..value..
-                                    "' (__"..value..")." )
+                        local group = 0
+                        for field, value in pairs( value.DI_DO ) do
+                            for field, value in pairs( value ) do
+                                assert( loadstring( "dev = __"..value ) )( )
+                                if dev == nil then
+                                    error( "Unknown device '"..value..
+                                        "' (__"..value..")." )
+                                end
+                                mode[ state_n ][ -1 ][ step.A_DO_DI ]:add_dev(
+                                    dev, group )
                             end
 
-                            mode[ -1 ][ step.A_WASH ]:add_dev( dev, group )
+                            group = group + 1
                         end
                     end
-                    group = group + 1
-                end
-            end
 
-            --Шаги.
-            if value.steps ~= nil then
-                local steps_count = #value.steps
+                    --Мойка.
+                    if value.wash_data ~= nil then
 
-                for fields, value in ipairs( value.steps ) do
-                    local time_param_n = value.time_param_n or 0
-                    local next_step_n = value.next_step_n or 0
+                        for field, value in pairs( value.wash_data ) do
 
-                    mode:add_step( value.name, next_step_n, time_param_n )
+                            local group = 2
+                            if value ~= nil then --Группа.
+                                if field == 'DI' then
+                                    group = 0
+                                elseif field == 'DO' then
+                                    group = 1
+                                elseif field == 'devices' then
+                                    group = 2
+                                end
 
-                    local step_n = fields
+                                for field, value in pairs( value ) do --Устройства.
+                                    assert( loadstring( "dev = __"..value ) )( )
+                                    if dev == nil then
+                                        error( "Unknown device '"..value..
+                                            "' (__"..value..")." )
+                                    end
 
-                    process_dev(  mode, step_n, step.A_ON,  value.opened_devices )
-                    process_dev(  mode, step_n, step.A_OFF, value.closed_devices )
+                                    mode[ state_n ][ -1 ][ step.A_WASH ]:add_dev(
+                                        dev, group )
+                                end
+                            end
+                            group = group + 1
+                        end
+                    end
 
-                    process_seat( mode, step_n, step.A_UPPER_SEATS_ON,
-                        value.opened_upper_seat_v, valve.V_UPPER_SEAT )
-                    process_seat( mode, step_n, step.A_LOWER_SEATS_ON,
-                        value.opened_lower_seat_v, valve.V_LOWER_SEAT )
+                    --Шаги.
+                    if value.steps ~= nil then
+                        local steps_count = #value.steps
+
+                        for fields, value in ipairs( value.steps ) do
+                            local time_param_n = value.time_param_n or 0
+                            local next_step_n = value.next_step_n or 0
+
+                            mode:add_step( value.name, next_step_n, time_param_n,
+                                state_n )
+
+                            local step_n = fields
+
+                            process_dev_ex(  mode, state_n, step_n, step.A_ON,
+                                value.opened_devices )
+                            process_dev_ex(  mode, state_n, step_n, step.A_OFF,
+                                value.closed_devices )
+
+                            process_seat_ex( mode, state_n, step_n, step.A_UPPER_SEATS_ON,
+                                value.opened_upper_seat_v, valve.V_UPPER_SEAT )
+                            process_seat_ex( mode, state_n, step_n, step.A_LOWER_SEATS_ON,
+                                value.opened_lower_seat_v, valve.V_LOWER_SEAT )
+                        end
+                    end
                 end
             end
         end --for fields, value in ipairs( value.modes ) do
