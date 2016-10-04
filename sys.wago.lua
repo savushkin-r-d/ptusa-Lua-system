@@ -92,7 +92,7 @@ modules_info[ 512 ] =
     {
     comment           = '??',
     mtype             = 'DO',
-    DO_channels_count = 4
+    DO_channels_count = 2
     }
 modules_info[ 554 ] =
     {
