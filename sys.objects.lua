@@ -120,6 +120,18 @@ function project_tech_object:init_runtime_params( par )
 end
 
 function project_tech_object:is_check_mode( mode )
+    return 1
+end
+
+function project_tech_object:on_pause( mode )
+    return 0
+end
+
+function project_tech_object:on_stop( mode )
+    return 0
+end
+
+function project_tech_object:on_start( mode )
     return 0
 end
 -- ----------------------------------------------------------------------------
