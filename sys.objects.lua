@@ -99,8 +99,11 @@ function project_tech_object:init_mode( mode )
     return 0
 end
 
-function project_tech_object:evaluate( par )
+function project_tech_object:evaluate()
     return 0
+end
+
+function project_tech_object:init()
 end
 
 function project_tech_object:check_off_mode( mode )
@@ -440,4 +443,27 @@ init_tech_objects = function()
     end --for fields, value in ipairs( tech_objects ) do
 
     return 0
+end
+
+-- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------
+--Функция, выполняемая каждый цикл в PAC. Вызывется из управляющей программы
+--(из С++).
+function eval()
+    for idx, obj in pairs( object_manager.objects ) do
+        obj:evaluate()
+    end
+
+    if user_eval ~= nil then user_eval() end
+end
+-- ----------------------------------------------------------------------------
+--Функция, выполняемая один раз в PAC.  Вызывется из управляющей программы
+--(из С++).
+function init()
+    for idx, obj in pairs( object_manager.objects ) do
+        obj:init()
+
+        if obj.user_init ~= nil then obj:user_init() end
+    end
+
 end
