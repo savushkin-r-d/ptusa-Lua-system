@@ -466,4 +466,5 @@ function init()
         if obj.user_init ~= nil then obj:user_init() end
     end
 
+    if user_init ~= nil then user_init() end
 end
