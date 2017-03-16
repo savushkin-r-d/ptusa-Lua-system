@@ -395,6 +395,8 @@ init_tech_objects = function()
                                     group = 1
                                 elseif field == 'devices' then
                                     group = 2
+                                elseif field == 'rev_devices' then
+                                    group = 3
                                 end
 
                                 for field, value in pairs( value ) do --Устройства.
