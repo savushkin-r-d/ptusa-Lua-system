@@ -397,6 +397,14 @@ init_tech_objects = function()
                                     group = 2
                                 elseif field == 'rev_devices' then
                                     group = 3
+                                elseif field == 'pump_freq' then
+                                    local step_w = mode[ state_n ][ -1 ][ step.A_WASH ]
+                                    if step_w.add_param_idx ~= nil then
+                                        --Добавляем индекс параметра для задания
+                                        --частоты насосов.
+                                        step_w:add_param_idx( value[ 1 ] )
+                                    end
+                                    break
                                 end
 
                                 for field, value in pairs( value ) do --Устройства.
