@@ -402,9 +402,10 @@ init_tech_objects = function()
                                     if step_w.add_param_idx ~= nil then
                                         --Добавляем индекс параметра для задания
                                         --частоты насосов.
-                                        step_w:add_param_idx( value[ 1 ] )
+                                        step_w:add_param_idx( value )
                                     end
-                                    break
+
+                                    value = {}
                                 end
 
                                 for field, value in pairs( value ) do --Устройства.
