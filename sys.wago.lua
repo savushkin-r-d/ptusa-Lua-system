@@ -72,6 +72,13 @@ modules_info[ 466 ] =
     AI_channels_count = 2,
     channel_size      = 2
     }
+modules_info[ 496 ] =
+    {
+    comment           = 'Температура',
+    mtype             = 'AI',
+    AI_channels_count = 8,
+    channel_size      = 2
+    }
 modules_info[ 461 ] =
     {
     comment           = 'Текущий уровень',
@@ -81,61 +88,67 @@ modules_info[ 461 ] =
     }
 
 
---Спросить у Андрея характеристики модулей.
 modules_info[ 504 ] =
     {
-    comment           = '??',
+    comment           = 'Дискретный выход, 24 VDC, 0.5 A',
     mtype             = 'DO',
     DO_channels_count = 4
     }
 modules_info[ 512 ] =
     {
-    comment           = '??',
+    comment           = 'Дискретный выход, AC 250 V, 2.0 A, Relay',
     mtype             = 'DO',
     DO_channels_count = 2
     }
 modules_info[ 554 ] =
     {
-    comment           = '??',
+    comment           = 'Аналоговый вывод',
     mtype             = 'AO',
     AO_channels_count = 2,
     channel_size      = 2
     }
+modules_info[ 555 ] =
+    {
+    comment           = 'Аналоговый вывод',
+    mtype             = 'AO',
+    AO_channels_count = 4,
+    channel_size      = 2
+    }
 modules_info[ 613 ] =
     {
-    comment           = '??',
+    comment           = 'Internal System Supply Module 24 VDC',
     mtype             = 'STUB'
     }
 modules_info[ 612 ] =
     {
-    comment           = '??',
+    comment           = 'Power Supply; 0 … 230 V AC/DC',
     mtype             = 'STUB'
     }
 modules_info[ 602 ] =
     {
-    comment           = '??',
+    comment           = 'Power Supply; 24 VDC',
     mtype             = 'STUB'
     }
 modules_info[ 600 ] =
     {
-    comment           = '??',
+    comment           = 'End Module',
     mtype             = 'STUB'
     }
 modules_info[ 430 ] =
     {
-    comment           = '??',
+    comment           = '8-channel digital input; 24 VDC; 3 ms',
     mtype             = 'DI',
     DI_channels_count = 8
     }
 modules_info[ 530 ] =
     {
-    comment           = '??',
+    comment           = '8-channel digital output; 24 VDC; 0.5 A',
     mtype             = 'DO',
     DO_channels_count = 8
     }
 modules_info[ 655 ] =
     {
-    comment           = '??',
+    comment           = 'AS Interface Master',
     mtype             = 'AIAO',
     AO_channels_count = 20,
     AI_channels_count = 20,
@@ -143,31 +156,31 @@ modules_info[ 655 ] =
     }
 modules_info[ 455 ] =
     {
-    comment           = '??',
+    comment           = '4-channel analog input; Single-ended',
     mtype             = 'AI',
     AI_channels_count = 2,
     channel_size      = 2
     }
 modules_info[ 460 ] =
     {
-    comment           = '??',
+    comment           = '4-channel analog input; For Pt100/RTD sensors',
     mtype             = 'AI',
     AI_channels_count = 2,
     channel_size      = 2
     }
 modules_info[ 627 ] =
     {
-    comment           = '??',
+    comment           = 'Bus Extension End Module',
     mtype             = 'STUB'
     }
 modules_info[ 628 ] =
     {
-    comment           = '??',
+    comment           = 'Bus Extension Coupler Module',
     mtype             = 'STUB'
     }
 modules_info[ 491 ] =
     {
-    comment           = '??',
+    comment           = '1-channel analog input; Resistor bridges',
     mtype             = 'AI',
     AI_channels_count = 2,
     channel_size      = 2
