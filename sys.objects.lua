@@ -1,4 +1,4 @@
---version = 2
+--version = 3
 
 -- ----------------------------------------------------------------------------
 --Добавление функциональности технологическому объекту на основе
@@ -210,7 +210,7 @@ object_manager =
     }
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
---Инициализация режимов, параметров и т.д. объектов.
+--Инициализация операций, параметров и т.д. объектов.
 OBJECTS = {}
 
 init_tech_objects = function()
@@ -374,7 +374,26 @@ init_tech_objects = function()
                                     error( "Unknown device '"..value..
                                         "' (__"..value..")." )
                                 end
-                                mode[ state_n ][ -1 ][ step.A_DO_DI ]:add_dev(
+                                mode[ state_n ][ -1 ][ step.A_DI_DO ]:add_dev(
+                                    dev, group )
+                            end
+
+                            group = group + 1
+                        end
+                    end
+
+                    --Группа устройств AI->AO.
+                    if value.AI_AO ~= nil then
+
+                        local group = 0
+                        for field, value in pairs( value.AI_AO ) do
+                            for field, value in pairs( value ) do
+                                assert( loadstring( "dev = __"..value ) )( )
+                                if dev == nil then
+                                    error( "Unknown device '"..value..
+                                        "' (__"..value..")." )
+                                end
+                                mode[ state_n ][ -1 ][ step.A_AO_AI ]:add_dev(
                                     dev, group )
                             end
 
@@ -431,8 +450,8 @@ init_tech_objects = function()
                             local time_param_n = value.time_param_n or 0
                             local next_step_n = value.next_step_n or 0
 
-                            mode:add_step( value.name, next_step_n, time_param_n,
-                                state_n )
+                            mode:add_step( value.name, next_step_n,
+                                time_param_n, state_n )
 
                             local step_n = fields
 
@@ -441,9 +460,11 @@ init_tech_objects = function()
                             process_dev_ex(  mode, state_n, step_n, step.A_OFF,
                                 value.closed_devices )
 
-                            process_seat_ex( mode, state_n, step_n, step.A_UPPER_SEATS_ON,
+                            process_seat_ex( mode, state_n, step_n,
+                                step.A_UPPER_SEATS_ON,
                                 value.opened_upper_seat_v, valve.V_UPPER_SEAT )
-                            process_seat_ex( mode, state_n, step_n, step.A_LOWER_SEATS_ON,
+                            process_seat_ex( mode, state_n, step_n,
+                                step.A_LOWER_SEATS_ON,
                                 value.opened_lower_seat_v, valve.V_LOWER_SEAT )
                         end
                     end
