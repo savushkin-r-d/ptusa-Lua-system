@@ -393,7 +393,7 @@ init_tech_objects = function()
                                     error( "Unknown device '"..value..
                                         "' (__"..value..")." )
                                 end
-                                mode[ state_n ][ -1 ][ step.A_AO_AI ]:add_dev(
+                                mode[ state_n ][ -1 ][ step.A_AI_AO ]:add_dev(
                                     dev, group )
                             end
 
