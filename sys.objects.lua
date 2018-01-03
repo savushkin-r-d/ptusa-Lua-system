@@ -1,4 +1,4 @@
---version = 3
+--version = 4
 
 -- ----------------------------------------------------------------------------
 --Добавление функциональности технологическому объекту на основе
@@ -336,14 +336,11 @@ init_tech_objects = function()
             object.RT_PAR_UINT[ v.nameLua ] = field
         end
 
-        local cooper_param_number = value.cooper_param_number or -1
-
         local modes_manager = object:get_modes_manager()
 
         for fields, value in ipairs( value.modes ) do
 
             local mode = modes_manager:add_mode( value.name )
-            mode:set_step_cooperate_time_par_n( cooper_param_number )
 
             --Описание с состояниями.
             if ( value.states ~= nil ) then
