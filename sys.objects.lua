@@ -336,6 +336,7 @@ init_tech_objects = function()
             object.RT_PAR_UINT[ v.nameLua ] = field
         end
 
+        OBJECTS[ #OBJECTS + 1 ] = object
         local modes_manager = object:get_modes_manager()
 
         for fields, value in ipairs( value.modes ) do
