@@ -61,13 +61,13 @@ function  eval_gateways( mgates )
 					end
 				elseif gate.step == 1 then
 					if gate.docnt + gate.aocnt > 0 then
+						for mb_reg = 0, gate.docnt - 1, 1 do
+							gate.mclient:set_int2(mb_reg, gate.DO[mb_reg + 1]:get_state())
+						end
+						for mb_reg2 = 0, gate.aocnt - 1, 1 do
+							gate.mclient:set_float(gate.docnt + mb_reg2 * 2, gate.AO[mb_reg2 + 1]:get_value())
+						end
 						if gate.mclient:async_write_multiply_registers(0,gate.docnt + 2 * gate.aocnt) == 1 then
-							for mb_reg = 0, gate.docnt - 1, 1 do
-								gate.mclient:set_int2(mb_reg, gate.DO[mb_reg + 1]:get_state())
-							end
-							for mb_reg2 = 0, gate.aocnt - 1, 1 do
-								gate.mclient:set_float(gate.docnt + mb_reg2 * 2, gate.AO[mb_reg2 + 1]:get_value())
-							end
 							gate.step = 2
 							gate.timer = get_millisec()
 						end
@@ -128,8 +128,6 @@ function write_hr( n, start_idx, count, buff )
             aocnt = #SDAO
         end
         for coil_n = start_idx, start_idx + count, 1 do
-            res[ #res + 1 ] = 0 --Добавляем новый элемент.
-            res[ #res + 1 ] = 0
             if coil_n < docnt then
                 SDDO[coil_n + 1]:set_state(ModbusServ:UnpackInt16(buff, coil_n * 2))
             elseif coil_n >= docnt and coil_n < docnt + aocnt then
