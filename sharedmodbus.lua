@@ -91,6 +91,7 @@ function read_hr( n, start_idx, count )
         local SDAI = shared_devices[n].AI
         local SDDI = shared_devices[n].DI
         local dicnt = 0
+        local coil_n = 0
         if SDDI ~= nil then
             dicnt = #SDDI
         end
@@ -104,9 +105,11 @@ function read_hr( n, start_idx, count )
             if coil_n < dicnt then
                 res[#res - 1] = 1
                 res[#res] = SDDI[coil_n + 1]:get_state()
-            elseif coil_n >= dicnt and coil_n < dicnt + aicnt then
-                res[#res - 1] = 2
-                res[#res] = SDAI[coil_n + 1]:get_value()  
+            elseif coil_n >= dicnt and coil_n < dicnt + aicnt * 2 then
+            	if (coil_n - dicnt) % 2 == 0 then
+                	res[#res - 1] = 2
+                	res[#res] = SDAI[(coil_n - dicnt) / 2 + 1]:get_value()
+                end  
             end
         end
     end
@@ -115,11 +118,11 @@ function read_hr( n, start_idx, count )
 end
 
 function write_hr( n, start_idx, count, buff )
-
     if shared_devices[n] ~= nil then
         local SDAO = shared_devices[n].AO
         local SDDO = shared_devices[n].DO
         local docnt = 0
+        local coil_n = 0
         if SDDO ~= nil then
             docnt = #SDDO
         end
@@ -127,13 +130,16 @@ function write_hr( n, start_idx, count, buff )
         if SDAO ~= nil then     
             aocnt = #SDAO
         end
-        for coil_n = start_idx, start_idx + count, 1 do
-            if coil_n < docnt then
-                SDDO[coil_n + 1]:set_state(ModbusServ:UnpackInt16(buff, coil_n * 2))
-            elseif coil_n >= docnt and coil_n < docnt + aocnt then
-                SDAO[coil_n + 1]:set_value(ModbusServ:UnpackFloat(buff, coil_n * 2))  
-            end
+        if docnt > 0 then
+        	for coil_n = 0, docnt - 1, 1 do
+        		SDDO[coil_n + 1]:set_state(ModbusServ:UnpackInt16(buff, coil_n * 2))
+        	end
         end
+        if aocnt > 0 then
+        	for coil_n = 0, aocnt - 1, 1 do
+        		SDAO[coil_n + 1]:set_value(ModbusServ:UnpackFloat(buff, docnt * 2 + coil_n * 4))
+        	end
+        end  
     end
 
 end
