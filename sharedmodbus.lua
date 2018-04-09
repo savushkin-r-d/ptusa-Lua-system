@@ -18,6 +18,8 @@ function init_gateways( mgates )
 			gate.docnt = 0
 			gate.aicnt = 0
 			gate.aocnt = 0
+			gate.error = false
+			gate.lastsuccessquery = get_millisec()
 			if gate.DO ~= nil then
 				gate.docnt = #gate.DO
 			end
@@ -55,9 +57,17 @@ function  eval_gateways( mgates )
 								gate.AI[mb_reg2 + 1]:set_value(gate.mclient:get_float(gate.dicnt + mb_reg2 *2))
 							end
 							gate.step = 1
+							gate.error = false
+							gate.lastsuccessquery = get_millisec()
+						else
+							if get_delta_millisec(gate.lastsuccessquery) > 7000 then
+								gate.error = true
+							end
 						end
 					else
 						gate.step = 1
+						gate.error = false
+						gate.lastsuccessquery = get_millisec()
 					end
 				elseif gate.step == 1 then
 					if gate.docnt + gate.aocnt > 0 then
@@ -69,15 +79,25 @@ function  eval_gateways( mgates )
 						end
 						if gate.mclient:async_write_multiply_registers(0,gate.docnt + 2 * gate.aocnt) == 1 then
 							gate.step = 2
+							gate.error = false
+							gate.lastsuccessquery = get_millisec()
 							gate.timer = get_millisec()
+						else
+							if get_delta_millisec(gate.lastsuccessquery) > 7000 then
+								gate.error = true
+							end
 						end
 					else
 						gate.step = 2
+						gate.error = false
+						gate.lastsuccessquery = get_millisec()
 						gate.timer = get_millisec()
 					end
 				elseif gate.step == 2 then
 					if get_delta_millisec(gate.timer) > gate.cycletime then
 						gate.step = 0
+						gate.error = false
+						gate.lastsuccessquery = get_millisec()
 					end
 				end
 			end
