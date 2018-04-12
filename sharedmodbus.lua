@@ -163,3 +163,69 @@ function write_hr( n, start_idx, count, buff )
     end
 
 end
+
+--Для обмена между проектами парами DI-DO AI-AO
+function read_hr2( n, start_idx, count )
+    local res = {}
+    if shared_devices[n] ~= nil then
+        local SDAO = shared_devices[n].AO
+        local SDDO = shared_devices[n].DO
+        local docnt = 0
+        local coil_n = 0
+        if SDDO ~= nil then
+            docnt = #SDDO
+        end
+        local aocnt = 0
+        if SDAO ~= nil then     
+            aocnt = #SDAO
+        end
+        for coil_n = start_idx, start_idx + count, 1 do
+            res[ #res + 1 ] = 0 --Добавляем новый элемент.
+            res[ #res + 1 ] = 0
+            if coil_n < docnt then
+                res[#res - 1] = 1
+                res[#res] = SDDO[coil_n + 1]:get_state()
+            elseif coil_n >= docnt and coil_n < docnt + aocnt * 2 then
+            	if (coil_n - docnt) % 2 == 0 then
+                	res[#res - 1] = 2
+                	res[#res] = SDAO[(coil_n - docnt) / 2 + 1]:get_value()
+                end  
+            end
+        end
+    end
+
+    return res
+end
+
+function write_hr2( n, start_idx, count, buff )
+	local mb_new_state
+    if shared_devices[n] ~= nil then
+        local SDAI = shared_devices[n].AI
+        local SDDI = shared_devices[n].DI
+        local dicnt = 0
+        local coil_n = 0
+        if SDDI ~= nil then
+            dicnt = #SDDI
+        end
+        local aicnt = 0
+        if SDAI ~= nil then     
+            aicnt = #SDAI
+        end
+        if dicnt > 0 then
+        	for coil_n = 0, dicnt - 1, 1 do
+        		mb_new_state = ModbusServ:UnpackInt16(buff, coil_n * 2)
+        		if mb_new_state == 0 then
+					SDDI[coil_n + 1]:off()
+				else
+					SDDI[coil_n + 1]:on()
+				end
+        	end
+        end
+        if aicnt > 0 then
+        	for coil_n = 0, aicnt - 1, 1 do
+        		SDAI[coil_n + 1]:set_value(ModbusServ:UnpackFloat(buff, dicnt * 2 + coil_n * 4))
+        	end
+        end  
+    end
+
+end
