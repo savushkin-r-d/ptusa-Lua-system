@@ -221,7 +221,8 @@ init_tech_objects = function()
             for field, value in pairs( devices ) do
                 assert( loadstring( "dev = __"..value ) )( )
                 if dev == nil then
-                    error( "Unknown device '"..value.."' (__"..value..")." )
+                    print( "Error: unknown device '"..value.."' (__"..value..")." )
+                    dev = DEVICE( -1 )
                 end
 
                 mode[ state ][ step_n ][ action ]:add_dev( dev, 0 )
@@ -237,7 +238,8 @@ init_tech_objects = function()
                 for field, value in pairs( value ) do
                     assert( loadstring( "dev = __"..value ) )( )
                     if dev == nil then
-                        error( "Unknown device '"..value.."' (__"..value..")." )
+                        print( "Error: unknown device '"..value.."' (__"..value..")." )
+                        dev = DEVICE( -1 )
                     end
 
                     mode[ state ][ step_n ][ action ]:add_dev( dev, group, t )
@@ -369,8 +371,9 @@ init_tech_objects = function()
                             for field, value in pairs( value ) do
                                 assert( loadstring( "dev = __"..value ) )( )
                                 if dev == nil then
-                                    error( "Unknown device '"..value..
+                                    print( "Error: unknown device '"..value..
                                         "' (__"..value..")." )
+                                    dev = DEVICE( -1 )
                                 end
                                 mode[ state_n ][ -1 ][ step.A_DI_DO ]:add_dev(
                                     dev, group )
@@ -388,8 +391,9 @@ init_tech_objects = function()
                             for field, value in pairs( value ) do
                                 assert( loadstring( "dev = __"..value ) )( )
                                 if dev == nil then
-                                    error( "Unknown device '"..value..
+                                    print( "Error: unknown device '"..value..
                                         "' (__"..value..")." )
+                                    dev = DEVICE( -1 )
                                 end
                                 mode[ state_n ][ -1 ][ step.A_AI_AO ]:add_dev(
                                     dev, group )
@@ -428,8 +432,9 @@ init_tech_objects = function()
                                 for field, value in pairs( value ) do --Устройства.
                                     assert( loadstring( "dev = __"..value ) )( )
                                     if dev == nil then
-                                        error( "Unknown device '"..value..
+                                        print( "Error: unknown device '"..value..
                                             "' (__"..value..")." )
+                                        dev = DEVICE( -1 )
                                     end
 
                                     mode[ state_n ][ -1 ][ step.A_WASH ]:add_dev(
