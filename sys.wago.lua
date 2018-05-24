@@ -306,6 +306,7 @@ system =
 
     create_devices = function( self )
 
+        G_DEVICE_MANAGER()
         local devices_count = #devices
 
         for i = 1, devices_count do
