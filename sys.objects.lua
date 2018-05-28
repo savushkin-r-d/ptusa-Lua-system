@@ -181,6 +181,14 @@ end
 function project_tech_object:get_number()
     return self.sys_tech_object:get_number()
 end
+
+function project_tech_object:check_operation_on( operation_n )
+    if self.sys_tech_object.check_operation_on then
+        return self.sys_tech_object:check_operation_on( operation_n )
+    else
+        return 0
+    end
+end
 -- ----------------------------------------------------------------------------
 --ѕредставление всех созданных пользовательских технологических объектов
 --(гребенки, танков) дл€ доступа из C++.
