@@ -81,6 +81,8 @@ function project_tech_object:new( o )
 
     object_manager:add_object( o )
 
+    o.g_idx = self.idx
+
     self.idx = self.idx + 1
     return o
 end
