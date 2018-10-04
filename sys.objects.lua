@@ -1,4 +1,4 @@
---version = 4
+--version = 5
 
 -- ----------------------------------------------------------------------------
 --Добавление функциональности технологическому объекту на основе
@@ -362,6 +362,8 @@ init_tech_objects = function()
 
                     process_dev_ex(  mode, state_n, -1, step.A_ON,
                         value.opened_devices )
+					process_dev_ex(  mode, state_n, -1, step.A_ON_REVERSE,
+                        value.opened_reverse_devices )
                     process_dev_ex(  mode, state_n, -1, step.A_OFF,
                         value.closed_devices )
 
@@ -470,6 +472,8 @@ init_tech_objects = function()
 
                             process_dev_ex(  mode, state_n, step_n, step.A_ON,
                                 value.opened_devices )
+							process_dev_ex(  mode, state_n, step_n, step.A_ON_REVERSE,
+								value.opened_reverse_devices )
                             process_dev_ex(  mode, state_n, step_n, step.A_OFF,
                                 value.closed_devices )
 
