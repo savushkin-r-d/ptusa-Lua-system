@@ -189,9 +189,9 @@ modules_info[ 657 ] =
     {
     comment           = 'IO-Link Master',
     mtype             = 'AIAO',
-    AO_channels_count = 1,
-    AI_channels_count = 1,
-    channel_size      = 24
+    AO_channels_count = 12,
+    AI_channels_count = 12,
+    channel_size      = 2
     }
 
 function get_modules_info ( modules )
