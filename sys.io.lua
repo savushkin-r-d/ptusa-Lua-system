@@ -203,8 +203,6 @@ modules_info[ 1027843 ] =
     AO_channels_count = 32,
     AI_channels_count = 32,
     channel_size      = 2,
-
-    vendor            = 1,
     }
 
 
@@ -362,13 +360,13 @@ system =
                 io_device:init( DO_channels, DI_channels,
                     AO_channels, AI_channels )
 
-                local io_vendor = 0 -- WAGO
+                local io_vendor = io_device.WAGO
                 for j = 1, DI_channels do
                     io_device:init_channel( 1, j - 1,
                         device_descr.DI[ j ].node, device_descr.DI[ j ].offset )
 
                     if nodes [ device_descr.DI[ j ].node + 1 ].ntype >= 200 then
-                        io_vendor = 1 -- PHOENIX
+                        io_vendor = io_device.PHOENIX
                     end
                 end
                 for j = 1, DO_channels do
@@ -376,7 +374,7 @@ system =
                         device_descr.DO[ j ].node, device_descr.DO[ j ].offset )
 
                     if nodes [ device_descr.DO[ j ].node + 1 ].ntype >= 200 then
-                        io_vendor = 1 -- PHOENIX
+                        io_vendor = io_device.PHOENIX
                     end
                 end
                 for j = 1, AI_channels do
@@ -384,7 +382,7 @@ system =
                         device_descr.AI[ j ].node, device_descr.AI[ j ].offset )
 
                     if nodes [ device_descr.AI[ j ].node + 1 ].ntype >= 200 then
-                        io_vendor = 1 -- PHOENIX
+                        io_vendor = io_device.PHOENIX
                     end
                 end
                 for j = 1, AO_channels do
@@ -392,7 +390,7 @@ system =
                         device_descr.AO[ j ].node, device_descr.AO[ j ].offset )
 
                     if nodes [ device_descr.AO[ j ].node + 1 ].ntype >= 200 then
-                        io_vendor = 1 -- PHOENIX
+                        io_vendor = io_device.PHOENIX
                     end
                 end
 
