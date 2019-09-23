@@ -202,6 +202,9 @@ modules_info[ 1027843 ] =
     mtype             = 'AIAO',
     AO_channels_count = 32,
     AI_channels_count = 32,
+    DO_channels_count = 512,
+    DI_channels_count = 512,
+
     channel_size      = 2,
     }
 
