@@ -208,6 +208,18 @@ modules_info[ 1027843 ] =
     channel_size      = 2,
     }
 
+modules_info[ 2688022 ] =
+    {
+    comment           = 'DI 16/4',
+    mtype             = 'AIAO',
+    AO_channels_count = 1,
+    AI_channels_count = 1,
+    DO_channels_count = 16,
+    DI_channels_count = 16,
+
+    channel_size      = 2,
+    }
+
 
 function get_modules_info ( modules )
     local DO_cnt      = 0
