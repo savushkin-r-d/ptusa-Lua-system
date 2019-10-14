@@ -220,6 +220,90 @@ modules_info[ 2688022 ] =
     channel_size      = 2,
     }
 
+modules_info[ 2701916 ] =
+    {
+    comment           = 'DI 8/1 DO 8/1 1H',
+    mtype             = 'AIAO',
+    AO_channels_count = 1,
+    AI_channels_count = 1,
+    DO_channels_count = 16,
+    DI_channels_count = 16,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 2702071 ] =
+    {
+    comment           = 'DI 8/3 DO 8/3 2H',
+    mtype             = 'AIAO',
+    AO_channels_count = 1,
+    AI_channels_count = 1,
+    DO_channels_count = 16,
+    DI_channels_count = 16,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 2688491 ] =
+    {
+    comment           = 'AI4 I 1H',
+    mtype             = 'AIAO',
+    AO_channels_count = 4,
+    AI_channels_count = 4,
+    DO_channels_count = 64,
+    DI_channels_count = 64,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 2688527 ] =
+    {
+    comment           = 'AO4 1H',
+    mtype             = 'AIAO',
+    AO_channels_count = 4,
+    AI_channels_count = 4,
+    DO_channels_count = 64,
+    DI_channels_count = 64,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 2688048 ] =
+    {
+    comment           = 'DO16/3 2F',
+    mtype             = 'AIAO',
+    AO_channels_count = 1,
+    AI_channels_count = 1,
+    DO_channels_count = 16,
+    DI_channels_count = 16,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 2688556 ] =
+    {
+    comment           = 'RTD4 1H',
+    mtype             = 'AIAO',
+    AO_channels_count = 4,
+    AI_channels_count = 4,
+    DO_channels_count = 64,
+    DI_channels_count = 64,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 2688093 ] =
+    {
+    comment           = 'CNT2 INC2 1F',
+    mtype             = 'AIAO',
+    AO_channels_count = 14,
+    AI_channels_count = 14,
+    DO_channels_count = 224,
+    DI_channels_count = 224,
+
+    channel_size      = 2,
+    }
+
 
 function get_modules_info ( modules )
     local DO_cnt      = 0
