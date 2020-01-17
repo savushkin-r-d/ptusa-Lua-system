@@ -460,33 +460,79 @@ system =
                     AO_channels, AI_channels )
 
                 local io_vendor = io_device.WAGO
+                local module_offset
+                local logical_port
                 for j = 1, DI_channels do
+                    if device_descr.DI[ j ].module_offset then
+                        module_offset = device_descr.DI[ j ].module_offset
+                    else
+                        module_offset = -1
+                    end
+                    if device_descr.DI[ j ].logical_port then
+                        logical_port = device_descr.DI[ j ].logical_port
+                    else
+                        logical_port = -1
+                    end
                     io_device:init_channel( 1, j - 1,
-                        device_descr.DI[ j ].node, device_descr.DI[ j ].offset )
+                        device_descr.DI[ j ].node, device_descr.DI[ j ].offset,
+                        module_offset, logical_port )
 
                     if nodes [ device_descr.DI[ j ].node + 1 ].ntype >= 200 then
                         io_vendor = io_device.PHOENIX
                     end
                 end
                 for j = 1, DO_channels do
+                    if device_descr.DO[ j ].module_offset then
+                        module_offset = device_descr.DO[ j ].module_offset
+                    else
+                        module_offset = -1
+                    end
+                    if device_descr.DO[ j ].logical_port then
+                        logical_port = device_descr.DO[ j ].logical_port
+                    else
+                        logical_port = -1
+                    end
                     io_device:init_channel( 2, j - 1,
-                        device_descr.DO[ j ].node, device_descr.DO[ j ].offset )
+                        device_descr.DO[ j ].node, device_descr.DO[ j ].offset,
+                        module_offset, logical_port )
 
                     if nodes [ device_descr.DO[ j ].node + 1 ].ntype >= 200 then
                         io_vendor = io_device.PHOENIX
                     end
                 end
                 for j = 1, AI_channels do
+                    if device_descr.AI[ j ].module_offset then
+                        module_offset = device_descr.AI[ j ].module_offset
+                    else
+                        module_offset = -1
+                    end
+                    if device_descr.AI[ j ].logical_port then
+                        logical_port = device_descr.AI[ j ].logical_port
+                    else
+                        logical_port = -1
+                    end
                     io_device:init_channel( 3, j - 1,
-                        device_descr.AI[ j ].node, device_descr.AI[ j ].offset )
+                        device_descr.AI[ j ].node, device_descr.AI[ j ].offset,
+                        module_offset, logical_port )
 
                     if nodes [ device_descr.AI[ j ].node + 1 ].ntype >= 200 then
                         io_vendor = io_device.PHOENIX
                     end
                 end
                 for j = 1, AO_channels do
+                    if device_descr.AO[ j ].module_offset then
+                        module_offset = device_descr.AO[ j ].module_offset
+                    else
+                        module_offset = -1
+                    end
+                    if device_descr.AO[ j ].logical_port then
+                        logical_port = device_descr.AO[ j ].logical_port
+                    else
+                        logical_port = -1
+                    end
                     io_device:init_channel( 4, j - 1,
-                        device_descr.AO[ j ].node, device_descr.AO[ j ].offset )
+                        device_descr.AO[ j ].node, device_descr.AO[ j ].offset,
+                        module_offset, logical_port )
 
                     if nodes [ device_descr.AO[ j ].node + 1 ].ntype >= 200 then
                         io_vendor = io_device.PHOENIX
