@@ -225,10 +225,10 @@ OBJECTS = {}
 
 init_tech_objects = function()
 
-    process_dev_ex = function( mode, state, step_n, action, devices )
+    local process_dev_ex = function( mode, state, step_n, action, devices )
 
         if devices ~= nil then
-            for field, value in pairs( devices ) do
+            for _, value in pairs( devices ) do
                 assert( loadstring( "dev = __"..value ) )( )
                 if dev == nil then
                     print( "Error: unknown device '"..value.."' (__"..value..")." )
@@ -240,12 +240,12 @@ init_tech_objects = function()
         end
     end
 
-    process_seat_ex = function( mode, state, step_n, action, devices, t )
+    local process_seat_ex = function( mode, state, step_n, action, devices, t )
 
         if devices ~= nil then
             local group = 0
-            for field, value in pairs( devices ) do
-                for field, value in pairs( value ) do
+            for _, value in pairs( devices ) do
+                for _, value in pairs( value ) do
                     assert( loadstring( "dev = __"..value ) )( )
                     if dev == nil then
                         print( "Error: unknown device '"..value.."' (__"..value..")." )
@@ -259,44 +259,143 @@ init_tech_objects = function()
         end
     end
 
+    local process_step = function( mode, state_n, step_n, value )
+
+        process_dev_ex(  mode, state_n, step_n, step.A_ON,
+            value.opened_devices )
+        process_dev_ex(  mode, state_n, step_n, step.A_ON_REVERSE,
+            value.opened_reverse_devices )
+        process_dev_ex(  mode, state_n, step_n, step.A_OFF,
+            value.closed_devices )
+
+        process_seat_ex( mode, state_n, step_n, step.A_UPPER_SEATS_ON,
+            value.opened_upper_seat_v, valve.V_UPPER_SEAT )
+        process_seat_ex( mode, state_n, step_n, step.A_LOWER_SEATS_ON,
+            value.opened_lower_seat_v, valve.V_LOWER_SEAT )
+
+        process_dev_ex(  mode, state_n, step_n, step.A_REQUIRED_FB,
+            value.required_FB )
+
+        --Группа устройств DI->DO.
+        if value.DI_DO ~= nil then
+
+            local group = 0
+            for _, value in pairs( value.DI_DO ) do
+                for _, value in pairs( value ) do
+                    assert( loadstring( "dev = __"..value ) )( )
+                    if dev == nil then
+                        print( "Error: unknown device '"..value..
+                            "' (__"..value..")." )
+                        dev = DEVICE( -1 )
+                    end
+                    mode[ state_n ][ step_n ][ step.A_DI_DO ]:add_dev(
+                        dev, group )
+                end
+
+                group = group + 1
+            end
+        end
+
+        --Группа устройств AI->AO.
+        if value.AI_AO ~= nil then
+
+            local group = 0
+            for _, value in pairs( value.AI_AO ) do
+                for _, value in pairs( value ) do
+                    assert( loadstring( "dev = __"..value ) )( )
+                    if dev == nil then
+                        print( "Error: unknown device '"..value..
+                            "' (__"..value..")." )
+                        dev = DEVICE( -1 )
+                    end
+                    mode[ state_n ][ step_n ][ step.A_AI_AO ]:add_dev(
+                        dev, group )
+                end
+
+                group = group + 1
+            end
+        end
+
+        --Мойка.
+        if value.wash_data ~= nil then
+
+            for field, value in pairs( value.wash_data ) do
+
+                local group = 2
+                if value ~= nil then --Группа.
+                    if field == 'DI' then
+                        group = 0
+                    elseif field == 'DO' then
+                        group = 1
+                    elseif field == 'devices' then
+                        group = 2
+                    elseif field == 'rev_devices' then
+                        group = 3
+                    elseif field == 'pump_freq' then
+                        local step_w = mode[ state_n ][ step_n ][ step.A_WASH ]
+                        if step_w.add_param_idx ~= nil then
+                            --Добавляем индекс параметра для задания
+                            --частоты насосов.
+                            step_w:add_param_idx( value )
+                        end
+
+                        value = {}
+                    end
+
+                    for _, value in pairs( value ) do --Устройства.
+                        assert( loadstring( "dev = __"..value ) )( )
+                        if dev == nil then
+                            print( "Error: unknown device '"..value..
+                                "' (__"..value..")." )
+                            dev = DEVICE( -1 )
+                        end
+
+                        mode[ state_n ][ step_n ][ step.A_WASH ]:add_dev(
+                            dev, group )
+                    end
+                end
+            end
+        end
+    end
+
     --Пример команды от сервера в виде скрипта:
     --  cmd = V95:set_cmd( "st", 0, 1 )
     --  cmd = OBJECT1:set_cmd( "CMD", 0, 1000 )
     SYSTEM = G_PAC_INFO() --Информаци о PAC, которую добавляем в Lua.
     __SYSTEM = SYSTEM     --Информаци о PAC, которую добавляем в Lua.
 
-    for fields, value in ipairs( init_tech_objects_modes() ) do
+    for _, obj_info in ipairs( init_tech_objects_modes() ) do
 
         local modes_count = 0
-        if ( value.modes ~= nil ) then
-            modes_count = #value.modes
+        if ( obj_info.modes ~= nil ) then
+            modes_count = #obj_info.modes
         end
 
         local par_float_count = 1
-        if type( value.par_float ) == "table" then
-            par_float_count = #value.par_float
+        if type( obj_info.par_float ) == "table" then
+            par_float_count = #obj_info.par_float
         end
         local rt_par_float_count = 1
-        if type( value.rt_par_float ) == "table" then
-            rt_par_float_count = #value.rt_par_float
+        if type( obj_info.rt_par_float ) == "table" then
+            rt_par_float_count = #obj_info.rt_par_float
         end
         local par_uint_count = 1
-        if type( value.par_uint ) == "table" then
-            par_uint_count = #value.par_uint
+        if type( obj_info.par_uint ) == "table" then
+            par_uint_count = #obj_info.par_uint
         end
         local rt_par_uint_count = 1
-        if type( value.rt_par_uint ) == "table" then
-            rt_par_uint_count = #value.rt_par_uint
+        if type( obj_info.rt_par_uint ) == "table" then
+            rt_par_uint_count = #obj_info.rt_par_uint
         end
 
         --Создаем технологический объект.
         local object = project_tech_object:new
             {
-            name         = value.name or "ОБЪЕКТ",
-            n            = value.n or 1,
-            tech_type    = value.tech_type or 1,
+            name         = obj_info.name or "ОБЪЕКТ",
+            n            = obj_info.n or 1,
+            tech_type    = obj_info.tech_type or 1,
             modes_count  = modes_count,
-            timers_count = value.timers or 1,
+            timers_count = obj_info.timers or 1,
 
             params_float_count         = par_float_count,
             runtime_params_float_count = rt_par_float_count,
@@ -306,190 +405,79 @@ init_tech_objects = function()
 
         --Параметры.
         object.PAR_FLOAT = {}
-        value.par_float = value.par_float or {}
-        for field, v in pairs( value.par_float ) do
+        obj_info.par_float = obj_info.par_float or {}
+        for field, v in pairs( obj_info.par_float ) do
             --self.PAR_FLOAT.EXAMPLE_NAME_LUA = 1
             object.PAR_FLOAT[ v.nameLua ] = field
 
             --self.PAR_FLOAT[ 1 ] = 1.2
-            object.PAR_FLOAT[ field ] = v.value
+            object.PAR_FLOAT[ field ] = v.obj_info
         end
         --Инициализация параметров.
         object.init_params_float = function ( self )
-            for field, value in ipairs( self.PAR_FLOAT ) do
-                self.par_float[ field ] = value
+            for field, val in ipairs( self.PAR_FLOAT ) do
+                self.par_float[ field ] = val
             end
 
             self.par_float:save_all()
         end
 
         object.PAR_UINT = {}
-        value.par_uint = value.par_uint or {}
-        for field, v in pairs( value.par_uint ) do
+        obj_info.par_uint = obj_info.par_uint or {}
+        for field, v in pairs( obj_info.par_uint ) do
             object.PAR_UINT[ v.nameLua ] = field
-            object.PAR_UINT[ field ] = v.value
+            object.PAR_UINT[ field ] = v.obj_info
         end
         object.init_params_uint = function ( self )
-            for field, value in ipairs( self.PAR_UINT ) do
-                self.par_uint[ field ] = value
+            for field, val in ipairs( self.PAR_UINT ) do
+                self.par_uint[ field ] = val
             end
 
             self.par_uint:save_all()
         end
 
         object.RT_PAR_FLOAT = {}
-        value.rt_par_float = value.rt_par_float or {}
-        for field, v in pairs( value.rt_par_float ) do
+        obj_info.rt_par_float = obj_info.rt_par_float or {}
+        for field, v in pairs( obj_info.rt_par_float ) do
             object.RT_PAR_FLOAT[ v.nameLua ] = field
         end
         object.RT_PAR_UINT = {}
-        value.rt_par_uint = value.rt_par_uint or {}
-        for field, v in pairs( value.rt_par_uint ) do
+        obj_info.rt_par_uint = obj_info.rt_par_uint or {}
+        for field, v in pairs( obj_info.rt_par_uint ) do
             object.RT_PAR_UINT[ v.nameLua ] = field
         end
 
         OBJECTS[ #OBJECTS + 1 ] = object
         local modes_manager = object:get_modes_manager()
 
-        for fields, value in ipairs( value.modes ) do
+        for _, oper_info in ipairs( obj_info.modes ) do
 
-            local mode = modes_manager:add_mode( value.name )
+            local operation = modes_manager:add_mode( oper_info.name )
 
             --Описание с состояниями.
-            if ( value.states ~= nil ) then
-                for fields, value in ipairs( value.states ) do
-                    local state_n = fields
+            if oper_info.states ~= nil then
+                for state_n, state_info in ipairs( oper_info.states ) do
 
-                    process_dev_ex(  mode, state_n, -1, step.A_ON,
-                        value.opened_devices )
-					process_dev_ex(  mode, state_n, -1, step.A_ON_REVERSE,
-                        value.opened_reverse_devices )
-                    process_dev_ex(  mode, state_n, -1, step.A_OFF,
-                        value.closed_devices )
-
-                    process_seat_ex( mode, state_n, -1, step.A_UPPER_SEATS_ON,
-                        value.opened_upper_seat_v, valve.V_UPPER_SEAT )
-                    process_seat_ex( mode, state_n, -1, step.A_LOWER_SEATS_ON,
-                        value.opened_lower_seat_v, valve.V_LOWER_SEAT )
-
-                    process_dev_ex(  mode, state_n, -1, step.A_REQUIRED_FB,
-                        value.required_FB )
-
-                    --Группа устройств DI->DO.
-                    if value.DI_DO ~= nil then
-
-                        local group = 0
-                        for field, value in pairs( value.DI_DO ) do
-                            for field, value in pairs( value ) do
-                                assert( loadstring( "dev = __"..value ) )( )
-                                if dev == nil then
-                                    print( "Error: unknown device '"..value..
-                                        "' (__"..value..")." )
-                                    dev = DEVICE( -1 )
-                                end
-                                mode[ state_n ][ -1 ][ step.A_DI_DO ]:add_dev(
-                                    dev, group )
-                            end
-
-                            group = group + 1
-                        end
-                    end
-
-                    --Группа устройств AI->AO.
-                    if value.AI_AO ~= nil then
-
-                        local group = 0
-                        for field, value in pairs( value.AI_AO ) do
-                            for field, value in pairs( value ) do
-                                assert( loadstring( "dev = __"..value ) )( )
-                                if dev == nil then
-                                    print( "Error: unknown device '"..value..
-                                        "' (__"..value..")." )
-                                    dev = DEVICE( -1 )
-                                end
-                                mode[ state_n ][ -1 ][ step.A_AI_AO ]:add_dev(
-                                    dev, group )
-                            end
-
-                            group = group + 1
-                        end
-                    end
-
-                    --Мойка.
-                    if value.wash_data ~= nil then
-
-                        for field, value in pairs( value.wash_data ) do
-
-                            local group = 2
-                            if value ~= nil then --Группа.
-                                if field == 'DI' then
-                                    group = 0
-                                elseif field == 'DO' then
-                                    group = 1
-                                elseif field == 'devices' then
-                                    group = 2
-                                elseif field == 'rev_devices' then
-                                    group = 3
-                                elseif field == 'pump_freq' then
-                                    local step_w = mode[ state_n ][ -1 ][ step.A_WASH ]
-                                    if step_w.add_param_idx ~= nil then
-                                        --Добавляем индекс параметра для задания
-                                        --частоты насосов.
-                                        step_w:add_param_idx( value )
-                                    end
-
-                                    value = {}
-                                end
-
-                                for field, value in pairs( value ) do --Устройства.
-                                    assert( loadstring( "dev = __"..value ) )( )
-                                    if dev == nil then
-                                        print( "Error: unknown device '"..value..
-                                            "' (__"..value..")." )
-                                        dev = DEVICE( -1 )
-                                    end
-
-                                    mode[ state_n ][ -1 ][ step.A_WASH ]:add_dev(
-                                        dev, group )
-                                end
-                            end
-                            group = group + 1
-                        end
-                    end
+                    process_step( operation, state_n, -1, state_info )
 
                     --Шаги.
-                    if value.steps ~= nil then
-                        local steps_count = #value.steps
+                    if state_info.steps ~= nil then
 
-                        for fields, value in ipairs( value.steps ) do
-                            local time_param_n = value.time_param_n or 0
-                            local next_step_n = value.next_step_n or 0
+                        for step_n, step_info in ipairs( state_info.steps ) do
+                            local time_param_n = step_info.time_param_n or 0
+                            local next_step_n = step_info.next_step_n or 0
 
-                            mode:add_step( value.name, next_step_n,
+                            operation:add_step( step_info.name, next_step_n,
                                 time_param_n, state_n )
 
-                            local step_n = fields
-
-                            process_dev_ex(  mode, state_n, step_n, step.A_ON,
-                                value.opened_devices )
-							process_dev_ex(  mode, state_n, step_n, step.A_ON_REVERSE,
-								value.opened_reverse_devices )
-                            process_dev_ex(  mode, state_n, step_n, step.A_OFF,
-                                value.closed_devices )
-
-                            process_seat_ex( mode, state_n, step_n,
-                                step.A_UPPER_SEATS_ON,
-                                value.opened_upper_seat_v, valve.V_UPPER_SEAT )
-                            process_seat_ex( mode, state_n, step_n,
-                                step.A_LOWER_SEATS_ON,
-                                value.opened_lower_seat_v, valve.V_LOWER_SEAT )
+                            process_step( operation, state_n, step_n, step_info )
                         end
                     end
                 end
             end
-        end --for fields, value in ipairs( value.modes ) do
+        end -- for _, oper_info in ipairs( value.modes ) do
 
-    end --for fields, value in ipairs( tech_objects ) do
+    end
 
     return 0
 end
@@ -499,7 +487,7 @@ end
 --Функция, выполняемая каждый цикл в PAC. Вызывется из управляющей программы
 --(из С++).
 function eval()
-    for idx, obj in pairs( object_manager.objects ) do
+    for _, obj in pairs( object_manager.objects ) do
         obj:evaluate()
     end
 
@@ -509,7 +497,7 @@ end
 --Функция, выполняемая один раз в PAC.  Вызывется из управляющей программы
 --(из С++).
 function init()
-    for idx, obj in pairs( object_manager.objects ) do
+    for _, obj in pairs( object_manager.objects ) do
         obj:init()
 
         if obj.user_init ~= nil then obj:user_init() end
