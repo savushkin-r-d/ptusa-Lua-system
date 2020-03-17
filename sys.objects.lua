@@ -411,7 +411,7 @@ init_tech_objects = function()
             object.PAR_FLOAT[ v.nameLua ] = field
 
             --self.PAR_FLOAT[ 1 ] = 1.2
-            object.PAR_FLOAT[ field ] = v.obj_info
+            object.PAR_FLOAT[ field ] = v.value
         end
         --Инициализация параметров.
         object.init_params_float = function ( self )
@@ -426,7 +426,7 @@ init_tech_objects = function()
         obj_info.par_uint = obj_info.par_uint or {}
         for field, v in pairs( obj_info.par_uint ) do
             object.PAR_UINT[ v.nameLua ] = field
-            object.PAR_UINT[ field ] = v.obj_info
+            object.PAR_UINT[ field ] = v.value
         end
         object.init_params_uint = function ( self )
             for field, val in ipairs( self.PAR_UINT ) do
