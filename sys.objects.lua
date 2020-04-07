@@ -484,7 +484,7 @@ end
 
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
---Функция, выполняемая каждый цикл в PAC. Вызывется из управляющей программы
+--Функция, выполняемая каждый цикл в PAC. Вызывается из управляющей программы
 --(из С++).
 function eval()
     for _, obj in pairs( object_manager.objects ) do
@@ -494,7 +494,7 @@ function eval()
     if user_eval ~= nil then user_eval() end
 end
 -- ----------------------------------------------------------------------------
---Функция, выполняемая один раз в PAC.  Вызывется из управляющей программы
+--Функция, выполняемая один раз в PAC.  Вызывается из управляющей программы
 --(из С++).
 function init()
     for _, obj in pairs( object_manager.objects ) do
@@ -504,4 +504,16 @@ function init()
     end
 
     if user_init ~= nil then user_init() end
+end
+-- ----------------------------------------------------------------------------
+-- Функция, выполняемая один раз в PAC. Служит для инициализации параметров.
+-- Вызывается из управляющей программы (из С++).
+function init_params()
+    for _, obj in pairs( object_manager.objects ) do
+        obj:init_params()
+
+        if obj.user_init_params ~= nil then obj:user_init_params() end
+    end
+
+    if user_init_params ~= nil then user_init_params() end
 end
