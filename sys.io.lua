@@ -434,7 +434,7 @@ system =
 
             local io_device = G_DEVICE_MANAGER():add_io_device(
                 device_descr.dtype, device_descr.subtype, device_descr.name,
-                device_descr.descr )
+                device_descr.descr, device_descr.article or "" )
 
             if io_device ~= nil then --Устройство имеет модули I/O.
 
