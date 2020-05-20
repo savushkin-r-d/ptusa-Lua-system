@@ -1,3 +1,80 @@
+require('shared')
+print('Check shared devices')
+if shared_devices ~= nil then
+	for gateindex, gate in pairs(shared_devices) do
+		print('Check shared_devices['..gateindex..']')
+	    if gate.DO ~= nil then
+	       	for idx = 1, #gate.DO, 1 do
+				if gate.DO[idx] == nil then
+					print('ERROR - DO['..idx..'] is null')
+					gate.DO[idx]:get_state() --trigger error
+				end
+			end
+	    end
+	    if gate.DI ~= nil then
+	       	for idx = 1, #gate.DI, 1 do
+				if gate.DI[idx] == nil then
+					print('ERROR - DI['..idx..'] is null')
+					gate.DI[idx]:get_state() --trigger error
+				end
+			end
+	    end
+	    if gate.AI ~= nil then
+	       	for idx = 1, #gate.AI, 1 do
+				if gate.AI[idx] == nil then
+					print('ERROR - AI['..idx..'] is null')
+					gate.AI[idx]:get_value() --trigger error
+				end
+			end
+	    end
+	    if gate.AO ~= nil then
+	       	for idx = 1, #gate.AO, 1 do
+				if gate.AO[idx] == nil then
+					print('ERROR - AO['..idx..'] is null')
+					gate.AO[idx]:get_value() --trigger error
+				end
+			end
+	    end
+	end
+end
+if remote_gateways ~= nil then
+	for gateindex, gate in pairs(remote_gateways) do
+		print('Check remote_gateways['..gateindex..']')
+	    if gate.DO ~= nil then
+	       	for idx = 1, #gate.DO, 1 do
+				if gate.DO[idx] == nil then
+					print('ERROR - DO['..idx..'] is null')
+					gate.DO[idx]:get_state() --trigger error
+				end
+			end
+	    end
+	    if gate.DI ~= nil then
+	       	for idx = 1, #gate.DI, 1 do
+				if gate.DI[idx] == nil then
+					print('ERROR - DI['..idx..'] is null')
+					gate.DI[idx]:get_state() --trigger error
+				end
+			end
+	    end
+	    if gate.AI ~= nil then
+	       	for idx = 1, #gate.AI, 1 do
+				if gate.AI[idx] == nil then
+					print('ERROR - AI['..idx..'] is null')
+					gate.AI[idx]:get_value() --trigger error
+				end
+			end
+	    end
+	    if gate.AO ~= nil then
+	       	for idx = 1, #gate.AO, 1 do
+				if gate.AO[idx] == nil then
+					print('ERROR - AO['..idx..'] is null')
+					gate.AO[idx]:get_value() --trigger error
+				end
+			end
+	    end
+	end
+end
+
 function init_gateways( mgates )
 	local i = 1
 	for gatename, gate in pairs(mgates) do
