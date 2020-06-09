@@ -504,6 +504,12 @@ function init()
     end
 
     if user_init ~= nil then user_init() end
+
+    for _, obj in pairs( object_manager.objects ) do
+        if obj.sync_after_user_init ~= nil then
+            obj:sync_after_user_init()
+        end
+    end
 end
 -- ----------------------------------------------------------------------------
 -- Функция, выполняемая один раз в PAC. Служит для инициализации параметров.
