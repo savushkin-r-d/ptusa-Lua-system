@@ -491,6 +491,8 @@ function eval()
         obj:evaluate()
     end
 
+    if remote_gateways then eval_gateways(remote_gateways) end
+
     if user_eval ~= nil then user_eval() end
 end
 -- ----------------------------------------------------------------------------
@@ -501,6 +503,8 @@ function init()
         if obj.user_init ~= nil then obj:user_init() end
         obj:init()
     end
+
+    if remote_gateways then init_gateways(remote_gateways) end
 
     if user_init ~= nil then user_init() end
 end
