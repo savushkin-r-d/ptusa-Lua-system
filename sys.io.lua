@@ -304,6 +304,97 @@ modules_info[ 2688093 ] =
     channel_size      = 2,
     }
 
+--PHOENIX SMART MODULES
+modules_info[ 1088127 ] =
+    {
+    comment           = 'DI16/1',
+    mtype             = 'AIAO',
+    AO_channels_count = 1,
+    AI_channels_count = 1,
+    DO_channels_count = 16,
+    DI_channels_count = 16,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 1088129 ] =
+    {
+    comment           = 'DO16/1',
+    mtype             = 'AIAO',
+    AO_channels_count = 1,
+    AI_channels_count = 1,
+    DO_channels_count = 16,
+    DI_channels_count = 16,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 1088062 ] =
+    {
+    comment           = 'AI4 I 4-20',
+    mtype             = 'AIAO',
+    AO_channels_count = 4,
+    AI_channels_count = 4,
+    DO_channels_count = 64,
+    DI_channels_count = 64,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 1088123 ] =
+    {
+    comment = 'AO4 I 4-20',
+    mtype             = 'AIAO',
+    AO_channels_count = 4,
+    AI_channels_count = 4,
+    DO_channels_count = 64,
+    DI_channels_count = 64,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 1088106 ] =
+    {
+    comment           = 'RTD4 PT100',
+    mtype             = 'AIAO',
+    AO_channels_count = 4,
+    AI_channels_count = 4,
+    DO_channels_count = 64,
+    DI_channels_count = 64,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 1088132 ] =
+    {
+    comment           = 'IOL4',
+    mtype             = 'AIAO',
+    AO_channels_count = 32,
+    AI_channels_count = 32,
+    DO_channels_count = 512,
+    DI_channels_count = 512,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 1088131 ] =
+    {
+    comment           = 'CNT1',
+    mtype             = 'AIAO',
+    AO_channels_count = 3,
+    AI_channels_count = 3,
+    DO_channels_count = 48,
+    DI_channels_count = 48,
+
+    channel_size      = 2,
+    }
+
+modules_info[ 1088134 ] =
+    {
+        comment = 'SC-A',
+        mtype = 'STUB',
+    }
+
 
 function get_modules_info ( modules )
     local DO_cnt      = 0
