@@ -1,4 +1,4 @@
---version = 5
+--version = 6
 
 -- ----------------------------------------------------------------------------
 --Добавление функциональности технологическому объекту на основе
@@ -319,39 +319,51 @@ init_tech_objects = function()
         --Мойка.
         if value.wash_data ~= nil then
 
-            for field, value in pairs( value.wash_data ) do
+            for group_idx, item in ipairs( value.wash_data ) do
+                local step_w = mode[ state_n ][ step_n ][ step.A_WASH ]
 
-                local group = 2
-                if value ~= nil then --Группа.
-                    if field == 'DI' then
-                        group = 0
-                    elseif field == 'DO' then
-                        group = 1
-                    elseif field == 'devices' then
-                        group = 2
-                    elseif field == 'rev_devices' then
-                        group = 3
-                    elseif field == 'pump_freq' then
-                        local step_w = mode[ state_n ][ step_n ][ step.A_WASH ]
-                        if step_w.add_param_idx ~= nil then
-                            --Добавляем индекс параметра для задания
-                            --частоты насосов.
-                            step_w:add_param_idx( value )
+                for field, element in pairs( item ) do
+
+                    local sub_group_idx = 2
+                    if element ~= nil then --Группа.
+                        if field == 'DI' then
+                            sub_group_idx = 0
+                        elseif field == 'DO' then
+                            sub_group_idx = 1
+                        elseif field == 'devices' then
+                            sub_group_idx = 2
+                        elseif field == 'rev_devices' then
+                            sub_group_idx = 3
+                        elseif field == 'pump_freq' then
+                            sub_group_idx = 4
+
+                            if type( element ) == "number" then
+                                --Добавляем индекс параметра производительности.
+                                step_w:add_param_idx( element )
+                            elseif type( element ) == "string" then
+                                --Добавляем AI производительности.
+                                local dev = _G[ "__"..element ]
+                                if dev == nil then
+                                    print( "Error: unknown device '"..element..
+                                        "' (__"..element..")." )
+                                    dev = DEVICE( -1 )
+                                end
+
+                                step_w:add_dev( dev, group_idx, sub_group_idx )
+                            end
+                            element = {}
                         end
 
-                        value = {}
-                    end
+                        for _, value in pairs( element ) do --Устройства.
+                            local dev = _G[ "__"..value ]
+                            if dev == nil then
+                                print( "Error: unknown device '"..value..
+                                    "' (__"..value..")." )
+                                dev = DEVICE( -1 )
+                            end
 
-                    for _, value in pairs( value ) do --Устройства.
-                        assert( loadstring( "dev = __"..value ) )( )
-                        if dev == nil then
-                            print( "Error: unknown device '"..value..
-                                "' (__"..value..")." )
-                            dev = DEVICE( -1 )
+                            step_w:add_dev( dev, group_idx, sub_group_idx )
                         end
-
-                        mode[ state_n ][ step_n ][ step.A_WASH ]:add_dev(
-                            dev, group )
                     end
                 end
             end
