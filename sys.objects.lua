@@ -235,7 +235,7 @@ init_tech_objects = function()
                     dev = DEVICE( -1 )
                 end
 
-                mode[ state ][ step_n ][ action ]:add_dev( dev, 0 )
+                mode[ state ][ step_n ][ action ]:add_dev( dev, 0, 0 )
             end
         end
     end
@@ -255,6 +255,58 @@ init_tech_objects = function()
                     mode[ state ][ step_n ][ action ]:add_dev( dev, group, t )
                 end
                 group = group + 1
+            end
+        end
+    end
+
+    local proc_devices_action = function( item, group_idx, step_w )
+
+        for field, element in pairs( item ) do
+
+            local sub_group_idx = nil
+            if element ~= nil then --Группа.
+                if field == 'DI' then
+                    sub_group_idx = 0
+                elseif field == 'DO' then
+                    sub_group_idx = 1
+                elseif field == 'devices' then
+                    sub_group_idx = 2
+                elseif field == 'rev_devices' then
+                    sub_group_idx = 3
+                elseif field == 'pump_freq' then
+                    sub_group_idx = 4
+
+                    if type( element ) == "number" then
+                        --Добавляем индекс параметра производительности.
+                        step_w:set_param_idx( group_idx - 1, element )
+                    elseif type( element ) == "string" then
+
+                        --Добавляем AI производительности.
+                        local dev = _G[ "__"..element ]
+                        if dev == nil then
+                            print( "Error: unknown device '"..element..
+                                "' (__"..element..")." )
+                            dev = DEVICE( -1 )
+                        end
+
+                        step_w:add_dev( dev, group_idx - 1, sub_group_idx )
+                    end
+                    element = {}
+                end
+
+                if not sub_group_idx then break end
+
+                for _, value in pairs( element ) do --Устройства.
+
+                    local dev = _G[ "__"..value ]
+                    if dev == nil then
+                        print( "Error: unknown device '"..value..
+                            "' (__"..value..")." )
+                        dev = DEVICE( -1 )
+                    end
+
+                    step_w:add_dev( dev, group_idx - 1, sub_group_idx )
+                end
             end
         end
     end
@@ -289,7 +341,7 @@ init_tech_objects = function()
                         dev = DEVICE( -1 )
                     end
                     mode[ state_n ][ step_n ][ step.A_DI_DO ]:add_dev(
-                        dev, group )
+                        dev, 0, group )
                 end
 
                 group = group + 1
@@ -309,64 +361,26 @@ init_tech_objects = function()
                         dev = DEVICE( -1 )
                     end
                     mode[ state_n ][ step_n ][ step.A_AI_AO ]:add_dev(
-                        dev, group )
+                        dev, 0, group )
                 end
 
                 group = group + 1
             end
         end
 
-        --Мойка.
-        if value.wash_data ~= nil then
-
-            for group_idx, item in ipairs( value.wash_data ) do
+        --Устройства.
+        if value.devices_data ~= nil then
+            if value.devices_data[ 1 ] then
                 local step_w = mode[ state_n ][ step_n ][ step.A_WASH ]
-
-                for field, element in pairs( item ) do
-
-                    local sub_group_idx = 2
-                    if element ~= nil then --Группа.
-                        if field == 'DI' then
-                            sub_group_idx = 0
-                        elseif field == 'DO' then
-                            sub_group_idx = 1
-                        elseif field == 'devices' then
-                            sub_group_idx = 2
-                        elseif field == 'rev_devices' then
-                            sub_group_idx = 3
-                        elseif field == 'pump_freq' then
-                            sub_group_idx = 4
-
-                            if type( element ) == "number" then
-                                --Добавляем индекс параметра производительности.
-                                step_w:add_param_idx( element )
-                            elseif type( element ) == "string" then
-                                --Добавляем AI производительности.
-                                local dev = _G[ "__"..element ]
-                                if dev == nil then
-                                    print( "Error: unknown device '"..element..
-                                        "' (__"..element..")." )
-                                    dev = DEVICE( -1 )
-                                end
-
-                                step_w:add_dev( dev, group_idx, sub_group_idx )
-                            end
-                            element = {}
-                        end
-
-                        for _, value in pairs( element ) do --Устройства.
-                            local dev = _G[ "__"..value ]
-                            if dev == nil then
-                                print( "Error: unknown device '"..value..
-                                    "' (__"..value..")." )
-                                dev = DEVICE( -1 )
-                            end
-
-                            step_w:add_dev( dev, group_idx, sub_group_idx )
-                        end
-                    end
+                for group_idx, item in ipairs( value.devices_data ) do
+                    proc_devices_action( item, group_idx, step_w )
                 end
             end
+
+        elseif value.wash_data ~= nil then
+            --Устаревшее описание.
+            local step_w = mode[ state_n ][ step_n ][ step.A_WASH ]
+            proc_devices_action( value.wash_data, 1, step_w )
         end
     end
 
