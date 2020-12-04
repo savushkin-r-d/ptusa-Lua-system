@@ -533,6 +533,10 @@ function init()
     if remote_gateways then init_gateways(remote_gateways) end
 
     if user_init ~= nil then user_init() end
+
+    for _, obj in pairs( object_manager.objects ) do
+        if obj.post_init ~= nil then obj:post_init() end
+    end
 end
 -- ----------------------------------------------------------------------------
 -- Функция, выполняемая один раз в PAC. Служит для инициализации параметров.
