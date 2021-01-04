@@ -5,15 +5,15 @@ modules_info = {}
 --WAGO
 modules_info[ 402 ] =
     {
-    comment           = 'Дискретный вход',
+    comment           = 'Р”РёСЃРєСЂРµС‚РЅС‹Р№ РІС…РѕРґ',
     mtype             = 'DI',
     DI_channels_count = 4,
-    channel_size      = 1 --Размер области отображения одного канала, байты.
+    channel_size      = 1 --Р Р°Р·РјРµСЂ РѕР±Р»Р°СЃС‚Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РѕРґРЅРѕРіРѕ РєР°РЅР°Р»Р°, Р±Р°Р№С‚С‹.
     }
 
 modules_info[ 1420 ] =
     {
-    comment           = 'Дискретный вход 24 VDC',
+    comment           = 'Р”РёСЃРєСЂРµС‚РЅС‹Р№ РІС…РѕРґ 24 VDC',
     mtype             = 'DI',
     DI_channels_count = 4,
     channel_size      = 1
@@ -21,7 +21,7 @@ modules_info[ 1420 ] =
 
 modules_info[ 1415 ] =
     {
-    comment           = 'Дискретный вход 24 VDC',
+    comment           = 'Р”РёСЃРєСЂРµС‚РЅС‹Р№ РІС…РѕРґ 24 VDC',
     mtype             = 'DI',
     DI_channels_count = 8,
     channel_size      = 1
@@ -29,7 +29,7 @@ modules_info[ 1415 ] =
 
 modules_info[ 1405 ] =
     {
-    comment           = 'Дискретный вход 24 VDC',
+    comment           = 'Р”РёСЃРєСЂРµС‚РЅС‹Р№ РІС…РѕРґ 24 VDC',
     mtype             = 'DI',
     DI_channels_count = 16,
     channel_size      = 1
@@ -37,7 +37,7 @@ modules_info[ 1405 ] =
 
 modules_info[ 1504 ] =
     {
-    comment           = 'Дискретный выход 24 VDC',
+    comment           = 'Р”РёСЃРєСЂРµС‚РЅС‹Р№ РІС‹С…РѕРґ 24 VDC',
     mtype             = 'DO',
     DO_channels_count = 16,
     channel_size      = 1
@@ -45,7 +45,7 @@ modules_info[ 1504 ] =
 
 modules_info[ 1515 ] =
     {
-    comment           = 'Дискретный выход 24 VDC',
+    comment           = 'Р”РёСЃРєСЂРµС‚РЅС‹Р№ РІС‹С…РѕРґ 24 VDC',
     mtype             = 'DO',
     DO_channels_count = 8,
     channel_size      = 1
@@ -53,7 +53,7 @@ modules_info[ 1515 ] =
 
 modules_info[ 638 ] =
     {
-    comment           = 'Счетчик импульсов',
+    comment           = 'РЎС‡РµС‚С‡РёРє РёРјРїСѓР»СЊСЃРѕРІ',
     mtype             = 'SPECIAL',
     AI_channels_count = 2,
     AO_channels_count = 2,
@@ -61,28 +61,28 @@ modules_info[ 638 ] =
     }
 modules_info[ 450 ] =
     {
-    comment           = 'Температура RTDs',
+    comment           = 'РўРµРјРїРµСЂР°С‚СѓСЂР° RTDs',
     mtype             = 'AI',
     AI_channels_count = 4,
     channel_size      = 2
     }
 modules_info[ 466 ] =
     {
-    comment           = 'Температура',
+    comment           = 'РўРµРјРїРµСЂР°С‚СѓСЂР°',
     mtype             = 'AI',
     AI_channels_count = 2,
     channel_size      = 2
     }
 modules_info[ 496 ] =
     {
-    comment           = 'Температура',
+    comment           = 'РўРµРјРїРµСЂР°С‚СѓСЂР°',
     mtype             = 'AI',
     AI_channels_count = 8,
     channel_size      = 2
     }
 modules_info[ 461 ] =
     {
-    comment           = 'Текущий уровень',
+    comment           = 'РўРµРєСѓС‰РёР№ СѓСЂРѕРІРµРЅСЊ',
     mtype             = 'AI',
     AI_channels_count = 2,
     channel_size      = 2
@@ -91,26 +91,26 @@ modules_info[ 461 ] =
 
 modules_info[ 504 ] =
     {
-    comment           = 'Дискретный выход, 24 VDC, 0.5 A',
+    comment           = 'Р”РёСЃРєСЂРµС‚РЅС‹Р№ РІС‹С…РѕРґ, 24 VDC, 0.5 A',
     mtype             = 'DO',
     DO_channels_count = 4
     }
 modules_info[ 512 ] =
     {
-    comment           = 'Дискретный выход, AC 250 V, 2.0 A, Relay',
+    comment           = 'Р”РёСЃРєСЂРµС‚РЅС‹Р№ РІС‹С…РѕРґ, AC 250 V, 2.0 A, Relay',
     mtype             = 'DO',
     DO_channels_count = 2
     }
 modules_info[ 554 ] =
     {
-    comment           = 'Аналоговый вывод',
+    comment           = 'РђРЅР°Р»РѕРіРѕРІС‹Р№ РІС‹РІРѕРґ',
     mtype             = 'AO',
     AO_channels_count = 2,
     channel_size      = 2
     }
 modules_info[ 555 ] =
     {
-    comment           = 'Аналоговый вывод',
+    comment           = 'РђРЅР°Р»РѕРіРѕРІС‹Р№ РІС‹РІРѕРґ',
     mtype             = 'AO',
     AO_channels_count = 4,
     channel_size      = 2
@@ -122,7 +122,7 @@ modules_info[ 613 ] =
     }
 modules_info[ 612 ] =
     {
-    comment           = 'Power Supply; 0 … 230 V AC/DC',
+    comment           = 'Power Supply; 0 вЂ¦ 230 V AC/DC',
     mtype             = 'STUB'
     }
 modules_info[ 602 ] =
@@ -452,7 +452,7 @@ function get_modules_info ( modules )
 
             modules_cnt = modules_cnt + 1
         else
-            print( "Unknown module №", fields, " - '", value[ 1 ], "'!")
+            print( "Unknown module в„–", fields, " - '", value[ 1 ], "'!")
         end
 
     end
@@ -474,7 +474,7 @@ end
 system =
     {
     get_PAC_name_rus = function( self )
-        return PAC_name or 'Новый проект'
+        return PAC_name or 'РќРѕРІС‹Р№ РїСЂРѕРµРєС‚'
     end,
 
     get_PAC_name_eng = function( self )
@@ -527,7 +527,7 @@ system =
                 device_descr.dtype, device_descr.subtype, device_descr.name,
                 device_descr.descr, device_descr.article or "" )
 
-            if io_device ~= nil then --Устройство имеет модули I/O.
+            if io_device ~= nil then --РЈСЃС‚СЂРѕР№СЃС‚РІРѕ РёРјРµРµС‚ РјРѕРґСѓР»Рё I/O.
 
                 local DI_channels = 0
                 local DO_channels = 0
@@ -631,7 +631,7 @@ system =
                 end
 
                 io_device:set_io_vendor( io_vendor )
-            end --if io_device ~= nil then --Устройство имеет модули I/O.
+            end --if io_device ~= nil then --РЈСЃС‚СЂРѕР№СЃС‚РІРѕ РёРјРµРµС‚ РјРѕРґСѓР»Рё I/O.
         end --for i = 1, devices_count do
     end
     }

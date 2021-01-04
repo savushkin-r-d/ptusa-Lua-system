@@ -1,8 +1,8 @@
 --version = 6
 
 -- ----------------------------------------------------------------------------
---Добавление функциональности технологическому объекту на основе
---пользовательского объекта.
+--Р”РѕР±Р°РІР»РµРЅРёРµ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚Рё С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРѕРјСѓ РѕР±СЉРµРєС‚Сѓ РЅР° РѕСЃРЅРѕРІРµ
+--РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРіРѕ РѕР±СЉРµРєС‚Р°.
 function add_functionality( tbl_main, tbl_2 )
     if tbl_main == nil or tbl_2 == nil then
         return
@@ -13,10 +13,10 @@ function add_functionality( tbl_main, tbl_2 )
     end
 end
 -- ----------------------------------------------------------------------------
---Класс технологический объект со значениями параметров по умолчанию.
+--РљР»Р°СЃСЃ С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРёР№ РѕР±СЉРµРєС‚ СЃРѕ Р·РЅР°С‡РµРЅРёСЏРјРё РїР°СЂР°РјРµС‚СЂРѕРІ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ.
 project_tech_object =
     {
-    name        = "Объект",
+    name        = "РћР±СЉРµРєС‚",
     n           = 1,
     object_type = 1,
     modes_count = 32,
@@ -34,8 +34,8 @@ project_tech_object =
     idx = 1
     }
 -- ----------------------------------------------------------------------------
---Создание экземпляра класса, при этом создаем соответствующий системный
---технологический объект из С++.
+--РЎРѕР·РґР°РЅРёРµ СЌРєР·РµРјРїР»СЏСЂР° РєР»Р°СЃСЃР°, РїСЂРё СЌС‚РѕРј СЃРѕР·РґР°РµРј СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ СЃРёСЃС‚РµРјРЅС‹Р№
+--С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРёР№ РѕР±СЉРµРєС‚ РёР· РЎ++.
 function project_tech_object:new( o )
 
 
@@ -43,8 +43,8 @@ function project_tech_object:new( o )
     setmetatable( o, self )
     self.__index = self
 
-    --Создаем системный объект.
-    if o.tech_type >= 111 and o.tech_type <= 120 then -- 111 - модуль мойки 112 - модуль мойки с функцией очистки емкостей на моечной станции 113 - Мойка молоковозов
+    --РЎРѕР·РґР°РµРј СЃРёСЃС‚РµРјРЅС‹Р№ РѕР±СЉРµРєС‚.
+    if o.tech_type >= 111 and o.tech_type <= 120 then -- 111 - РјРѕРґСѓР»СЊ РјРѕР№РєРё 112 - РјРѕРґСѓР»СЊ РјРѕР№РєРё СЃ С„СѓРЅРєС†РёРµР№ РѕС‡РёСЃС‚РєРё РµРјРєРѕСЃС‚РµР№ РЅР° РјРѕРµС‡РЅРѕР№ СЃС‚Р°РЅС†РёРё 113 - РњРѕР№РєР° РјРѕР»РѕРєРѕРІРѕР·РѕРІ
         o.sys_tech_object = cipline_tech_object( o.name,
         o.n,
         o.tech_type,
@@ -68,14 +68,14 @@ function project_tech_object:new( o )
         o.runtime_params_uint_count )
     end
 
-    --Переназначаем переменную для параметров, для удобного доступа.
+    --РџРµСЂРµРЅР°Р·РЅР°С‡Р°РµРј РїРµСЂРµРјРµРЅРЅСѓСЋ РґР»СЏ РїР°СЂР°РјРµС‚СЂРѕРІ, РґР»СЏ СѓРґРѕР±РЅРѕРіРѕ РґРѕСЃС‚СѓРїР°.
     o.rt_par_float = o.sys_tech_object.rt_par_float
     o.par_float = o.sys_tech_object.par_float
     o.rt_par_uint = o.sys_tech_object.rt_par_uint
     o.par_uint = o.sys_tech_object.par_uint
     o.timers = o.sys_tech_object.timers
 
-    --Регистрация необходимых объектов.
+    --Р РµРіРёСЃС‚СЂР°С†РёСЏ РЅРµРѕР±С…РѕРґРёРјС‹С… РѕР±СЉРµРєС‚РѕРІ.
     _G[ o.name_Lua..self.idx ] = o
     _G[ "__"..o.name_Lua..self.idx ] = o
 
@@ -87,8 +87,8 @@ function project_tech_object:new( o )
     return o
 end
 -- ----------------------------------------------------------------------------
---Заглушки для функций, они ничего не делают, вызываются если не реализованы
---далее в проекте (файл main.lua).
+--Р—Р°РіР»СѓС€РєРё РґР»СЏ С„СѓРЅРєС†РёР№, РѕРЅРё РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°СЋС‚, РІС‹Р·С‹РІР°СЋС‚СЃСЏ РµСЃР»Рё РЅРµ СЂРµР°Р»РёР·РѕРІР°РЅС‹
+--РґР°Р»РµРµ РІ РїСЂРѕРµРєС‚Рµ (С„Р°Р№Р» main.lua).
 function project_tech_object:exec_cmd( cmd )
     return 0
 end
@@ -140,8 +140,8 @@ function project_tech_object:on_start( mode )
     return 0
 end
 -- ----------------------------------------------------------------------------
---Функции, которые переадресуются в вызовы соответствующих функций
---системного технологического объекта (релизованы на С++).
+--Р¤СѓРЅРєС†РёРё, РєРѕС‚РѕСЂС‹Рµ РїРµСЂРµР°РґСЂРµСЃСѓСЋС‚СЃСЏ РІ РІС‹Р·РѕРІС‹ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёС… С„СѓРЅРєС†РёР№
+--СЃРёСЃС‚РµРјРЅРѕРіРѕ С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРѕРіРѕ РѕР±СЉРµРєС‚Р° (СЂРµР»РёР·РѕРІР°РЅС‹ РЅР° РЎ++).
 function project_tech_object:get_modes_count()
     return self.sys_tech_object:get_modes_count()
 end
@@ -192,23 +192,23 @@ function project_tech_object:check_operation_on( operation_n, show_error )
     end
 end
 -- ----------------------------------------------------------------------------
---Представление всех созданных пользовательских технологических объектов
---(гребенки, танков) для доступа из C++.
+--РџСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РІСЃРµС… СЃРѕР·РґР°РЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёС… С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРёС… РѕР±СЉРµРєС‚РѕРІ
+--(РіСЂРµР±РµРЅРєРё, С‚Р°РЅРєРѕРІ) РґР»СЏ РґРѕСЃС‚СѓРїР° РёР· C++.
 object_manager =
     {
-    objects = {}, --Пользовательские технологические объекты.
+    objects = {}, --РџРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРµ С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРёРµ РѕР±СЉРµРєС‚С‹.
 
-    --Добавление пользовательского технологического объекта.
+    --Р”РѕР±Р°РІР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРіРѕ С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРѕРіРѕ РѕР±СЉРµРєС‚Р°.
     add_object = function ( self, new_object )
         self.objects[ #self.objects + 1 ] = new_object
     end,
 
-    --Получение количества пользовательских технологических объектов.
+    --РџРѕР»СѓС‡РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёС… С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРёС… РѕР±СЉРµРєС‚РѕРІ.
     get_objects_count = function( self )
         return #self.objects
     end,
 
-    --Получение пользовательского технологического объекта.
+    --РџРѕР»СѓС‡РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРіРѕ С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРѕРіРѕ РѕР±СЉРµРєС‚Р°.
     get_object = function( self, object_idx )
         local res = self.objects[ object_idx ]
         if res then
@@ -220,7 +220,7 @@ object_manager =
     }
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
---Инициализация операций, параметров и т.д. объектов.
+--РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РѕРїРµСЂР°С†РёР№, РїР°СЂР°РјРµС‚СЂРѕРІ Рё С‚.Рґ. РѕР±СЉРµРєС‚РѕРІ.
 OBJECTS = {}
 
 init_tech_objects = function()
@@ -264,7 +264,7 @@ init_tech_objects = function()
         for field, element in pairs( item ) do
 
             local sub_group_idx = nil
-            if element ~= nil then --Группа.
+            if element ~= nil then --Р“СЂСѓРїРїР°.
                 if field == 'DI' then
                     sub_group_idx = 0
                 elseif field == 'DO' then
@@ -277,11 +277,11 @@ init_tech_objects = function()
                     sub_group_idx = 4
 
                     if type( element ) == "number" then
-                        --Добавляем индекс параметра производительности.
+                        --Р”РѕР±Р°РІР»СЏРµРј РёРЅРґРµРєСЃ РїР°СЂР°РјРµС‚СЂР° РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚Рё.
                         step_w:set_param_idx( group_idx - 1, element )
                     elseif type( element ) == "string" then
 
-                        --Добавляем AI производительности.
+                        --Р”РѕР±Р°РІР»СЏРµРј AI РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚Рё.
                         local dev = _G[ "__"..element ]
                         if dev == nil then
                             print( "Error: unknown device '"..element..
@@ -296,7 +296,7 @@ init_tech_objects = function()
 
                 if not sub_group_idx then break end
 
-                for _, value in pairs( element ) do --Устройства.
+                for _, value in pairs( element ) do --РЈСЃС‚СЂРѕР№СЃС‚РІР°.
 
                     local dev = _G[ "__"..value ]
                     if dev == nil then
@@ -328,7 +328,7 @@ init_tech_objects = function()
         process_dev_ex(  mode, state_n, step_n, step.A_REQUIRED_FB,
             value.required_FB )
 
-        --Группа устройств DI->DO.
+        --Р“СЂСѓРїРїР° СѓСЃС‚СЂРѕР№СЃС‚РІ DI->DO.
         if value.DI_DO ~= nil then
 
             local group = 0
@@ -348,7 +348,7 @@ init_tech_objects = function()
             end
         end
 
-        --Группа устройств AI->AO.
+        --Р“СЂСѓРїРїР° СѓСЃС‚СЂРѕР№СЃС‚РІ AI->AO.
         if value.AI_AO ~= nil then
 
             local group = 0
@@ -368,7 +368,7 @@ init_tech_objects = function()
             end
         end
 
-        --Устройства.
+        --РЈСЃС‚СЂРѕР№СЃС‚РІР°.
         if value.devices_data ~= nil then
             if value.devices_data[ 1 ] then
                 local step_w = mode[ state_n ][ step_n ][ step.A_WASH ]
@@ -378,17 +378,17 @@ init_tech_objects = function()
             end
 
         elseif value.wash_data ~= nil then
-            --Устаревшее описание.
+            --РЈСЃС‚Р°СЂРµРІС€РµРµ РѕРїРёСЃР°РЅРёРµ.
             local step_w = mode[ state_n ][ step_n ][ step.A_WASH ]
             proc_devices_action( value.wash_data, 1, step_w )
         end
     end
 
-    --Пример команды от сервера в виде скрипта:
+    --РџСЂРёРјРµСЂ РєРѕРјР°РЅРґС‹ РѕС‚ СЃРµСЂРІРµСЂР° РІ РІРёРґРµ СЃРєСЂРёРїС‚Р°:
     --  cmd = V95:set_cmd( "st", 0, 1 )
     --  cmd = OBJECT1:set_cmd( "CMD", 0, 1000 )
-    SYSTEM = G_PAC_INFO() --Информаци о PAC, которую добавляем в Lua.
-    __SYSTEM = SYSTEM     --Информаци о PAC, которую добавляем в Lua.
+    SYSTEM = G_PAC_INFO() --РРЅС„РѕСЂРјР°С†Рё Рѕ PAC, РєРѕС‚РѕСЂСѓСЋ РґРѕР±Р°РІР»СЏРµРј РІ Lua.
+    __SYSTEM = SYSTEM     --РРЅС„РѕСЂРјР°С†Рё Рѕ PAC, РєРѕС‚РѕСЂСѓСЋ РґРѕР±Р°РІР»СЏРµРј РІ Lua.
 
     for _, obj_info in ipairs( init_tech_objects_modes() ) do
 
@@ -414,10 +414,10 @@ init_tech_objects = function()
             rt_par_uint_count = #obj_info.rt_par_uint
         end
 
-        --Создаем технологический объект.
+        --РЎРѕР·РґР°РµРј С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРёР№ РѕР±СЉРµРєС‚.
         local object = project_tech_object:new
             {
-            name         = obj_info.name or "ОБЪЕКТ",
+            name         = obj_info.name or "РћР‘РЄР•РљРў",
             n            = obj_info.n or 1,
             tech_type    = obj_info.tech_type or 1,
             modes_count  = modes_count,
@@ -429,7 +429,7 @@ init_tech_objects = function()
             runtime_params_uint_count  = rt_par_uint_count
             }
 
-        --Параметры.
+        --РџР°СЂР°РјРµС‚СЂС‹.
         object.PAR_FLOAT = {}
         obj_info.par_float = obj_info.par_float or {}
         for field, v in pairs( obj_info.par_float ) do
@@ -439,7 +439,7 @@ init_tech_objects = function()
             --self.PAR_FLOAT[ 1 ] = 1.2
             object.PAR_FLOAT[ field ] = v.value
         end
-        --Инициализация параметров.
+        --РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ.
         object.init_params_float = function ( self )
             for field, val in ipairs( self.PAR_FLOAT ) do
                 self.par_float[ field ] = val
@@ -480,13 +480,13 @@ init_tech_objects = function()
 
             local operation = modes_manager:add_mode( oper_info.name )
 
-            --Описание с состояниями.
+            --РћРїРёСЃР°РЅРёРµ СЃ СЃРѕСЃС‚РѕСЏРЅРёСЏРјРё.
             if oper_info.states ~= nil then
                 for state_n, state_info in ipairs( oper_info.states ) do
 
                     process_step( operation, state_n, -1, state_info )
 
-                    --Шаги.
+                    --РЁР°РіРё.
                     if state_info.steps ~= nil then
 
                         for step_n, step_info in ipairs( state_info.steps ) do
@@ -510,8 +510,8 @@ end
 
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
---Функция, выполняемая каждый цикл в PAC. Вызывается из управляющей программы
---(из С++).
+--Р¤СѓРЅРєС†РёСЏ, РІС‹РїРѕР»РЅСЏРµРјР°СЏ РєР°Р¶РґС‹Р№ С†РёРєР» РІ PAC. Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· СѓРїСЂР°РІР»СЏСЋС‰РµР№ РїСЂРѕРіСЂР°РјРјС‹
+--(РёР· РЎ++).
 function eval()
     for _, obj in pairs( object_manager.objects ) do
         obj:evaluate()
@@ -522,8 +522,8 @@ function eval()
     if user_eval ~= nil then user_eval() end
 end
 -- ----------------------------------------------------------------------------
---Функция, выполняемая один раз в PAC.  Вызывается из управляющей программы
---(из С++).
+--Р¤СѓРЅРєС†РёСЏ, РІС‹РїРѕР»РЅСЏРµРјР°СЏ РѕРґРёРЅ СЂР°Р· РІ PAC.  Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· СѓРїСЂР°РІР»СЏСЋС‰РµР№ РїСЂРѕРіСЂР°РјРјС‹
+--(РёР· РЎ++).
 function init()
     for _, obj in pairs( object_manager.objects ) do
         if obj.user_init ~= nil then obj:user_init() end
@@ -539,8 +539,8 @@ function init()
     end
 end
 -- ----------------------------------------------------------------------------
--- Функция, выполняемая один раз в PAC. Служит для инициализации параметров.
--- Вызывается из управляющей программы (из С++).
+-- Р¤СѓРЅРєС†РёСЏ, РІС‹РїРѕР»РЅСЏРµРјР°СЏ РѕРґРёРЅ СЂР°Р· РІ PAC. РЎР»СѓР¶РёС‚ РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РїР°СЂР°РјРµС‚СЂРѕРІ.
+-- Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· СѓРїСЂР°РІР»СЏСЋС‰РµР№ РїСЂРѕРіСЂР°РјРјС‹ (РёР· РЎ++).
 function init_params()
     for _, obj in pairs( object_manager.objects ) do
         obj:init_params()

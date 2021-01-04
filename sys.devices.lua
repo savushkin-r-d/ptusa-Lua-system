@@ -3,7 +3,7 @@
 system = system or {}
 
 -- ----------------------------------------------------------------------------
---Инициализация имен устройств.
+--РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёРјРµРЅ СѓСЃС‚СЂРѕР№СЃС‚РІ.
 system.init_devices_names = function( self )
 
     local devices_count = #devices
@@ -20,7 +20,7 @@ system.init_devices_names = function( self )
     end --for i = 1, devices_count do
 end
 -- ----------------------------------------------------------------------------
---Инициализация свойств устройств.
+--РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃРІРѕР№СЃС‚РІ СѓСЃС‚СЂРѕР№СЃС‚РІ.
 system.init_devices_properties = function( self )
 
     local devices_count = #devices
@@ -29,7 +29,7 @@ system.init_devices_properties = function( self )
 
         local device_descr = devices[ i ]
 
-        --Есть дополнительные свойства.
+        --Р•СЃС‚СЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ СЃРІРѕР№СЃС‚РІР°.
         if device_descr.prop ~= nil then
 
             local device = G_DEVICE_MANAGER():get_device(
@@ -56,7 +56,7 @@ system.init_devices_properties = function( self )
     end --for i = 1, devices_count do
 end
 -- ----------------------------------------------------------------------------
---Инициализация параметров устройств.
+--РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ СѓСЃС‚СЂРѕР№СЃС‚РІ.
 system.init_devices_params = function( self )
 
     local devices_count = #devices
@@ -83,7 +83,7 @@ system.init_devices_params = function( self )
     end --for i = 1, devices_count do
 end
 -- ----------------------------------------------------------------------------
---Инициализация рабочих параметров устройств.
+--РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЂР°Р±РѕС‡РёС… РїР°СЂР°РјРµС‚СЂРѕРІ СѓСЃС‚СЂРѕР№СЃС‚РІ.
 system.init_devices_rt_params = function( self )
 
     local devices_count = #devices
