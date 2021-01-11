@@ -12,6 +12,12 @@ function add_functionality( tbl_main, tbl_2 )
         tbl_main[ field ] = value
     end
 end
+
+function add_functionality_for_group( src, ... )
+    for _, obj in ipairs( ... ) do
+        add_functionality( obj, src )
+      end
+end
 -- ----------------------------------------------------------------------------
 --Класс технологический объект со значениями параметров по умолчанию.
 project_tech_object =
