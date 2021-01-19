@@ -14,7 +14,7 @@ function add_functionality( tbl_main, tbl_2 )
 end
 
 function add_functionality_for_group( src, ... )
-    for _, obj in ipairs( ... ) do
+    for _, obj in pairs( ... ) do
         add_functionality( obj, src )
       end
 end
