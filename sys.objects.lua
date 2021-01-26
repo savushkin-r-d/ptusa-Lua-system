@@ -265,7 +265,7 @@ init_tech_objects = function()
         end
     end
 
-    local proc_devices_action = function( item, group_idx, step_w )
+    local proc_devices_action = function( item, group_idx, step_w, object )
 
         for field, element in pairs( item ) do
 
@@ -290,12 +290,17 @@ init_tech_objects = function()
                         --Добавляем AI производительности.
                         local dev = _G[ "__"..element ]
                         if dev == nil then
-                            print( "Error: unknown device '"..element..
-                                "' (__"..element..")." )
-                            dev = DEVICE( -1 )
+                            local param_n = object.PAR_FLOAT[ element ]
+                            if param_n then
+                                --Добавляем индекс параметра производительности.
+                                step_w:set_param_idx( group_idx - 1, param_n )
+                            else
+                                print( "Error: unknown device '"..element..
+                                    "' (__"..element..")." )
+                            end
+                        else
+                            step_w:add_dev( dev, group_idx - 1, sub_group_idx )
                         end
-
-                        step_w:add_dev( dev, group_idx - 1, sub_group_idx )
                     end
                     element = {}
                 end
@@ -317,7 +322,7 @@ init_tech_objects = function()
         end
     end
 
-    local process_step = function( mode, state_n, step_n, value )
+    local process_step = function( mode, state_n, step_n, value, object )
 
         process_dev_ex(  mode, state_n, step_n, step.A_ON,
             value.opened_devices )
@@ -379,7 +384,7 @@ init_tech_objects = function()
             if value.devices_data[ 1 ] then
                 local step_w = mode[ state_n ][ step_n ][ step.A_WASH ]
                 for group_idx, item in ipairs( value.devices_data ) do
-                    proc_devices_action( item, group_idx, step_w )
+                    proc_devices_action( item, group_idx, step_w, object )
                 end
             end
 
@@ -490,7 +495,7 @@ init_tech_objects = function()
             if oper_info.states ~= nil then
                 for state_n, state_info in ipairs( oper_info.states ) do
 
-                    process_step( operation, state_n, -1, state_info )
+                    process_step( operation, state_n, -1, state_info, object )
 
                     --Шаги.
                     if state_info.steps ~= nil then
@@ -502,7 +507,7 @@ init_tech_objects = function()
                             operation:add_step( step_info.name, next_step_n,
                                 time_param_n, state_n )
 
-                            process_step( operation, state_n, step_n, step_info )
+                            process_step( operation, state_n, step_n, step_info, object )
                         end
                     end
                 end
