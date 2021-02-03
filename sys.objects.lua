@@ -440,6 +440,9 @@ init_tech_objects = function()
             runtime_params_uint_count  = rt_par_uint_count
             }
 
+        --Системные параметры.
+        object.system_parameters = obj_info.system_parameters
+
         --Параметры.
         object.PAR_FLOAT = {}
         obj_info.par_float = obj_info.par_float or {}
