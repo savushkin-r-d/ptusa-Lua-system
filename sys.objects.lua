@@ -11,6 +11,10 @@ function add_functionality( tbl_main, tbl_2 )
     for field, value in pairs( tbl_2 ) do
         tbl_main[ field ] = value
     end
+
+    if getmetatable( tbl_2 ) then
+        setmetatable( getmetatable( tbl_main ), getmetatable( tbl_2 ) )
+    end
 end
 
 function add_functionality_for_group( src, ... )
@@ -119,10 +123,6 @@ function project_tech_object:check_off_mode( mode )
 end
 
 function project_tech_object:final_mode( mode )
-    return 0
-end
-
-function project_tech_object:init_params( par )
     return 0
 end
 
@@ -557,7 +557,7 @@ end
 -- Вызывается из управляющей программы (из С++).
 function init_params()
     for _, obj in pairs( object_manager.objects ) do
-        obj:init_params()
+        if obj.init_params ~= nil then obj:init_params() end
 
         if obj.user_init_params ~= nil then obj:user_init_params() end
     end
