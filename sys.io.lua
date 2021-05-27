@@ -304,6 +304,18 @@ modules_info[ 2688093 ] =
     channel_size      = 2,
     }
 
+modules_info[ 2702072 ] =
+    {
+    comment           = 'AI2 AO2 1H 0-10V',
+    mtype             = 'AIAO',
+    AO_channels_count = 2,
+    AI_channels_count = 2,
+    DO_channels_count = 32,
+    DI_channels_count = 32,
+
+    channel_size      = 2,
+    }
+
 --PHOENIX SMART MODULES
 modules_info[ 1088127 ] =
     {
