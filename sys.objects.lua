@@ -323,12 +323,13 @@ init_tech_objects = function()
     end
 
     local process_step = function( mode, state_n, step_n, value, object )
-
-        process_dev_ex(  mode, state_n, step_n, step.A_ON,
+        process_dev_ex( mode, state_n, step_n, step.A_CHECKED_DEVICES,
+            value.checked_devices )
+        process_dev_ex( mode, state_n, step_n, step.A_ON,
             value.opened_devices )
-        process_dev_ex(  mode, state_n, step_n, step.A_ON_REVERSE,
+        process_dev_ex( mode, state_n, step_n, step.A_ON_REVERSE,
             value.opened_reverse_devices )
-        process_dev_ex(  mode, state_n, step_n, step.A_OFF,
+        process_dev_ex( mode, state_n, step_n, step.A_OFF,
             value.closed_devices )
 
         process_seat_ex( mode, state_n, step_n, step.A_UPPER_SEATS_ON,
