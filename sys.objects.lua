@@ -197,6 +197,10 @@ function project_tech_object:check_operation_on( operation_n, show_error )
         return self.sys_tech_object:check_operation_on( operation_n, show_error )
     end
 end
+
+function project_tech_object:is_any_message()
+    return self.sys_tech_object:is_any_message()
+end
 -- ----------------------------------------------------------------------------
 --Представление всех созданных пользовательских технологических объектов
 --(гребенки, танков) для доступа из C++.
