@@ -235,8 +235,10 @@ OBJECTS = {}
 
 init_tech_objects = function()
 
-    local process_dev_ex = function( mode, state, step_n, action, devices, group_idx )
+    local process_dev_ex = function( mode, state, step_n, action, devices,
+        group_idx, sub_group_idx )
         group_idx = group_idx or 0
+        sub_group_idx = sub_group_idx or 0
         if devices ~= nil then
             for _, value in pairs( devices ) do
                 assert( loadstring( "dev = __"..value ) )( )
@@ -245,7 +247,7 @@ init_tech_objects = function()
                     dev = DEVICE( -1 )
                 end
 
-                mode[ state ][ step_n ][ action ]:add_dev( dev, group_idx, 0 )
+                mode[ state ][ step_n ][ action ]:add_dev( dev, group_idx, sub_group_idx )
             end
         end
     end
@@ -347,9 +349,9 @@ init_tech_objects = function()
         local to_step_if = value.to_step_if_devices_in_specific_state
         if to_step_if then
             process_dev_ex( mode, state_n, step_n, step.A_TO_STEP_IF,
-                to_step_if.on_devices, 0 )
+                to_step_if.on_devices, 0, 0 )
             process_dev_ex( mode, state_n, step_n, step.A_TO_STEP_IF,
-                to_step_if.off_devices, 1 )
+                to_step_if.off_devices, 0, 1 )
         end
 
         --Группа устройств DI->DO.
