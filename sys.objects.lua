@@ -370,6 +370,14 @@ init_tech_objects = function()
             end
         end
 
+        --Группа сигналов, по наличию которых автоматически включается шаг.
+        if value.enable_step_by_signal ~= nil then
+            for sub_group, devices in pairs( value.enable_step_by_signal ) do
+                process_dev_ex( mode, state_n, step_n, step.A_ENABLE_STEP_ON_SIGNAL,
+                    devices, 0, sub_group - 1 )
+            end
+        end
+
         --Группа устройств AI->AO.
         if value.AI_AO ~= nil then
 
