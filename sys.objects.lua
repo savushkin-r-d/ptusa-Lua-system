@@ -1,4 +1,4 @@
---version = 6
+--version = 7
 
 -- ----------------------------------------------------------------------------
 --Добавление функциональности технологическому объекту на основе
@@ -356,21 +356,17 @@ init_tech_objects = function()
 
         --Группа устройств DI->DO.
         if value.DI_DO ~= nil then
+            for sub_group, devices in pairs( value.DI_DO ) do
+                process_dev_ex( mode, state_n, step_n, step.A_DI_DO, devices,
+                    0, sub_group - 1 )
+            end
+        end
 
-            local group = 0
-            for _, value in pairs( value.DI_DO ) do
-                for _, value in pairs( value ) do
-                    assert( loadstring( "dev = __"..value ) )( )
-                    if dev == nil then
-                        print( "Error: unknown device '"..value..
-                            "' (__"..value..")." )
-                        dev = DEVICE( -1 )
-                    end
-                    mode[ state_n ][ step_n ][ step.A_DI_DO ]:add_dev(
-                        dev, 0, group )
-                end
-
-                group = group + 1
+        --Группа устройств инвертированный DI->DO.
+        if value.inverted_DI_DO ~= nil then
+            for sub_group, devices in pairs( value.inverted_DI_DO ) do
+                process_dev_ex( mode, state_n, step_n, step.A_INVERTED_DI_DO,
+                    devices, 0, sub_group - 1 )
             end
         end
 
