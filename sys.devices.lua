@@ -1,20 +1,6 @@
 --version = 1
 
 system = system or {}
-
--- ----------------------------------------------------------------------------
---Инициализация описания устройств.
-system.init_devices_names = function( self )
-    local devices_count = #devices
-    for i = 1, devices_count do
-        local descr = devices[ i ]
-        local device = G_DEVICE_MANAGER():get_device( descr.dtype, descr.name )
-
-        if device then
-            device:set_descr( descr.descr or "" )
-        end
-    end
-end
 -- ----------------------------------------------------------------------------
 --Инициализация свойств устройств.
 system.init_devices_properties = function( self )
