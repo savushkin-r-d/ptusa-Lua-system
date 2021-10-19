@@ -1,4 +1,4 @@
---version = 1
+--version = 2
 
 modules_info = {}
 
@@ -528,7 +528,6 @@ system =
 
     create_devices = function( self )
 
-        G_DEVICE_MANAGER()
         local devices_count = #devices
 
         for i = 1, devices_count do
@@ -559,8 +558,7 @@ system =
                     AO_channels = #device_descr.AO
                 end
 
-                io_device:init( DO_channels, DI_channels,
-                    AO_channels, AI_channels )
+                io_device:init( DO_channels, DI_channels, AO_channels, AI_channels )
 
                 local io_vendor = io_device.WAGO
                 local module_offset
@@ -643,7 +641,22 @@ system =
                 end
 
                 io_device:set_io_vendor( io_vendor )
-            end --if io_device ~= nil then --Устройство имеет модули I/O.
-        end --for i = 1, devices_count do
+            end
+
+            local dev = G_DEVICE_MANAGER():get_device( device_descr.dtype,
+                device_descr.name )
+
+            if dev then
+                dev:set_descr( device_descr.descr or "" )
+            end
+
+            -- Глобальные переменные на основе буквенно-цифрового описания
+            -- технологических устройств (клапана, насосы и т.д.) проекта для более
+            -- удобного использования (S1V52 вместо V("S1V52")).
+            if dev then
+                _G[ device_descr.name ] = _G[ dev:get_type_str() ]( device_descr.name )
+                _G[ "__"..device_descr.name ] = dev
+            end
+        end
     end
     }
