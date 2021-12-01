@@ -111,13 +111,6 @@ function project_tech_object:init_mode( mode )
     return 0
 end
 
-function project_tech_object:evaluate()
-    return 0
-end
-
-function project_tech_object:init()
-end
-
 function project_tech_object:check_off_mode( mode )
     return 0
 end
@@ -547,28 +540,26 @@ end
 --(из С++).
 function eval()
     for _, obj in pairs( object_manager.objects ) do
-        obj:evaluate()
+        if obj.evaluate then obj:evaluate() end
     end
 
-    if remote_gateways then eval_gateways(remote_gateways) end
-
-    if user_eval ~= nil then user_eval() end
+    if remote_gateways then eval_gateways( remote_gateways ) end
+    if user_eval then user_eval() end
 end
 -- ----------------------------------------------------------------------------
 --Функция, выполняемая один раз в PAC.  Вызывается из управляющей программы
 --(из С++).
 function init()
     for _, obj in pairs( object_manager.objects ) do
-        if obj.user_init ~= nil then obj:user_init() end
-        obj:init()
+        if obj.user_init then obj:user_init() end
+        if obj.init then obj:init() end
     end
 
-    if remote_gateways then init_gateways(remote_gateways) end
-
-    if user_init ~= nil then user_init() end
+    if remote_gateways then init_gateways( remote_gateways ) end
+    if user_init then user_init() end
 
     for _, obj in pairs( object_manager.objects ) do
-        if obj.post_init ~= nil then obj:post_init() end
+        if obj.post_init then obj:post_init() end
     end
 end
 -- ----------------------------------------------------------------------------
@@ -576,10 +567,9 @@ end
 -- Вызывается из управляющей программы (из С++).
 function init_params()
     for _, obj in pairs( object_manager.objects ) do
-        if obj.init_params ~= nil then obj:init_params() end
-
-        if obj.user_init_params ~= nil then obj:user_init_params() end
+        if obj.init_params then obj:init_params() end
+        if obj.user_init_params then obj:user_init_params() end
     end
 
-    if user_init_params ~= nil then user_init_params() end
+    if user_init_params then user_init_params() end
 end
