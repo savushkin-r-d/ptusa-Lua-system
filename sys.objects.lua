@@ -13,7 +13,12 @@ function add_functionality( tbl_main, tbl_2 )
     end
 
     if getmetatable( tbl_2 ) then
-        setmetatable( getmetatable( tbl_main ), getmetatable( tbl_2 ) )
+        local new_functionality = getmetatable( tbl_2 ).__index
+        if new_functionality then
+            for field, value in pairs( new_functionality ) do
+                tbl_main[ field ] = value
+            end
+        end
     end
 end
 
