@@ -4,7 +4,7 @@
 --Добавление функциональности технологическому объекту на основе
 --пользовательского объекта.
 function add_functionality( tbl_main, tbl_2 )
-    if tbl_main == nil or tbl_2 == nil then
+    if not tbl_main or not tbl_2 then
         return
     end
 
@@ -12,13 +12,16 @@ function add_functionality( tbl_main, tbl_2 )
         tbl_main[ field ] = value
     end
 
-    if getmetatable( tbl_2 ) then
-        local new_functionality = getmetatable( tbl_2 ).__index
+    local meta = getmetatable( tbl_2 )
+    while meta
+    do
+        local new_functionality = meta.__index
         if new_functionality then
             for field, value in pairs( new_functionality ) do
-                tbl_main[ field ] = value
+                if not tbl_main[ field ] then tbl_main[ field ] = value end
             end
         end
+        meta = getmetatable( meta )
     end
 end
 
