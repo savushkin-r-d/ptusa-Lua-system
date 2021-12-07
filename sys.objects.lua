@@ -202,6 +202,10 @@ end
 function project_tech_object:is_any_message()
     return self.sys_tech_object:is_any_message()
 end
+
+function project_tech_object:is_any_error()
+    return self.sys_tech_object:is_any_error()
+end
 -- ----------------------------------------------------------------------------
 --Представление всех созданных пользовательских технологических объектов
 --(гребенки, танков) для доступа из C++.
