@@ -246,13 +246,20 @@ init_tech_objects = function()
         sub_group_idx = sub_group_idx or 0
         if devices ~= nil then
             for _, value in pairs( devices ) do
-                assert( loadstring( "dev = __"..value ) )( )
-                if dev == nil then
-                    print( "Error: unknown device '"..value.."' (__"..value..")." )
-                    dev = DEVICE( -1 )
-                end
 
-                mode[ state ][ step_n ][ action ]:add_dev( dev, group_idx, sub_group_idx )
+                if type( value ) == "number" then
+                    --Добавляем индекс параметра производительности.
+                    mode[ state ][ step_n ][ action ]:set_param_idx( sub_group_idx, value )
+
+                elseif type( value ) == "string" then
+                    assert( loadstring( "dev = __"..value ) )( )
+                    if dev == nil then
+                        print( "Error: unknown device '"..value.."' (__"..value..")." )
+                        dev = DEVICE( -1 )
+                    end
+
+                    mode[ state ][ step_n ][ action ]:add_dev( dev, group_idx, sub_group_idx )
+                end
             end
         end
     end
@@ -336,8 +343,23 @@ init_tech_objects = function()
     local process_step = function( mode, state_n, step_n, value, object )
         process_dev_ex( mode, state_n, step_n, step.A_CHECKED_DEVICES,
             value.checked_devices )
+
+        if value.opened_devices then
+            if type( value.opened_devices[ 1 ] ) == "string" then
+                process_dev_ex( mode, state_n, step_n, step.A_ON,
+                    value.opened_devices )
+
+            elseif type( value.opened_devices[ 1 ] ) == "table" then
+                for sub_group, devices in pairs( value.opened_devices ) do
+                    process_dev_ex( mode, state_n, step_n, step.A_ON, devices,
+                        0, sub_group - 1 )
+                end
+            end
+        end
+
         process_dev_ex( mode, state_n, step_n, step.A_ON,
             value.opened_devices )
+
         process_dev_ex( mode, state_n, step_n, step.A_ON_REVERSE,
             value.opened_reverse_devices )
         process_dev_ex( mode, state_n, step_n, step.A_OFF,
