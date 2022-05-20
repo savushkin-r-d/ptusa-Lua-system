@@ -246,20 +246,13 @@ init_tech_objects = function()
         sub_group_idx = sub_group_idx or 0
         if devices ~= nil then
             for _, value in pairs( devices ) do
-
-                if type( value ) == "number" then
-                    --Добавляем индекс параметра производительности.
-                    mode[ state ][ step_n ][ action ]:set_param_idx( sub_group_idx, value )
-
-                elseif type( value ) == "string" then
-                    assert( loadstring( "dev = __"..value ) )( )
-                    if dev == nil then
-                        print( "Error: unknown device '"..value.."' (__"..value..")." )
-                        dev = DEVICE( -1 )
-                    end
-
-                    mode[ state ][ step_n ][ action ]:add_dev( dev, group_idx, sub_group_idx )
+                assert( loadstring( "dev = __"..value ) )( )
+                if dev == nil then
+                    print( "Error: unknown device '"..value.."' (__"..value..")." )
+                    dev = DEVICE( -1 )
                 end
+
+                mode[ state ][ step_n ][ action ]:add_dev( dev, group_idx, sub_group_idx )
             end
         end
     end
@@ -350,9 +343,16 @@ init_tech_objects = function()
                     value.opened_devices )
 
             elseif type( value.opened_devices[ 1 ] ) == "table" then
-                for sub_group, devices in pairs( value.opened_devices ) do
-                    process_dev_ex( mode, state_n, step_n, step.A_ON, devices,
+                for sub_group, group in pairs( value.opened_devices ) do
+                    process_dev_ex( mode, state_n, step_n, step.A_ON, group[ 1 ],
                         0, sub_group - 1 )
+
+                    --Добавляем индекс параметра производительности.
+                    local param_idx = group[ 2 ]
+                    if param_idx then
+                        local a_step = mode[ state_n ][ step_n ][ step.A_ON ]
+                        a_step:set_param_idx( sub_group - 1, param_idx )
+                    end
                 end
             end
         end
