@@ -336,27 +336,8 @@ init_tech_objects = function()
     local process_step = function( mode, state_n, step_n, value, object )
         process_dev_ex( mode, state_n, step_n, step.A_CHECKED_DEVICES,
             value.checked_devices )
-
-        if value.opened_devices then
-            if type( value.opened_devices[ 1 ] ) == "string" then
-                process_dev_ex( mode, state_n, step_n, step.A_ON,
-                    value.opened_devices )
-
-            elseif type( value.opened_devices[ 1 ] ) == "table" then
-                for sub_group, group in pairs( value.opened_devices ) do
-                    process_dev_ex( mode, state_n, step_n, step.A_ON, group[ 1 ],
-                        0, sub_group - 1 )
-
-                    --Добавляем индекс параметра производительности.
-                    local param_idx = group[ 2 ]
-                    if param_idx then
-                        local a_step = mode[ state_n ][ step_n ][ step.A_ON ]
-                        a_step:set_param_idx( sub_group - 1, param_idx )
-                    end
-                end
-            end
-        end
-
+        process_dev_ex( mode, state_n, step_n, step.A_ON,
+            value.opened_devices )
         process_dev_ex( mode, state_n, step_n, step.A_ON_REVERSE,
             value.opened_reverse_devices )
         process_dev_ex( mode, state_n, step_n, step.A_OFF,
@@ -435,6 +416,20 @@ init_tech_objects = function()
             --Устаревшее описание.
             local step_w = mode[ state_n ][ step_n ][ step.A_WASH ]
             proc_devices_action( value.wash_data, 1, step_w )
+        end
+
+        if value.delay_opened_devices then
+            for sub_group, group in pairs( value.delay_opened_devices ) do
+                process_dev_ex( mode, state_n, step_n, step.A_DELAY_ON, group[ 1 ],
+                    0, sub_group - 1 )
+
+                --Добавляем индекс параметра производительности.
+                local param_idx = group[ 2 ]
+                if param_idx then
+                    local a_step = mode[ state_n ][ step_n ][ step.A_DELAY_ON ]
+                    a_step:set_param_idx( sub_group - 1, param_idx )
+                end
+            end
         end
     end
 
