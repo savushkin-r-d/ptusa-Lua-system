@@ -357,9 +357,6 @@ init_tech_objects = function()
             end
         end
 
-        process_dev_ex( mode, state_n, step_n, step.A_ON,
-            value.opened_devices )
-
         process_dev_ex( mode, state_n, step_n, step.A_ON_REVERSE,
             value.opened_reverse_devices )
         process_dev_ex( mode, state_n, step_n, step.A_OFF,
