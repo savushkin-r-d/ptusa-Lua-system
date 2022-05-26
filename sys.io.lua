@@ -401,6 +401,18 @@ modules_info[ 1088131 ] =
     channel_size      = 2,
     }
 
+modules_info[ 2688666 ] =
+    {
+    comment           = 'RS UNI 1H',
+    mtype             = 'AIAO',
+    AO_channels_count = 10,
+    AI_channels_count = 10,
+    DO_channels_count = 160,
+    DI_channels_count = 160,
+
+    channel_size      = 2,
+    }
+
 modules_info[ 1088134 ] =
     {
         comment = 'SC-A',
