@@ -423,10 +423,24 @@ init_tech_objects = function()
                 process_dev_ex( mode, state_n, step_n, step.A_DELAY_ON, group[ 1 ],
                     0, sub_group - 1 )
 
-                --Добавляем индекс параметра производительности.
+                --Добавляем индекс параметра.
                 local param_idx = group[ 2 ]
                 if param_idx then
                     local a_step = mode[ state_n ][ step_n ][ step.A_DELAY_ON ]
+                    a_step:set_param_idx( sub_group - 1, param_idx )
+                end
+            end
+        end
+
+        if value.delay_closed_devices then
+            for sub_group, group in pairs( value.delay_closed_devices ) do
+                process_dev_ex( mode, state_n, step_n, step.A_DELAY_OFF, group[ 1 ],
+                    0, sub_group - 1 )
+
+                --Добавляем индекс параметра.
+                local param_idx = group[ 2 ]
+                if param_idx then
+                    local a_step = mode[ state_n ][ step_n ][ step.A_DELAY_OFF ]
                     a_step:set_param_idx( sub_group - 1, param_idx )
                 end
             end
