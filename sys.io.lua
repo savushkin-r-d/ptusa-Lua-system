@@ -405,9 +405,9 @@ modules_info[ 2688666 ] =
     {
     comment           = 'RS UNI 1H',
     mtype             = 'AIAO',
-    AO_channels_count = 10,
+    AO_channels_count = 1,
     AI_channels_count = 10,
-    DO_channels_count = 160,
+    DO_channels_count = 16,
     DI_channels_count = 160,
 
     channel_size      = 2,
