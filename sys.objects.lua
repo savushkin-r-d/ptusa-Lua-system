@@ -376,10 +376,18 @@ init_tech_objects = function()
         end
 
         --Группа сигналов, по наличию которых автоматически включается шаг.
-        if value.enable_step_by_signal ~= nil then
-            for sub_group, devices in pairs( value.enable_step_by_signal ) do
-                process_dev_ex( mode, state_n, step_n, step.A_ENABLE_STEP_BY_SIGNAL,
-                    devices, 0, sub_group - 1 )
+        if value.enable_step_by_signal then
+            for sub_group, item in pairs( value.enable_step_by_signal ) do
+                if type( item ) == "boolean" then
+                    local step_on = mode[ state_n ][ step_n ][ step.A_ENABLE_STEP_BY_SIGNAL ]
+                    --Добавляем параметр отключения/не отключения шага при
+                    --пропадании сигналов.
+                    step_on:set_bool_property( item )
+
+                elseif type( item ) == "table" then
+                    process_dev_ex( mode, state_n, step_n, step.A_ENABLE_STEP_BY_SIGNAL,
+                        item, 0, sub_group - 1 )
+                end
             end
         end
 
