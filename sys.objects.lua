@@ -382,7 +382,7 @@ init_tech_objects = function()
                     local step_on = mode[ state_n ][ step_n ][ step.A_ENABLE_STEP_BY_SIGNAL ]
                     --Добавляем параметр отключения/не отключения шага при
                     --пропадании сигналов.
-                    step_on:set_bool_property( item )
+                    step_on:set_bool_property( "should_turn_off", item )
 
                 elseif type( item ) == "table" then
                     process_dev_ex( mode, state_n, step_n, step.A_ENABLE_STEP_BY_SIGNAL,
