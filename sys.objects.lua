@@ -314,20 +314,28 @@ init_tech_objects = function()
                         end
                     end
                     element = {}
+
+                --to_step_if_devices_in_specific_state_action
+                elseif field == 'on_devices' then
+                    sub_group_idx = 0
+                elseif field == 'off_devices' then
+                    sub_group_idx = 1
+                elseif field == 'next_step_n' then
+                    step_w:set_int_property( 'next_step_n', group_idx - 1, element )
                 end
 
-                if not sub_group_idx then break end
+                if sub_group_idx then
+                    for _, value in pairs( element ) do --Устройства.
 
-                for _, value in pairs( element ) do --Устройства.
+                        local dev = _G[ "__"..value ]
+                        if dev == nil then
+                            print( "Error: unknown device '"..value..
+                                "' (__"..value..")." )
+                            dev = DEVICE( -1 )
+                        end
 
-                    local dev = _G[ "__"..value ]
-                    if dev == nil then
-                        print( "Error: unknown device '"..value..
-                            "' (__"..value..")." )
-                        dev = DEVICE( -1 )
+                        step_w:add_dev( dev, group_idx - 1, sub_group_idx )
                     end
-
-                    step_w:add_dev( dev, group_idx - 1, sub_group_idx )
                 end
             end
         end
@@ -352,11 +360,11 @@ init_tech_objects = function()
             value.required_FB )
 
         local to_step_if = value.to_step_if_devices_in_specific_state
-        if to_step_if then
-            process_dev_ex( mode, state_n, step_n, step.A_TO_STEP_IF,
-                to_step_if.on_devices, 0, 0 )
-            process_dev_ex( mode, state_n, step_n, step.A_TO_STEP_IF,
-                to_step_if.off_devices, 0, 1 )
+        if to_step_if and to_step_if[ 1 ] then
+            local step_w = mode[ state_n ][ step_n ][ step.A_TO_STEP_IF ]
+            for group_idx, item in ipairs( to_step_if ) do
+                proc_devices_action( item, group_idx, step_w, object )
+            end
         end
 
         --Группа устройств DI->DO.
