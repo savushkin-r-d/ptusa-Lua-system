@@ -564,7 +564,7 @@ init_tech_objects = function()
 
             --Описание с состояниями.
             if oper_info.states ~= nil then
-                for state_n, state_info in ipairs( oper_info.states ) do
+                for state_n, state_info in pairs( oper_info.states ) do
 
                     process_step( operation, state_n, -1, state_info, object )
 
