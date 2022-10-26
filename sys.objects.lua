@@ -315,7 +315,7 @@ init_tech_objects = function()
                     end
                     element = {}
 
-                --to_step_if_devices_in_specific_state_action
+                --jump_if
                 elseif field == 'on_devices' then
                     sub_group_idx = 0
                 elseif field == 'off_devices' then
@@ -359,9 +359,9 @@ init_tech_objects = function()
         process_dev_ex( mode, state_n, step_n, step.A_REQUIRED_FB,
             value.required_FB )
 
-        local to_step_if = value.to_step_if_devices_in_specific_state
+        local to_step_if = value.jump_if
         if to_step_if and to_step_if[ 1 ] then
-            local step_w = mode[ state_n ][ step_n ][ step.A_TO_STEP_IF ]
+            local step_w = mode[ state_n ][ step_n ][ step.A_JUMP_IF ]
             for group_idx, item in ipairs( to_step_if ) do
                 proc_devices_action( item, group_idx, step_w, object )
             end
