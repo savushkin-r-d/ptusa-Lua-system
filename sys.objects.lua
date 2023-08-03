@@ -581,6 +581,7 @@ init_tech_objects = function()
                             --Обрабатываем связанный с шагом объект.
                             local o_idx = step_info.attached_object
                             if o_idx and type( o_idx ) == "number" then
+                                if step.set_tag then step:set_tag( o_idx ) end
                                 step.attached_object = o_idx
                             end
                         end
