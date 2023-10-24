@@ -322,6 +322,8 @@ init_tech_objects = function()
                     sub_group_idx = 1
                 elseif field == 'next_step_n' then
                     step_w:set_int_property( 'next_step_n', group_idx - 1, element )
+                elseif field == 'next_state_n' then
+                    step_w:set_int_property( 'next_state_n', group_idx - 1, element )
                 end
 
                 if sub_group_idx then
