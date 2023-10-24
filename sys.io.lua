@@ -268,6 +268,18 @@ modules_info[ 2688527 ] =
     channel_size      = 2,
     }
 
+modules_info[ 2688064 ] =
+    {
+    comment           = 'AI8 1F',
+    mtype             = 'AIAO',
+    AO_channels_count = 8,
+    AI_channels_count = 8,
+    DO_channels_count = 128,
+    DI_channels_count = 128,
+
+    channel_size      = 2,
+    }
+
 modules_info[ 2688048 ] =
     {
     comment           = 'DO16/3 2F',
