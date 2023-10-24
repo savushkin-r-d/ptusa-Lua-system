@@ -364,6 +364,18 @@ modules_info[ 1088123 ] =
 
     channel_size      = 2,
     }
+    
+modules_info[ 1088126 ] =
+    {
+    comment = 'AO4 U 0-10',
+    mtype             = 'AIAO',
+    AO_channels_count = 4,
+    AI_channels_count = 4,
+    DO_channels_count = 64,
+    DI_channels_count = 64,
+
+    channel_size      = 2,
+    }
 
 modules_info[ 1088106 ] =
     {
