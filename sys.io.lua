@@ -443,6 +443,18 @@ modules_info[ 1088134 ] =
         mtype = 'STUB',
     }
 
+modules_info[ 1337223 ] =
+    {
+    comment           = 'AXL SE PD16 24V',
+    mtype             = 'STUB'
+    }
+    
+modules_info[ 1337224 ] =
+    {
+    comment           = 'AXL SE PD16 GND',
+    mtype             = 'STUB'
+    }
+
 
 function get_modules_info ( modules )
     local DO_cnt      = 0
