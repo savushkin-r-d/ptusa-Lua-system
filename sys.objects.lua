@@ -515,13 +515,14 @@ init_tech_objects = function()
 
         --Параметры.
         object.PAR_FLOAT = {}
+        object.NAME_PARAMS = {}
         obj_info.par_float = obj_info.par_float or {}
         for field, v in pairs( obj_info.par_float ) do
             --self.PAR_FLOAT.EXAMPLE_NAME_LUA = 1
             object.PAR_FLOAT[ v.nameLua ] = field
-
             --self.PAR_FLOAT[ 1 ] = 1.2
             object.PAR_FLOAT[ field ] = v.value
+            object.NAME_PARAMS[ field ] = v.nameLua
         end
         --Инициализация параметров.
         object.init_params_float = function ( self )
