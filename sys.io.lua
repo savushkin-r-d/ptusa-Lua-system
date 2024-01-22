@@ -523,7 +523,7 @@ function get_modules_info ( modules )
 
             modules_cnt = modules_cnt + 1
         else
-            print( "Unknown module №", fields, " - '", value[ 1 ], "'!")
+            error( "Unknown module №"..fields.." - '"..value[ 1 ].."'!" )
         end
 
     end
