@@ -376,7 +376,7 @@ modules_info[ 1088123 ] =
 
     channel_size      = 2,
     }
-    
+
 modules_info[ 1088126 ] =
     {
     comment = 'AO4 U 0-10',
@@ -439,22 +439,33 @@ modules_info[ 2688666 ] =
 
 modules_info[ 1088134 ] =
     {
-        comment = 'SC-A',
-        mtype = 'STUB',
+    comment = 'SC-A',
+    mtype   = 'STUB',
     }
 
 modules_info[ 1337223 ] =
     {
-    comment           = 'AXL SE PD16 24V',
-    mtype             = 'STUB'
-    }
-    
-modules_info[ 1337224 ] =
-    {
-    comment           = 'AXL SE PD16 GND',
-    mtype             = 'STUB'
+    comment = 'AXL SE PD16 24V',
+    mtype   = 'STUB'
     }
 
+modules_info[ 1337224 ] =
+    {
+    comment = 'AXL SE PD16 GND',
+    mtype   = 'STUB'
+    }
+
+modules_info[ 2702911 ] =
+    {
+    comment           = 'AXL F SGI2 1H',
+    mtype             = 'AIAO',
+    AO_channels_count = 6,
+    AI_channels_count = 6,
+    DO_channels_count = 96,
+    DI_channels_count = 96,
+
+    channel_size      = 2,
+    }
 
 function get_modules_info ( modules )
     local DO_cnt      = 0
