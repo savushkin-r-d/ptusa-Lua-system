@@ -709,6 +709,12 @@ system =
                 dev:set_descr( device_descr.descr or "" )
             end
 
+            if device_descr.stat ~= nil then
+                local dev_with_stat = G_STATISTIC_MANAGER():add_new_dev_with_stat(dev, device_descr.stat[1])
+                _G[ "__"..dev_with_stat:get_name().."_STAT" ] = dev_with_stat
+            end
+
+
             -- Глобальные переменные на основе буквенно-цифрового описания
             -- технологических устройств (клапана, насосы и т.д.) проекта для более
             -- удобного использования (S1V52 вместо V("S1V52")).
