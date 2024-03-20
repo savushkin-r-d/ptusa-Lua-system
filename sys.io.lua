@@ -710,7 +710,7 @@ system =
             end
 
             if device_descr.stat ~= nil then
-                local dev_with_stat = G_STATISTIC_MANAGER():add_new_dev_with_stat(dev, device_descr.stat[1])
+                local dev_with_stat = G_STATISTIC_MANAGER():add_new_dev_with_stat( dev, device_descr.stat[ 1 ] )
                 _G[ "__"..dev_with_stat:get_name().."_STAT" ] = dev_with_stat
             end
 
