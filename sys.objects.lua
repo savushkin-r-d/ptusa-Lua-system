@@ -575,9 +575,10 @@ init_tech_objects = function()
 
                         for step_n, step_info in ipairs( state_info.steps ) do
                             local time_param_n = step_info.time_param_n or 0
+                            local step_max_duration_par_n = step_info.step_max_duration_par_n or 0
                             local next_step_n = step_info.next_step_n or 0
                             local step = operation:add_step( step_info.name, next_step_n,
-                                time_param_n, state_n )
+                                time_param_n, step_max_duration_par_n, state_n )
                             process_step( operation, state_n, step_n, step_info, object )
 
                             --Обрабатываем связанный с шагом объект.
