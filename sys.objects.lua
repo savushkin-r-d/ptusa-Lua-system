@@ -90,7 +90,6 @@ function project_tech_object:new( o )
     o.rt_par_float = o.sys_tech_object.rt_par_float
     o.par_float = o.sys_tech_object.par_float
     o.par = o.sys_tech_object.par_float
-    o.PAR = o.sys_tech_object.PAR_FLOAT
     o.rt_par_uint = o.sys_tech_object.rt_par_uint
     o.par_uint = o.sys_tech_object.par_uint
     o.timers = o.sys_tech_object.timers
@@ -517,6 +516,7 @@ init_tech_objects = function()
 
         --Параметры.
         object.PAR_FLOAT = {}
+        object.PAR = object.PAR_FLOAT
         obj_info.par_float = obj_info.par_float or {}
         for field, v in pairs( obj_info.par_float ) do
             --self.PAR_FLOAT.EXAMPLE_NAME_LUA = 1
