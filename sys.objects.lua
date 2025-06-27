@@ -90,7 +90,7 @@ function project_tech_object:new( o )
     o.rt_par_float = o.sys_tech_object.rt_par_float
     o.par_float = o.sys_tech_object.par_float
     o.par = o.sys_tech_object.par_float
-    o.PAR_FLOAT = o.sys_tech_object.PAR_FLOAT
+    o.PAR = o.sys_tech_object.PAR_FLOAT
     o.rt_par_uint = o.sys_tech_object.rt_par_uint
     o.par_uint = o.sys_tech_object.par_uint
     o.timers = o.sys_tech_object.timers
