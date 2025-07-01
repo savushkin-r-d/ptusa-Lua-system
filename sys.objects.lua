@@ -516,7 +516,6 @@ init_tech_objects = function()
 
         --Параметры.
         object.PAR_FLOAT = {}
-        object.PAR = object.PAR_FLOAT
         obj_info.par_float = obj_info.par_float or {}
         for field, v in pairs( obj_info.par_float ) do
             --self.PAR_FLOAT.EXAMPLE_NAME_LUA = 1
