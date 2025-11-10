@@ -572,7 +572,7 @@ init_tech_objects = function()
             -- Если есть функция установки номера параметра, который
             -- содержит время переходного процесса между шагами, и
             -- задан данный параметр, то вызываем её.
-            if operation:set_step_cooperate_time_par_n and
+            if operation.set_step_cooperate_time_par_n and
                 obj_info.cooper_param_number then
                 operation:set_step_cooperate_time_par_n( obj_info.cooper_param_number )
             end
@@ -650,4 +650,5 @@ function init_params()
 
     if user_init_params then user_init_params() end
 end
+
 
