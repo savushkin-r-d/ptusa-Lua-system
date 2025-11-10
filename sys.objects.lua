@@ -650,5 +650,3 @@ function init_params()
 
     if user_init_params then user_init_params() end
 end
-
-
