@@ -569,6 +569,14 @@ init_tech_objects = function()
 
             local operation = modes_manager:add_mode( oper_info.name )
 
+            -- Если есть функция установки номера параметра, который
+            -- содержит время переходного процесса между шагами, и
+            -- задан данный параметр, то вызываем её.
+            if operation.set_step_cooperate_time_par_n and
+                obj_info.cooper_param_number then
+                operation:set_step_cooperate_time_par_n( obj_info.cooper_param_number )
+            end
+
             --Описание с состояниями.
             if oper_info.states ~= nil then
                 for state_n, state_info in pairs( oper_info.states ) do
