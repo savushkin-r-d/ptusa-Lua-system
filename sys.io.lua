@@ -292,6 +292,18 @@ modules_info[ 2688048 ] =
     channel_size      = 2,
     }
 
+modules_info[ 1027904 ] =
+    {
+    comment           = 'DO16/2 2H',
+    mtype             = 'AIAO',
+    AO_channels_count = 1,
+    AI_channels_count = 1,
+    DO_channels_count = 16,
+    DI_channels_count = 16,
+
+    channel_size      = 2,
+    }
+
 modules_info[ 2688556 ] =
     {
     comment           = 'RTD4 1H',
