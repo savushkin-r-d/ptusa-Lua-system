@@ -371,9 +371,19 @@ init_tech_objects = function()
 
         --Группа устройств DI->DO.
         if value.DI_DO ~= nil then
-            for sub_group, devices in pairs( value.DI_DO ) do
-                process_dev_ex( mode, state_n, step_n, step.A_DI_DO, devices,
-                    0, sub_group - 1 )
+
+            for sub_group, item in pairs( value.DI_DO ) do
+                for _, devices in pairs( item ) do
+
+                    if type( devices ) == "number" then
+                        local step_di_do = mode[ state_n ][ step_n ][ step.A_DI_DO ]
+                        step_di_do:set_bool_property( "logic_type", item == 1 )  -- Enable AND logic.
+
+                    elseif type( devices ) == "table" then
+                        process_dev_ex( mode, state_n, step_n, step.A_DI_DO, devices,
+                            0, sub_group - 1 )
+                    end
+                end
             end
         end
 
