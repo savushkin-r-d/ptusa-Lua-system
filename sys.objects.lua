@@ -373,15 +373,23 @@ init_tech_objects = function()
         if value.DI_DO ~= nil then
 
             for sub_group, item in pairs( value.DI_DO ) do
-                for _, devices in pairs( item ) do
+                for _, data in pairs( item ) do
 
-                    if type( devices ) == "number" then
+                    if type( data ) == "number" then
+                        -- Задание AND/OR логики обработки входных сигналов.
                         local step_di_do = mode[ state_n ][ step_n ][ step.A_DI_DO ]
-                        step_di_do:set_bool_property( "logic_type", item == 1 )  -- Enable AND logic.
+                        step_di_do:set_bool_property( "logic_type", data == 1 )
 
-                    elseif type( devices ) == "table" then
-                        process_dev_ex( mode, state_n, step_n, step.A_DI_DO, devices,
+                    elseif type( data ) == "table" then
+                        process_dev_ex( mode, state_n, step_n, step.A_DI_DO, data,
                             0, sub_group - 1 )
+
+                    elseif type( data ) == "string" then
+                        -- Предыдущий формат описания, в нем не задавалась логика.
+                        -- TODO. Убрать, после обновления описаний проектов.
+                        process_dev_ex( mode, state_n, step_n, step.A_DI_DO, item,
+                            0, sub_group - 1 )
+                        break
                     end
                 end
             end
