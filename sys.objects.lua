@@ -381,6 +381,7 @@ init_tech_objects = function()
                         step_di_do:set_bool_property( "logic_type", data == 1 )
 
                     elseif type( data ) == "table" then
+                        -- Непосредственно входные/выходные сигналы.
                         process_dev_ex( mode, state_n, step_n, step.A_DI_DO, data,
                             0, sub_group - 1 )
 
