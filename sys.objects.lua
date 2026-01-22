@@ -383,7 +383,8 @@ init_tech_objects = function()
                     if type( di_do_item ) == "number" then
                         -- Задание AND/OR логики обработки входных сигналов.
                         local step_di_do = mode[ state_n ][ step_n ][ step.A_DI_DO ]
-                        step_di_do:set_bool_property( "logic_type", di_do_item == 1 )
+                        step_di_do:set_int_property( "logic_type",
+                            sub_group - 1, di_do_item )
 
                     elseif type( di_do_item ) == "table" then
                         -- Непосредственно входные/выходные сигналы.
