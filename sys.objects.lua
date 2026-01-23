@@ -262,6 +262,32 @@ init_tech_objects = function()
         end
     end
 
+    local process_dev_DI_DO = function( action, mode, state_n, step_n, a_id )
+        for sub_group, item in pairs( action ) do
+            for _, di_do_item in pairs( item ) do
+
+                if type( di_do_item ) == "number" then
+                    -- Задание AND/OR логики обработки входных сигналов.
+                    local step_di_do = mode[ state_n ][ step_n ][ a_id ]
+                    step_di_do:set_int_property( "logic_type",
+                        sub_group - 1, di_do_item )
+
+                elseif type( di_do_item ) == "table" then
+                    -- Непосредственно входные/выходные сигналы.
+                    process_dev_ex( mode, state_n, step_n, a_id, di_do_item,
+                        0, sub_group - 1 )
+
+                elseif type( di_do_item ) == "string" then
+                    -- Предыдущий формат описания, в нем не задавалась логика.
+                    -- TODO. Убрать после обновления описаний проектов.
+                    process_dev_ex( mode, state_n, step_n, a_id, item,
+                        0, sub_group - 1 )
+                    break
+                end
+            end
+        end
+    end
+
     local process_seat_ex = function( mode, state, step_n, action, devices, t )
 
         if devices ~= nil then
@@ -376,56 +402,14 @@ init_tech_objects = function()
 
         --Группа устройств DI->DO.
         if value.DI_DO ~= nil then
-
-            for sub_group, item in pairs( value.DI_DO ) do
-                for _, di_do_item in pairs( item ) do
-
-                    if type( di_do_item ) == "number" then
-                        -- Задание AND/OR логики обработки входных сигналов.
-                        local step_di_do = mode[ state_n ][ step_n ][ step.A_DI_DO ]
-                        step_di_do:set_int_property( "logic_type",
-                            sub_group - 1, di_do_item )
-
-                    elseif type( di_do_item ) == "table" then
-                        -- Непосредственно входные/выходные сигналы.
-                        process_dev_ex( mode, state_n, step_n, step.A_DI_DO, di_do_item,
-                            0, sub_group - 1 )
-
-                    elseif type( di_do_item ) == "string" then
-                        -- Предыдущий формат описания, в нем не задавалась логика.
-                        -- TODO. Убрать после обновления описаний проектов.
-                        process_dev_ex( mode, state_n, step_n, step.A_DI_DO, item,
-                            0, sub_group - 1 )
-                        break
-                    end
-                end
-            end
+            process_dev_DI_DO( value.DI_DO, mode, state_n, step_n,
+                step.A_DI_DO )
         end
 
         --Группа устройств инвертированный DI->DO.
         if value.inverted_DI_DO ~= nil then
-            for sub_group, item in pairs( value.inverted_DI_DO ) do
-                for _, inverted_di_do_item in pairs( item ) do
-                    if type( inverted_di_do_item ) == "number" then
-                        -- Задание AND/OR логики обработки входных сигналов.
-                        local step_di_do = mode[ state_n ][ step_n ][ step.A_INVERTED_DI_DO ]
-                        step_di_do:set_int_property( "logic_type",
-                            sub_group - 1, inverted_di_do_item )
-
-                    elseif type( inverted_di_do_item ) == "table" then
-                        -- Непосредственно входные/выходные сигналы.
-                        process_dev_ex( mode, state_n, step_n, step.A_INVERTED_DI_DO, inverted_di_do_item,
-                            0, sub_group - 1 )
-
-                    elseif type( inverted_di_do_item ) == "string" then
-                        -- Предыдущий формат описания, в нем не задавалась логика.
-                        -- TODO. Убрать после обновления описаний проектов.
-                        process_dev_ex( mode, state_n, step_n, step.A_INVERTED_DI_DO, item,
-                            0, sub_group - 1 )
-                        break
-                    end
-                end
-            end
+            process_dev_DI_DO( value.inverted_DI_DO, mode, state_n, step_n,
+                step.A_INVERTED_DI_DO )
         end
 
         --Группа сигналов, по наличию которых автоматически включается шаг.
