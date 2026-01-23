@@ -404,9 +404,27 @@ init_tech_objects = function()
 
         --Группа устройств инвертированный DI->DO.
         if value.inverted_DI_DO ~= nil then
-            for sub_group, devices in pairs( value.inverted_DI_DO ) do
-                process_dev_ex( mode, state_n, step_n, step.A_INVERTED_DI_DO,
-                    devices, 0, sub_group - 1 )
+            for sub_group, item in pairs( value.inverted_DI_DO ) do
+                for _, inverted_di_do_item in pairs( item ) do
+                    if type( inverted_di_do_item ) == "number" then
+                        -- Задание AND/OR логики обработки входных сигналов.
+                        local step_di_do = mode[ state_n ][ step_n ][ step.A_INVERTED_DI_DO ]
+                        step_di_do:set_int_property( "logic_type",
+                            sub_group - 1, inverted_di_do_item )
+
+                    elseif type( inverted_di_do_item ) == "table" then
+                        -- Непосредственно входные/выходные сигналы.
+                        process_dev_ex( mode, state_n, step_n, step.A_INVERTED_DI_DO, inverted_di_do_item,
+                            0, sub_group - 1 )
+
+                    elseif type( inverted_di_do_item ) == "string" then
+                        -- Предыдущий формат описания, в нем не задавалась логика.
+                        -- TODO. Убрать после обновления описаний проектов.
+                        process_dev_ex( mode, state_n, step_n, step.A_INVERTED_DI_DO, item,
+                            0, sub_group - 1 )
+                        break
+                    end
+                end
             end
         end
 
