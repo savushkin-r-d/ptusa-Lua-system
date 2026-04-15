@@ -565,7 +565,7 @@ system =
         for i = 1, nodes_count do
             local node_info = get_modules_info( nodes[ i ].modules )
 
-            G_IO_MANAGER():add_node( i - 1,
+            local io_node = G_IO_MANAGER():add_node( i - 1,
                 nodes[ i ].ntype, nodes[ i ].n,
                 nodes[ i ].IP,
                 nodes[ i ].name or 'Axxx',
@@ -582,6 +582,16 @@ system =
                 G_IO_MANAGER():init_node_AI( i - 1, j - 1,
                     node_info.AI[ j ][ 1 ], node_info.AI[ j ][ 2 ] )
             end
+
+			-- Добавляем устройство - сетевой узел ввода/вывода.
+			if io_node then
+				G_DEVICE_MANAGER():add_io_device(
+					device.DT_NODE, device.DST_NODE, nodes[ i ].name or 'Axxx',
+					"", "" )
+				local node_device = G_DEVICE_MANAGER():get_node(
+					nodes[ i ].name or 'Axxx' )
+				node_device:set_io_node( io_node )
+			end
         end
     end,
 
