@@ -583,15 +583,20 @@ system =
                     node_info.AI[ j ][ 1 ], node_info.AI[ j ][ 2 ] )
             end
 
-			-- Добавляем устройство - сетевой узел ввода/вывода.
-			if io_node then
-				G_DEVICE_MANAGER():add_io_device(
-					device.DT_NODE, device.DST_NODE, nodes[ i ].name or 'Axxx',
-					"", "" )
-				local node_device = G_DEVICE_MANAGER():get_node(
-					nodes[ i ].name or 'Axxx' )
-				node_device:set_io_node( io_node )
-			end
+            -- Добавляем устройство - сетевой узел ввода/вывода.
+            if io_node then
+                local node_name = nodes[ i ].name or 'Axxx'
+                G_DEVICE_MANAGER():add_io_device(
+                    device.DT_NODE, device.DST_NODE, node_name, "", "" )
+                local node_device = G_DEVICE_MANAGER():get_node( node_name )
+                node_device:set_io_node( io_node )
+
+                -- Глобальные переменные на основе буквенно-цифрового описания
+                -- технологических устройств (клапана, насосы и т.д.) проекта для более
+                -- удобного использования (S1V52 вместо V("S1V52")).
+                _G[ node_name ] = node_device
+                _G[ "__"..node_name ] = node_device
+            end
         end
     end,
 
