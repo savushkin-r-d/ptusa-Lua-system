@@ -62,7 +62,11 @@ function project_tech_object:new( o )
     self.__index = self
 
     --Создаем системный объект.
-    if o.tech_type >= 111 and o.tech_type <= 120 then -- 111 - модуль мойки 112 - модуль мойки с функцией очистки емкостей на моечной станции 113 - Мойка молоковозов
+    -- 111 - Модуль мойки.
+    -- 112 - Модуль мойки с функцией очистки емкостей на моечной станции.
+    -- 113 - Мойка молоковозов.
+    -- 114 - Мойка молоковозов с функцией очистки емкостей на моечной станции.
+    if o.tech_type >= 111 and o.tech_type <= 120 then
         o.sys_tech_object = cipline_tech_object( o.name,
         o.n,
         o.tech_type,
@@ -89,6 +93,7 @@ function project_tech_object:new( o )
     --Переназначаем переменную для параметров, для удобного доступа.
     o.rt_par_float = o.sys_tech_object.rt_par_float
     o.par_float = o.sys_tech_object.par_float
+    o.par = o.sys_tech_object.par_float
     o.rt_par_uint = o.sys_tech_object.rt_par_uint
     o.par_uint = o.sys_tech_object.par_uint
     o.timers = o.sys_tech_object.timers
@@ -257,6 +262,32 @@ init_tech_objects = function()
         end
     end
 
+    local process_dev_DI_DO = function( action, mode, state_n, step_n, a_id )
+        for sub_group, item in pairs( action ) do
+            for _, di_do_item in pairs( item ) do
+
+                if type( di_do_item ) == "number" then
+                    -- Задание AND/OR логики обработки входных сигналов.
+                    local step_di_do = mode[ state_n ][ step_n ][ a_id ]
+                    step_di_do:set_int_property( "logic_type",
+                        sub_group - 1, di_do_item )
+
+                elseif type( di_do_item ) == "table" then
+                    -- Непосредственно входные/выходные сигналы.
+                    process_dev_ex( mode, state_n, step_n, a_id, di_do_item,
+                        0, sub_group - 1 )
+
+                elseif type( di_do_item ) == "string" then
+                    -- Предыдущий формат описания, в нем не задавалась логика.
+                    -- TODO. Убрать после обновления описаний проектов.
+                    process_dev_ex( mode, state_n, step_n, a_id, item,
+                        0, sub_group - 1 )
+                    break
+                end
+            end
+        end
+    end
+
     local process_seat_ex = function( mode, state, step_n, action, devices, t )
 
         if devices ~= nil then
@@ -371,18 +402,14 @@ init_tech_objects = function()
 
         --Группа устройств DI->DO.
         if value.DI_DO ~= nil then
-            for sub_group, devices in pairs( value.DI_DO ) do
-                process_dev_ex( mode, state_n, step_n, step.A_DI_DO, devices,
-                    0, sub_group - 1 )
-            end
+            process_dev_DI_DO( value.DI_DO, mode, state_n, step_n,
+                step.A_DI_DO )
         end
 
         --Группа устройств инвертированный DI->DO.
         if value.inverted_DI_DO ~= nil then
-            for sub_group, devices in pairs( value.inverted_DI_DO ) do
-                process_dev_ex( mode, state_n, step_n, step.A_INVERTED_DI_DO,
-                    devices, 0, sub_group - 1 )
-            end
+            process_dev_DI_DO( value.inverted_DI_DO, mode, state_n, step_n,
+                step.A_INVERTED_DI_DO )
         end
 
         --Группа сигналов, по наличию которых автоматически включается шаг.
@@ -563,6 +590,14 @@ init_tech_objects = function()
         for _, oper_info in ipairs( obj_info.modes ) do
 
             local operation = modes_manager:add_mode( oper_info.name )
+
+            -- Если есть функция установки номера параметра, который
+            -- содержит время переходного процесса между шагами, и
+            -- задан данный параметр, то вызываем её.
+            if operation.set_step_cooperate_time_par_n and
+                obj_info.cooper_param_number then
+                operation:set_step_cooperate_time_par_n( obj_info.cooper_param_number )
+            end
 
             --Описание с состояниями.
             if oper_info.states ~= nil then
